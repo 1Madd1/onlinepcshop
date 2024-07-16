@@ -1,0 +1,157 @@
+-- create table if not exists public.operator (
+--                                  id UUID not null,
+--                                  email VARCHAR(255) not null,
+--                                  ime VARCHAR(255) not null,
+--                                  prezime VARCHAR(255) not null,
+--                                  principal_id VARCHAR(255) not null,
+--                                  primary key (id)
+-- );
+--
+-- create table if not exists public.upravnik(
+--                                 id UUID not null,
+--                                 email VARCHAR(255) not null,
+--                                 ime VARCHAR(255) not null,
+--                                 prezime VARCHAR(255) not null,
+--                                 principal_id VARCHAR(255) not null,
+--                                 primary key (id)
+-- );
+--
+-- create table if not exists public.vlasnik(
+--                                id UUID not null,
+--                                ime VARCHAR(255) not null,
+--                                prezime VARCHAR(255) not null,
+--                                primary key (id)
+-- );
+--
+-- create table if not exists public.stanar(
+--                               id UUID not null,
+--                               ime VARCHAR(255) not null,
+--                               prezime VARCHAR(255) not null,
+--                               primary key (id)
+-- );
+--
+-- create table if not exists public.drzava(
+--                               id UUID not null,
+--                               naziv VARCHAR(255) not null,
+--                               primary key (id)
+-- );
+--
+-- create table if not exists public.opstina(
+--                               id UUID not null,
+--                               naziv VARCHAR(255) not null,
+--                               postanski_broj VARCHAR(255) not null,
+--                               drzava_id UUID not null,
+--                               primary key (id),
+--                               foreign key (drzava_id) references public.drzava (id)
+-- );
+--
+-- create table if not exists public.stambena_zajednica(
+--                                           id UUID not null,
+--                                           maticni_broj VARCHAR(255) not null,
+--                                           pib VARCHAR(255) not null,
+--                                           naziv VARCHAR(255) not null,
+--                                           ziro_racun VARCHAR(255) not null,
+--                                           email VARCHAR(255) not null,
+--                                           opstina_id UUID not null,
+--                                           ulica VARCHAR(255) not null,
+--                                           broj VARCHAR(255) not null,
+--                                           primary key(id),
+--                                           foreign key (opstina_id) references public.opstina (id)
+-- );
+--
+-- create table if not exists public.tip_posebnog_dela(
+--                                          id UUID not null,
+--                                          naziv VARCHAR(255) not null,
+--                                          drzava_id UUID not null,
+--                                          oznaka character varying(3) not null,
+--                                          primary key (id),
+--                                          foreign key (drzava_id) references public.drzava (id)
+-- );
+--
+-- CREATE UNIQUE INDEX uidx_tip_posebnog_dela_oznaka_drzava_id
+--     ON public.tip_posebnog_dela USING btree
+--     (drzava_id ASC NULLS LAST, oznaka ASC NULLS LAST)
+--     WITH (deduplicate_items=False);
+--
+-- create table if not exists public.posebni_deo (
+--                                     id UUID not null,
+--                                     naziv VARCHAR(255) not null,
+--                                     tip_posebnog_dela_id UUID not null,
+--                                     stambena_zajednica_id UUID not null,
+--                                     valuta VARCHAR(3) not null,
+--                                     dug DECIMAL not null,
+--                                     primary key (id),
+--                                     foreign key (stambena_zajednica_id) references public.stambena_zajednica (id),
+--                                     foreign key (tip_posebnog_dela_id) references public.tip_posebnog_dela(id)
+-- );
+--
+-- create table if not exists public.stavka(
+--                               id UUID not null,
+--                               naziv VARCHAR(255) not null,
+--                               jedinica_mere VARCHAR(255) not null,
+--                               stambena_zajednica_id UUID not null,
+--                               primary key (id),
+--                               foreign key (stambena_zajednica_id) references public.stambena_zajednica (id)
+-- );
+--
+-- create table if not exists public.posebni_deo_stanar(
+--     id UUID not null,
+--     stanar_od DATE not null,
+--     stanar_do DATE,
+--     stanar_id UUID not null,
+--     posebni_deo_id UUID not null,
+--     primary key (id),
+--     foreign key (stanar_id) references public.stanar(id),
+--     foreign key (posebni_deo_id) references public.posebni_deo(id)
+-- );
+--
+-- create table if not exists public.posebni_deo_vlasnik(
+--     id UUID not null,
+--     vlasnik_od DATE not null,
+--     vlasnik_do DATE,
+--     vlasnik_id UUID not null,
+--     posebni_deo_id UUID not null,
+--     primary key (id),
+--     foreign key (vlasnik_id) references public.vlasnik(id),
+--     foreign key (posebni_deo_id) references public.posebni_deo(id)
+-- );
+--
+-- create table if not exists public.posebni_deo_stavka(
+--     id UUID not null,
+--     posebni_deo_id UUID not null,
+--     stavka_id UUID not null,
+--     primary key (id),
+--     foreign key (stavka_id) references public.stavka(id),
+--     foreign key (posebni_deo_id) references public.posebni_deo(id)
+-- );
+--
+--
+-- insert into drzava (id, naziv)
+-- values ('e2b48fb8-9074-484c-ba6e-445beddbf025', 'Srbija');
+--
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Stan', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'ST');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Poslovni prostor', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'PP');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Pomoćni prostor', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'PO');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Garaža', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'GA');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Garažno mesto', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'GM');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Garažni boks', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'GB');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Parking mesto', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'PM');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Stepenište', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'SP');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Ulazni prostor i vetrobrani', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'UV');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Zajednički hodnik i galerija', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'ZH');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Tavanski prostor', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'TP');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Podrum', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'PD');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Biciklarnica', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'BI');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Sušionica za veš', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'SV');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Zajednička terasa', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'ZT');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Sala za sastanke Skupštine stanara', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'SS');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Prostorija sa tehničkim uređajima', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'PT');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Prostorija transformatorske stanice', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'PS');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Skloništa', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'SK');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Plato', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'PL');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Trotoar oko zgrade', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'TO');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Bazen', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'BA');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Igrališta', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'IG');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Teretana', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'TE');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Ostali prostori sa pripadajućim elementima', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'OP');
+-- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Ostali objekti sa pripadajućim opremom', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'OO');

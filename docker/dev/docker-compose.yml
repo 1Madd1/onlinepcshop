@@ -1,0 +1,58 @@
+services:
+  keycloakdb:
+    image: postgres:15.1
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: my_admin
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: onlinepcshop_db
+    ports:
+      - 5432:5432
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:16.1.1
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloakdb
+      DB_DATABASE: onlinepcshop_db
+      DB_USER: my_admin
+      DB_SCHEMA: public
+      DB_PASSWORD: my_password
+      KEYCLOAK_HOSTNAME: idp.onlinepcshop.com
+      KEYCLOAK_USER: kc_admin
+      KEYCLOAK_PASSWORD: kc_password
+#      proveriti kada mi se generise exportovan fajl
+      KEYCLOAK_IMPORT: /tmp/onlinepcshop_realm_config.json -Dkeycloak.profile.feature.upload_scripts=enabled
+    ports:
+      - 8080:8080
+    volumes:
+      - ./onlinepcshop_realm_config.json:/tmp/onlinepcshop_realm_config.json
+    depends_on:
+      - keycloakdb
+
+  postgres:
+    container_name: onlinepcshopdb
+    image: postgres:15.1
+    environment:
+      POSTGRES_DB: onlinepcshop
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5431:5432"
+    networks:
+      - onlinepcshop-network
+
+  pgadmin:
+    container_name: pgadmin_onlinepcshop
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: somepass
+    networks:
+      - onlinepcshop-network
+    ports:
+      - "5000:80"
+
+networks:
+  onlinepcshop-network:
+    driver: bridge 

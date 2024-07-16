@@ -1,0 +1,62 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /backend_service
+
+spring:
+  application:
+    name: 'onlinepcshop'
+
+  datasource:
+    url: jdbc:postgresql://localhost:5431/onlinepcshop
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+  properties:
+    hibernate:
+      default-schema: "public"
+  hibernate:
+    generate-ddl: true
+  flyway:
+    enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://idp.onlinepcshop.com:8080/auth/realms/onlinepcshop-realm
+
+logging:
+  level:
+    root: info
+onlinepcshop:
+  base-frontend-url: http://localhost:3000
+  datasource:
+    host: localhost:5431
+  security:
+    provider:
+      keycloak:
+        host: "localhost:8080"
+        realm: "onlinepcshop-realm"
+        username: "kc_admin"
+        password: "kc_password"
+        admin-client-name: "admin-cli"
+        frontend-client-name: "onlinepcshop-fe-client"
+        grant-type: "password"
+        get-principal-count-url: "http://${onlinepcshop.security.provider.keycloak.host}/auth/admin/realms/onlinepcshop-realm/users/count"
+        get-client-id-url: "http://${onlinepcshop.security.provider.keycloak.host}/auth/admin/realms/onlinepcshop-realm/clients?clientId={client}"
+        get-available-roles-url: "http://${onlinepcshop.security.provider.keycloak.host}/auth/admin/realms/onlinepcshop-realm/users/{userId}/role-mappings/clients/{clientId}/available"
+        create-principal-url: "http://${onlinepcshop.security.provider.keycloak.host}/auth/admin/realms/onlinepcshop-realm/users"
+        update-principal-url: "http://${onlinepcshop.security.provider.keycloak.host}/auth/admin/realms/onlinepcshop-realm/users/{id}"
+        delete-principal-url: "http://${onlinepcshop.security.provider.keycloak.host}/auth/admin/realms/onlinepcshop-realm/users/{id}"
+        assign-client-role-url: "http://${onlinepcshop.security.provider.keycloak.host}/auth/admin/realms/onlinepcshop-realm/users/{userId}/role-mappings/clients/{clientId}"
+        authorize-url: "http://${onlinepcshop.security.provider.keycloak.host}/auth/realms/master/protocol/openid-connect/token"
+        default-admin-username: "admin"
+        default-admin-password: "admin"

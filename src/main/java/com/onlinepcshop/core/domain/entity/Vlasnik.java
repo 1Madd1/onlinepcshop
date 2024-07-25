@@ -1,6 +1,5 @@
 package com.onlinepcshop.core.domain.entity;
 
-import com.deavensoft.eobracuni.core.domain.value.TipVlasnika;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +17,7 @@ public class Vlasnik{
     String ime;
     String principalId;
     String prezime;
-    TipVlasnika tip;
+//    TipVlasnika tip;
     String srednjeIme;
     String brojLicneKarte;
     String brojPasosa;
@@ -33,6 +32,6 @@ public class Vlasnik{
     String mesto;
     String opstina;
     String email;
-    List<TekuciRacun> tekuciRacunList;
+//    List<TekuciRacun> tekuciRacunList;
     List<BrojTelefona> brojTelefonaList;
 }

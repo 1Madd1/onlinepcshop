@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity(name = "obracun")
+//@Entity(name = "obracun")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

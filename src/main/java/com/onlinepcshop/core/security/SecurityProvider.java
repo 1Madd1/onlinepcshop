@@ -1,16 +1,17 @@
 package com.onlinepcshop.core.security;
 
 
+import com.onlinepcshop.core.domain.entity.User;
 
 public interface SecurityProvider {
 
-//    /**
-//     * Creates a principal on authorization server from the given operator.
-//     *
-//     * @param operator
-//     * @return Principal ID, as set on the authorization server
-//     */
-//    String createPrincipal(Operator operator);
+    /**
+     * Creates a principal on authorization server from the given operator.
+     *
+     * @param user
+     * @return Principal ID, as set on the authorization server
+     */
+    String createPrincipal(User user);
 
     default void authorize() {}
 

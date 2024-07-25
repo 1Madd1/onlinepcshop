@@ -1,7 +1,5 @@
 package com.onlinepcshop.core.usecase;
 
-
-
 import com.onlinepcshop.core.domain.entity.Vlasnik;
 import com.onlinepcshop.core.domain.value.Money;
 import com.onlinepcshop.core.repository.page.PageObject;

@@ -2,6 +2,8 @@ package com.onlinepcshop.adapters.security.keycloak;
 
 
 import com.onlinepcshop.adapters.security.keycloak.dto.*;
+import com.onlinepcshop.adapters.security.keycloak.mapper.PrincipalMapper;
+import com.onlinepcshop.core.domain.entity.User;
 import com.onlinepcshop.core.error.exception.UserEmailAlreadyExistsException;
 import com.onlinepcshop.core.security.Role;
 import com.onlinepcshop.core.security.SecurityProvider;
@@ -57,6 +59,14 @@ public class KeycloakSecurityProvider implements SecurityProvider {
                 .retrieve()
                 .toBodilessEntity()
                 .block();
+    }
+
+    @Override
+    public String createPrincipal(User user) {
+        PrincipalDto principal = PrincipalMapper.INSTANCE.userToPrincipal(user);
+        principal.setCredentials(
+                List.of(CredentialsDto.builder().value("admin").temporary(false).build()));
+        return createPrincipal(principal);
     }
 
     @Override

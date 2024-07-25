@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 
-@Entity(name = "vlasnik")
+//@Entity(name = "vlasnik")
 @Getter
 @Setter
 @AllArgsConstructor

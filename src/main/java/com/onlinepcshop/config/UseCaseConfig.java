@@ -9,19 +9,19 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UseCaseConfig {
+//
+//    @Bean
+//    AgentUseCase agentUseCase(AgentRepository agentRepository, SecurityProvider securityProvider) {
+//        return AgentUseCaseImpl.builder()
+//                .agentRepository(agentRepository)
+//                .securityProvider(securityProvider)
+//                .build();
+//    }
 
     @Bean
-    AgentUseCase agentUseCase(AgentRepository agentRepository, SecurityProvider securityProvider) {
-        return AgentUseCaseImpl.builder()
-                .agentRepository(agentRepository)
-                .securityProvider(securityProvider)
-                .build();
-    }
-
-    @Bean
-    VlasnikUseCase vlasnikUseCase(VlasnikRepository vlasnikRepository, SecurityProvider securityProvider) {
-        return VlasnikUseCaseImpl.builder()
-                .vlasnikRepository(vlasnikRepository)
+    UserUseCase userUseCase(UserRepository userRepository, SecurityProvider securityProvider) {
+        return UserUseCaseImpl.builder()
+                .userRepository(userRepository)
                 .securityProvider(securityProvider)
                 .build();
     }

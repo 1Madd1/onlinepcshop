@@ -3,7 +3,7 @@ package com.onlinepcshop.config;
 
 import com.onlinepcshop.adapters.persistance.repository.*;
 import com.onlinepcshop.adapters.persistance.repository.jpa.*;
-import com.onlinepcshop.adapters.persistance.repository.paging.VlasnikPagingAndSortingRepository;
+//import com.onlinepcshop.adapters.persistance.repository.paging.VlasnikPagingAndSortingRepository;
 import com.onlinepcshop.core.repository.*;
 import com.speedment.jpastreamer.application.JPAStreamer;
 import org.springframework.context.annotation.Bean;
@@ -21,10 +21,17 @@ public class RepositoryConfig {
 //                .jpaStreamer(jpaStreamer)
 //                .build();
 //    }
+//    @Bean
+//    AgentRepository agentRepository(AgentJpaRepository agentJpaRepository) {
+//        return AgentRepositoryImpl.builder()
+//                .agentJpaRepository(agentJpaRepository)
+//                .build();
+//    }
+
     @Bean
-    AgentRepository agentRepository(AgentJpaRepository agentJpaRepository) {
-        return AgentRepositoryImpl.builder()
-                .agentJpaRepository(agentJpaRepository)
+    UserRepository userRepository(UserJpaRepository userJpaRepository) {
+        return UserRepositoryImpl.builder()
+                .userJpaRepository(userJpaRepository)
                 .build();
     }
 

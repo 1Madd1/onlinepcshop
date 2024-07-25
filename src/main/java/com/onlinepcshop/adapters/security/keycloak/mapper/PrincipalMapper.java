@@ -5,6 +5,7 @@ import com.onlinepcshop.adapters.security.keycloak.dto.CredentialsDto;
 import com.onlinepcshop.adapters.security.keycloak.dto.PrincipalDto;
 import com.onlinepcshop.adapters.security.keycloak.dto.PrincipalUpdateRequestDto;
 import com.onlinepcshop.core.domain.entity.Agent;
+import com.onlinepcshop.core.domain.entity.User;
 import com.onlinepcshop.core.domain.entity.Vlasnik;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,6 +23,10 @@ public interface PrincipalMapper {
     static List<CredentialsDto> passwordToCredentialsDtoList(String password) {
         return List.of(CredentialsDto.builder().value(password).temporary(false).build());
     }
+
+    @Mapping(target = "enabled", constant = "true")
+    @Mapping(source = "email", target = "username")
+    PrincipalDto userToPrincipal(User user);
 
 //    @Mapping(target = "enabled", constant = "true")
 //    @Mapping(source = "email", target = "username")

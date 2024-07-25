@@ -3,11 +3,6 @@ package com.onlinepcshop.core.util;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 @Slf4j

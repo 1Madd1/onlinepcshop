@@ -1,6 +1,5 @@
 package com.onlinepcshop.core.repository.statistika;
 
-import com.deavensoft.eobracuni.core.domain.entity.Stavka;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StavkaStatistika {
-    Stavka stavka;
+//    Stavka stavka;
     BigDecimal cenaProsliMesec;
     BigDecimal cenaPreprosliMesec;
     BigDecimal cenaPreGodDana;

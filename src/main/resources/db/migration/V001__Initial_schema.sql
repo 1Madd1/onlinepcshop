@@ -7,21 +7,43 @@
 --                                  primary key (id)
 -- );
 --
--- create table if not exists public.upravnik(
---                                 id UUID not null,
---                                 email VARCHAR(255) not null,
---                                 ime VARCHAR(255) not null,
---                                 prezime VARCHAR(255) not null,
---                                 principal_id VARCHAR(255) not null,
---                                 primary key (id)
--- );
---
--- create table if not exists public.vlasnik(
---                                id UUID not null,
---                                ime VARCHAR(255) not null,
---                                prezime VARCHAR(255) not null,
---                                primary key (id)
--- );
+create table if not exists public.user(
+    id UUID not null,
+    email VARCHAR(50) not null,
+    first_name VARCHAR(50) not null,
+    last_name VARCHAR(50) not null,
+    telephone VARCHAR(50) not null,
+    principal_id VARCHAR(50) not null,
+    primary key (id)
+);
+
+create table if not exists public.computer(
+    id UUID not null,
+    computer_name VARCHAR(50) not null,
+    amount_available INTEGER not null,
+    price DECIMAL not null,
+    computer_type VARCHAR(50) not null,
+    primary key (id)
+);
+
+create table if not exists public.brand(
+    id UUID not null,
+    brandName VARCHAR(255) not null,
+    primary key (id)
+);
+
+create table if not exists public.component(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    amount_available INTEGER not null,
+    price DECIMAL not null,
+    component_type VARCHAR(50) not null,
+    brand_id UUID,
+    computer_id UUID,
+    primary key (id),
+    foreign key (brand_id) references public.brand (id),
+    foreign key (computer_id) references public.computer (id)
+);
 --
 -- create table if not exists public.stanar(
 --                               id UUID not null,

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Entity(name = "broj_telefona")
+//@Entity(name = "broj_telefona")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

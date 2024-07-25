@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .requestMatchers("/**")
                 .access(AuthorizationManagers.allOf(
                         AuthorityAuthorizationManager.hasAnyAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("OPERATOR", "ADMIN", "UPRAVNIK", "VLASNIK", "AGENT"))));
+                        AuthorityAuthorizationManager.hasAnyRole("ADMIN", "USER"))));
         http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtRolesConverter);
         return http.build();
     }

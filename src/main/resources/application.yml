@@ -31,7 +31,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://idp.onlinepcshop.com:8080/auth/realms/onlinepcshop-realm
+          issuer-uri: http://localhost:8080/auth/realms/onlinepcshop-realm
 
 logging:
   level:

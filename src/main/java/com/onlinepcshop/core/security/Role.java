@@ -2,6 +2,7 @@ package com.onlinepcshop.core.security;
 
 public enum Role {
     ADMIN("ADMIN"),
+    USER("USER"),
     UNKNOWN("UNKNOWN");
 
     private String name;

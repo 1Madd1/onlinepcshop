@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-//@Entity(name = "agent")
+@Entity(name = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AgentDao {
+public class UserDao {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -22,12 +22,12 @@ public class AgentDao {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "naziv")
-    private String naziv;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "telefon")
-    private String telefon;
+    @Column(name = "last_name")
+    private String lastName;
 
-//    @ManyToOne
-//    UpravnikDao upravnik;
+    @Column(name = "telephone")
+    private String telephone;
 }

@@ -13,27 +13,18 @@ public class RouteConfig {
     public RouteLocator myRoutes(RouteLocatorBuilder builder, GatewayProperties props) {
         return builder.routes()
                 .route("backend_service", p -> p.path(
-                                "/drzava/**",
-                                "/operator/**",
-                                "/opstina/**",
-                                "/posebni-deo/**",
-                                "/stambena-zajednica/**",
-                                "/tip-posebnog-dela/**",
-                                "/stanar/**",
-                                "/stavka/**",
-                                "/upravnik/**",
-                                "/vlasnik/**",
-                                "/partner/**",
+                                "/case-fan/**",
                                 "/user/**",
-                                "/obracunski-period/**",
-                                "/faktura/**",
-                                "/ugovor/**",
-                                "/obracun/**",
-                                "/super-faktura/**",
-                                "/obracunpdf/**",
-                                "/agent/**",
-                                "/izvod/**",
-                                "/transakcija/**")
+                                "/cpu/**",
+                                "/cooler/**",
+                                "/computer-case/**",
+                                "/gpu/**",
+                                "/motherboard/**",
+                                "/pcie-interface/**",
+                                "/power-supply/**",
+                                "/ram/**",
+                                "/storage/**",
+                                "/storage-interface/**")
                         .filters(f -> f.prefixPath("/backend_service"))
                         .uri("http://" + props.getBackendHost() + "/"))
                 .build();

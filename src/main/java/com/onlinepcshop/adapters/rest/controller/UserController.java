@@ -60,13 +60,13 @@ public class UserController {
     public UserDto updateUser(@RequestBody UserDto userDto) {
         System.out.println("UserController.updateUser called - " + userDto);
 
-        User updatedAgent = userUseCase.updateUser(UserMapperApi.INSTANCE.userDtoToUser(userDto));
-        return UserMapperApi.INSTANCE.userToUserDto(updatedAgent);
+        User updatedUser = userUseCase.updateUser(UserMapperApi.INSTANCE.userDtoToUser(userDto));
+        return UserMapperApi.INSTANCE.userToUserDto(updatedUser);
     }
 
     @DeleteMapping
-    public void deleteAgentById(@RequestParam UUID userId) {
-        System.out.println("UserController.deleteUser called for userId - " + userId);
+    public void deleteUserById(@RequestParam UUID userId) {
+        System.out.println("UserController.deleteUserById called for userId - " + userId);
         userUseCase.deleteUser(userId);
     }
 

@@ -9,20 +9,89 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UseCaseConfig {
-//
-//    @Bean
-//    AgentUseCase agentUseCase(AgentRepository agentRepository, SecurityProvider securityProvider) {
-//        return AgentUseCaseImpl.builder()
-//                .agentRepository(agentRepository)
-//                .securityProvider(securityProvider)
-//                .build();
-//    }
 
     @Bean
     UserUseCase userUseCase(UserRepository userRepository, SecurityProvider securityProvider) {
         return UserUseCaseImpl.builder()
                 .userRepository(userRepository)
                 .securityProvider(securityProvider)
+                .build();
+    }
+
+    @Bean
+    CaseFanUseCase caseFanUseCase(CaseFanRepository caseFanRepository) {
+        return CaseFanUseCaseImpl.builder()
+                .caseFanRepository(caseFanRepository)
+                .build();
+    }
+
+    @Bean
+    ComputerCaseUseCase computerCaseUseCase(ComputerCaseRepository computerCaseRepository) {
+        return ComputerCaseUseCaseImpl.builder()
+                .computerCaseRepository(computerCaseRepository)
+                .build();
+    }
+
+    @Bean
+    CpuUseCase cpuUseCase(CpuRepository cpuRepository) {
+        return CpuUseCaseImpl.builder()
+                .cpuRepository(cpuRepository)
+                .build();
+    }
+
+    @Bean
+    MotherboardUseCase motherboardUseCase(MotherboardRepository motherboardRepository) {
+        return MotherboardUseCaseImpl.builder()
+                .motherboardRepository(motherboardRepository)
+                .build();
+    }
+
+    @Bean
+    CoolerUseCase cpuCoolerUseCase(CpuCoolerRepository cpuCoolerRepository) {
+        return CoolerUseCaseImpl.builder()
+                .cpuCoolerRepository(cpuCoolerRepository)
+                .build();
+    }
+
+    @Bean
+    GpuUseCase gpuUseCase(GpuRepository gpuRepository) {
+        return GpuUseCaseImpl.builder()
+                .gpuRepository(gpuRepository)
+                .build();
+    }
+
+    @Bean
+    PowerSupplyUseCase powerSupplyUseCase(PowerSupplyRepository powerSupplyRepository) {
+        return PowerSupplyUseCaseImpl.builder()
+                .powerSupplyRepository(powerSupplyRepository)
+                .build();
+    }
+
+    @Bean
+    RamUseCase ramUseCase(RamRepository ramRepository) {
+        return RamUseCaseImpl.builder()
+                .ramRepository(ramRepository)
+                .build();
+    }
+
+    @Bean
+    StorageUseCase storageUseCase(StorageRepository storageRepository) {
+        return StorageUseCaseImpl.builder()
+                .storageRepository(storageRepository)
+                .build();
+    }
+
+    @Bean
+    PcieInterfaceUseCase pcieInterfaceUseCase(PcieInterfaceRepository pcieInterfaceRepository) {
+        return PcieInterfaceUseCaseImpl.builder()
+                .pcieInterfaceRepository(pcieInterfaceRepository)
+                .build();
+    }
+
+    @Bean
+    StorageInterfaceUseCase storageInterfaceUseCase(StorageInterfaceRepository storageInterfaceRepository) {
+        return StorageInterfaceUseCaseImpl.builder()
+                .storageInterfaceRepository(storageInterfaceRepository)
                 .build();
     }
 }

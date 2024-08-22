@@ -1,12 +1,3 @@
--- create table if not exists public.operator (
---                                  id UUID not null,
---                                  email VARCHAR(255) not null,
---                                  ime VARCHAR(255) not null,
---                                  prezime VARCHAR(255) not null,
---                                  principal_id VARCHAR(255) not null,
---                                  primary key (id)
--- );
---
 create table if not exists public.user(
     id UUID not null,
     email VARCHAR(50) not null,
@@ -17,78 +8,246 @@ create table if not exists public.user(
     primary key (id)
 );
 
+-- create table if not exists public.component(
+--     id UUID not null,
+--     component_name VARCHAR(50) not null,
+--     amount_available INTEGER not null,
+--     price DECIMAL not null,
+--     component_type VARCHAR(50) not null,
+--     description VARCHAR(255),
+--     image VARCHAR(255),
+--     brand VARCHAR(50) not null,
+--     primary key (id)
+-- );
+
+create table if not exists public.motherboard(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    socket_type VARCHAR(50) not null,-- enum
+    memory_type VARCHAR(50) not null,-- enum
+    tdp INTEGER not null,
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    primary key (id)
+);
+
+create table if not exists public.pcie_interface(
+    id UUID not null,
+    pcie_type VARCHAR(30) not null,-- enum
+    primary key (id)
+);
+
+create table if not exists public.storage_interface(
+    id UUID not null,
+    storage_type VARCHAR(30) not null,-- enum
+    primary key (id)
+);
+
+create table  if not exists public.motherboard_pcie_interface(
+    id UUID not null,
+    motherboard_id UUID not null,
+    pcie_interface_id UUID not null,
+    primary key (id),
+    UNIQUE (motherboard_id, pcie_interface_id),
+    foreign key (motherboard_id) references public.motherboard (id),
+    foreign key (pcie_interface_id) references public.pcie_interface (id)
+);
+
+create table  if not exists public.motherboard_storage_interface(
+    id UUID not null,
+    motherboard_id UUID not null,
+    storage_interface_id UUID not null,
+    primary key (id),
+    UNIQUE (motherboard_id, storage_interface_id),
+    foreign key (motherboard_id) references public.motherboard (id),
+    foreign key (storage_interface_id) references public.storage_interface (id)
+);
+
+create table if not exists public.cpu(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    socket_type VARCHAR(50) not null,-- enum
+    core_count INTEGER not null,
+    performance_core_clock VARCHAR(10),
+    performance_core_boost_clock VARCHAR(10),
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    tdp INTEGER not null,
+    includes_cooler boolean not null,
+    includes_integrated_gpu boolean not null,
+    primary key (id)
+);
+
+create table if not exists public.gpu(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    pcie_type VARCHAR(50) not null,-- enum
+    tdp INTEGER not null,
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    primary key (id)
+);
+
+create table if not exists public.ram(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    memory_type VARCHAR(30) not null,-- enum
+    ram_speed INTEGER not null,
+    ram_storage INTEGER not null,
+    tdp INTEGER not null,
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    primary key (id)
+);
+
+create table if not exists public.storage(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    storage_type VARCHAR(30) not null,-- enum
+    capacity INTEGER not null,
+    tdp INTEGER not null,
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    primary key (id)
+);
+
+create table if not exists public.computer_case(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    case_type VARCHAR(30) not null,-- enum
+    color VARCHAR(30) not null,-- enum
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    primary key (id)
+);
+
+create table if not exists public.cooler(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    socket_type VARCHAR(30) not null,-- enum
+    tdp INTEGER not null,
+    water_cooled boolean not null,
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    primary key (id)
+);
+
+create table if not exists public.case_fan(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    fan_size INTEGER not null,
+    color VARCHAR(30) not null,
+    rpm VARCHAR(60) not null,
+    noise_level VARCHAR(60) not null,
+    tdp INTEGER not null,
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    primary key (id)
+);
+
+create table if not exists public.power_supply(
+    id UUID not null,
+    component_name VARCHAR(50) not null,
+    quantity INTEGER not null,
+    price DECIMAL not null,
+    currency VARCHAR(3) not null,
+    efficiency_rating VARCHAR(40) not null,
+    wattage INTEGER not null,
+    color VARCHAR(30) not null,
+    description VARCHAR(255),
+    image VARCHAR(255),
+    manufacturer VARCHAR(50) not null,-- enum
+    primary key (id)
+);
+
 create table if not exists public.computer(
     id UUID not null,
     computer_name VARCHAR(50) not null,
-    amount_available INTEGER not null,
     price DECIMAL not null,
+    currency VARCHAR(3) not null,
     computer_type VARCHAR(50) not null,
-    primary key (id)
-);
-
-create table if not exists public.brand(
-    id UUID not null,
-    brandName VARCHAR(255) not null,
-    primary key (id)
-);
-
-create table if not exists public.component(
-    id UUID not null,
-    component_name VARCHAR(50) not null,
-    amount_available INTEGER not null,
-    price DECIMAL not null,
-    component_type VARCHAR(50) not null,
-    brand_id UUID,
-    computer_id UUID,
+    tdp INTEGER not null,
+    description VARCHAR(255),
+    image VARCHAR(255),
+    computer_case_id UUID not null,
+    gpu_id UUID not null,
+    cpu_id UUID not null,
+    cooler_id UUID not null,
+    motherboard_id UUID not null,
+    power_supply_id UUID not null,
     primary key (id),
-    foreign key (brand_id) references public.brand (id),
-    foreign key (computer_id) references public.computer (id)
+    foreign key (computer_case_id) references public.computer_case (id),
+    foreign key (gpu_id) references public.gpu (id),
+    foreign key (cpu_id) references public.cpu (id),
+    foreign key (cooler_id) references public.cooler (id),
+    foreign key (motherboard_id) references public.motherboard (id),
+    foreign key (power_supply_id) references public.power_supply (id)
 );
---
--- create table if not exists public.stanar(
---                               id UUID not null,
---                               ime VARCHAR(255) not null,
---                               prezime VARCHAR(255) not null,
---                               primary key (id)
--- );
---
--- create table if not exists public.drzava(
---                               id UUID not null,
---                               naziv VARCHAR(255) not null,
---                               primary key (id)
--- );
---
--- create table if not exists public.opstina(
---                               id UUID not null,
---                               naziv VARCHAR(255) not null,
---                               postanski_broj VARCHAR(255) not null,
---                               drzava_id UUID not null,
---                               primary key (id),
---                               foreign key (drzava_id) references public.drzava (id)
--- );
---
--- create table if not exists public.stambena_zajednica(
---                                           id UUID not null,
---                                           maticni_broj VARCHAR(255) not null,
---                                           pib VARCHAR(255) not null,
---                                           naziv VARCHAR(255) not null,
---                                           ziro_racun VARCHAR(255) not null,
---                                           email VARCHAR(255) not null,
---                                           opstina_id UUID not null,
---                                           ulica VARCHAR(255) not null,
---                                           broj VARCHAR(255) not null,
---                                           primary key(id),
---                                           foreign key (opstina_id) references public.opstina (id)
--- );
---
--- create table if not exists public.tip_posebnog_dela(
---                                          id UUID not null,
---                                          naziv VARCHAR(255) not null,
---                                          drzava_id UUID not null,
---                                          oznaka character varying(3) not null,
---                                          primary key (id),
---                                          foreign key (drzava_id) references public.drzava (id)
--- );
+
+create table if not exists public.computer_ram(
+    id UUID not null,
+    computer_id UUID not null,
+    ram_id UUID not null,
+    quantity INTEGER not null,
+    primary key (id),
+    UNIQUE (computer_id, ram_id),
+    foreign key (computer_id) references public.computer (id),
+    foreign key (ram_id) references public.ram (id)
+);
+
+create table if not exists public.computer_storage(
+    id UUID not null,
+    computer_id UUID not null,
+    storage_id UUID not null,
+    quantity INTEGER not null,
+    primary key (id),
+    UNIQUE (computer_id, storage_id),
+    foreign key (computer_id) references public.computer (id),
+    foreign key (storage_id) references public.storage (id)
+);
+
+create table if not exists public.computer_case_fan(
+    id UUID not null,
+    computer_id UUID not null,
+    case_fan_id UUID not null,
+    quantity INTEGER not null,
+    primary key (id),
+    UNIQUE (computer_id, case_fan_id),
+    foreign key (computer_id) references public.computer (id),
+    foreign key (case_fan_id) references public.case_fan (id)
+);
 --
 -- CREATE UNIQUE INDEX uidx_tip_posebnog_dela_oznaka_drzava_id
 --     ON public.tip_posebnog_dela USING btree
@@ -107,15 +266,6 @@ create table if not exists public.component(
 --                                     foreign key (tip_posebnog_dela_id) references public.tip_posebnog_dela(id)
 -- );
 --
--- create table if not exists public.stavka(
---                               id UUID not null,
---                               naziv VARCHAR(255) not null,
---                               jedinica_mere VARCHAR(255) not null,
---                               stambena_zajednica_id UUID not null,
---                               primary key (id),
---                               foreign key (stambena_zajednica_id) references public.stambena_zajednica (id)
--- );
---
 -- create table if not exists public.posebni_deo_stanar(
 --     id UUID not null,
 --     stanar_od DATE not null,
@@ -126,30 +276,6 @@ create table if not exists public.component(
 --     foreign key (stanar_id) references public.stanar(id),
 --     foreign key (posebni_deo_id) references public.posebni_deo(id)
 -- );
---
--- create table if not exists public.posebni_deo_vlasnik(
---     id UUID not null,
---     vlasnik_od DATE not null,
---     vlasnik_do DATE,
---     vlasnik_id UUID not null,
---     posebni_deo_id UUID not null,
---     primary key (id),
---     foreign key (vlasnik_id) references public.vlasnik(id),
---     foreign key (posebni_deo_id) references public.posebni_deo(id)
--- );
---
--- create table if not exists public.posebni_deo_stavka(
---     id UUID not null,
---     posebni_deo_id UUID not null,
---     stavka_id UUID not null,
---     primary key (id),
---     foreign key (stavka_id) references public.stavka(id),
---     foreign key (posebni_deo_id) references public.posebni_deo(id)
--- );
---
---
--- insert into drzava (id, naziv)
--- values ('e2b48fb8-9074-484c-ba6e-445beddbf025', 'Srbija');
 --
 -- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Stan', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'ST');
 -- insert into tip_posebnog_dela (id, naziv, drzava_id, oznaka) values (gen_random_uuid(), 'Poslovni prostor', 'e2b48fb8-9074-484c-ba6e-445beddbf025', 'PP');

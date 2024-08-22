@@ -15,5 +15,4 @@ import java.util.UUID;
 public class BrojTelefona {
     UUID id;
     String brojTelefona;
-    Vlasnik vlasnik;
 }

@@ -1,0 +1,1 @@
+ALTER TABLE public.computer ADD purchased boolean not null;

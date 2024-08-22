@@ -3,9 +3,7 @@ package com.onlinepcshop.config;
 
 import com.onlinepcshop.adapters.persistance.repository.*;
 import com.onlinepcshop.adapters.persistance.repository.jpa.*;
-//import com.onlinepcshop.adapters.persistance.repository.paging.VlasnikPagingAndSortingRepository;
 import com.onlinepcshop.core.repository.*;
-import com.speedment.jpastreamer.application.JPAStreamer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,17 +19,123 @@ public class RepositoryConfig {
 //                .jpaStreamer(jpaStreamer)
 //                .build();
 //    }
-//    @Bean
-//    AgentRepository agentRepository(AgentJpaRepository agentJpaRepository) {
-//        return AgentRepositoryImpl.builder()
-//                .agentJpaRepository(agentJpaRepository)
-//                .build();
-//    }
 
     @Bean
     UserRepository userRepository(UserJpaRepository userJpaRepository) {
         return UserRepositoryImpl.builder()
                 .userJpaRepository(userJpaRepository)
+                .build();
+    }
+
+    @Bean
+    CaseFanRepository caseFanRepository(CaseFanJpaRepository caseFanJpaRepository) {
+        return CaseFanRepositoryImpl.builder()
+                .caseFanJpaRepository(caseFanJpaRepository)
+                .build();
+    }
+
+    @Bean
+    ComputerCaseRepository computerCaseRepository(ComputerCaseJpaRepository computerCaseJpaRepository) {
+        return ComputerCaseRepositoryImpl.builder()
+                .computerCaseJpaRepository(computerCaseJpaRepository)
+                .build();
+    }
+
+    @Bean
+    CpuRepository cpuRepository(CpuJpaRepository cpuJpaRepository) {
+        return CpuRepositoryImpl.builder()
+                .cpuJpaRepository(cpuJpaRepository)
+                .build();
+    }
+
+    @Bean
+    MotherboardRepository motherboardRepository(MotherboardJpaRepository motherboardJpaRepository) {
+        return MotherboardRepositoryImpl.builder()
+                .motherboardJpaRepository(motherboardJpaRepository)
+                .build();
+    }
+
+    @Bean
+    CpuCoolerRepository cpuCoolerRepository(CpuCoolerJpaRepository cpuCoolerJpaRepository) {
+        return CpuCoolerRepositoryImpl.builder()
+                .cpuCoolerJpaRepository(cpuCoolerJpaRepository)
+                .build();
+    }
+
+    @Bean
+    GpuRepository gpuRepository(GpuJpaRepository gpuJpaRepository) {
+        return GpuRepositoryImpl.builder()
+                .gpuJpaRepository(gpuJpaRepository)
+                .build();
+    }
+
+    @Bean
+    PowerSupplyRepository powerSupplyRepository(PowerSupplyJpaRepository powerSupplyJpaRepository) {
+        return PowerSupplyRepositoryImpl.builder()
+                .powerSupplyJpaRepository(powerSupplyJpaRepository)
+                .build();
+    }
+
+    @Bean
+    RamRepository ramRepository(RamJpaRepository ramJpaRepository) {
+        return RamRepositoryImpl.builder()
+                .ramJpaRepository(ramJpaRepository)
+                .build();
+    }
+
+    @Bean
+    StorageRepository storageRepository(StorageJpaRepository storageJpaRepository) {
+        return StorageRepositoryImpl.builder()
+                .storageJpaRepository(storageJpaRepository)
+                .build();
+    }
+
+    @Bean
+    PcieInterfaceRepository pcieInterfaceRepository(PcieInterfaceJpaRepository pcieInterfaceJpaRepository) {
+        return PcieInterfaceRepositoryImpl.builder()
+                .pcieInterfaceJpaRepository(pcieInterfaceJpaRepository)
+                .build();
+    }
+
+    @Bean
+    StorageInterfaceRepository storageInterfaceRepository(StorageInterfaceJpaRepository storageInterfaceJpaRepository) {
+        return StorageInterfaceRepositoryImpl.builder()
+                .storageInterfaceJpaRepository(storageInterfaceJpaRepository)
+                .build();
+    }
+
+    @Bean
+    MotherboardPcieInterfaceRepository motherboardPcieInterfaceRepository(MotherboardPcieInterfaceJpaRepository motherboardPcieInterfaceJpaRepository) {
+        return MotherboardPcieInterfaceRepositoryImpl.builder()
+                .motherboardPcieInterfaceJpaRepository(motherboardPcieInterfaceJpaRepository)
+                .build();
+    }
+
+    @Bean
+    MotherboardStorageInterfaceRepository motherboardStorageInterfaceRepository(MotherboardStorageInterfaceJpaRepository motherboardStorageInterfaceJpaRepository) {
+        return MotherboardStorageInterfaceRepositoryImpl.builder()
+                .motherboardStorageInterfaceJpaRepository(motherboardStorageInterfaceJpaRepository)
+                .build();
+    }
+
+    @Bean
+    ComputerCaseFanRepository computerCaseFanRepository(ComputerCaseFanJpaRepository computerCaseFanJpaRepository) {
+        return ComputerCaseFanRepositoryImpl.builder()
+                .computerCaseFanJpaRepository(computerCaseFanJpaRepository)
+                .build();
+    }
+
+    @Bean
+    ComputerRamRepository computerRamRepository(ComputerRamJpaRepository computerRamJpaRepository) {
+        return ComputerRamRepositoryImpl.builder()
+                .computerRamJpaRepository(computerRamJpaRepository)
+                .build();
+    }
+
+    @Bean
+    ComputerStorageRepository computerStorageRepository(ComputerStorageJpaRepository computerStorageJpaRepository) {
+        return ComputerStorageRepositoryImpl.builder()
+                .computerStorageJpaRepository(computerStorageJpaRepository)
                 .build();
     }
 

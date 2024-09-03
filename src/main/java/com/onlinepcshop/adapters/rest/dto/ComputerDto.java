@@ -3,6 +3,7 @@ package com.onlinepcshop.adapters.rest.dto;
 import com.onlinepcshop.core.domain.entity.*;
 import com.onlinepcshop.core.domain.entity.enums.ComputerType;
 import com.onlinepcshop.core.domain.value.Money;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class ComputerDto {
     private String description;
     private String image;
     private Integer tdp;
+    private String saleType;
 
     private UUID computerCaseId;
     private UUID gpuId;

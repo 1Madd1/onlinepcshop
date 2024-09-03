@@ -1,6 +1,7 @@
 package com.onlinepcshop.core.domain.entity;
 
 import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
+import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.entity.enums.SocketType;
 import com.onlinepcshop.core.domain.value.Money;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class Cpu {
     Manufacturer manufacturer;
 
     SocketType socketType;
+    SaleType saleType;
     Integer coreCount;
     String performanceCoreClock;
     String performanceCoreBoostClock;

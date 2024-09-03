@@ -2,6 +2,7 @@ package com.onlinepcshop.core.domain.entity;
 
 import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
 import com.onlinepcshop.core.domain.entity.enums.MemoryType;
+import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.value.Money;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class Ram {
     Manufacturer manufacturer;
 
     MemoryType memoryType;
+    SaleType saleType;
     Integer ramSpeed;
     Integer ramStorage;
     Integer tdp;

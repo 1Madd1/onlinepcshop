@@ -56,9 +56,9 @@ public class RepositoryConfig {
     }
 
     @Bean
-    CpuCoolerRepository cpuCoolerRepository(CpuCoolerJpaRepository cpuCoolerJpaRepository) {
-        return CpuCoolerRepositoryImpl.builder()
-                .cpuCoolerJpaRepository(cpuCoolerJpaRepository)
+    CoolerRepository coolerRepository(CoolerJpaRepository coolerJpaRepository) {
+        return CoolerRepositoryImpl.builder()
+                .coolerJpaRepository(coolerJpaRepository)
                 .build();
     }
 

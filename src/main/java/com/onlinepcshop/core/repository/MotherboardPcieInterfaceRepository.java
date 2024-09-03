@@ -14,4 +14,6 @@ public interface MotherboardPcieInterfaceRepository {
     MotherboardPcieInterface saveMotherboardPcieInterface(MotherboardPcieInterface motherboardPcieInterface);
 
     void deleteMotherboardPcieInterface(UUID id);
+
+    List<MotherboardPcieInterface> findAllByPcieInterfaceAndMotherboard(UUID pcieInterfaceId, UUID motherboardId);
 }

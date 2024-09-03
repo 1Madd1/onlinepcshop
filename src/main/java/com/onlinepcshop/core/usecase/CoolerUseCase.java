@@ -13,31 +13,31 @@ public interface CoolerUseCase {
      * @param cooler newly created cooler
      * @return Valid user object with id
      */
-    Cooler createCpuCooler(Cooler cooler);
+    Cooler createCooler(Cooler cooler);
 
     /***
-     *  Update cpuCooler data fields
-     * @param cooler must be a valid cpuCooler object with valid id
-     * @return Updated cpuCooler object
+     *  Update cooler data fields
+     * @param cooler must be a valid cooler object with valid id
+     * @return Updated cooler object
      */
-    Cooler updateCpuCooler(Cooler cooler);
+    Cooler updateCooler(Cooler cooler);
 
     /***
      *
-     * @return List of all cpuCoolers
+     * @return List of all coolers
      */
-    List<Cooler> findAllCpuCoolers();
+    List<Cooler> findAllCoolers();
 
 
     /***
-     * @param cpuCoolerId valid cpuCooler UUID
-     * @return CpuCooler with provided agentId if one exists
+     * @param coolerId valid cooler UUID
+     * @return Cooler with provided agentId if one exists
      */
-    Optional<Cooler> findCpuCoolerById(UUID cpuCoolerId);
+    Optional<Cooler> findCoolerById(UUID coolerId);
 
     /***
-     * Delete cpuCooler with specified id
+     * Delete cooler with specified id
      * @param id must be a valid
      */
-    void deleteCpuCooler(UUID id);
+    void deleteCooler(UUID id);
 }

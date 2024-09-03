@@ -36,4 +36,9 @@ public class MotherboardPcieInterfaceRepositoryImpl implements MotherboardPcieIn
     public void deleteMotherboardPcieInterface(UUID id) {
         motherboardPcieInterfaceJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<MotherboardPcieInterface> findAllByPcieInterfaceAndMotherboard(UUID pcieInterfaceId, UUID motherboardId) {
+        return MotherboardPcieInterfaceMapperDB.INSTANCE.motherboardPcieInterfaceDaoListToMotherboardPcieInterfaceList(motherboardPcieInterfaceJpaRepository.findAllByMotherboardIdAndPcieInterfaceId(motherboardId, pcieInterfaceId));
+    }
 }

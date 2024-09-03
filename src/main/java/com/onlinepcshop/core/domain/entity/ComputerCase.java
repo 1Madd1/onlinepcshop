@@ -3,6 +3,7 @@ package com.onlinepcshop.core.domain.entity;
 import com.onlinepcshop.core.domain.entity.enums.Colors;
 import com.onlinepcshop.core.domain.entity.enums.CaseType;
 import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
+import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.value.Money;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +26,6 @@ public class ComputerCase {
     Manufacturer manufacturer;
 
     CaseType caseType;
+    SaleType saleType;
     Colors color;
 }

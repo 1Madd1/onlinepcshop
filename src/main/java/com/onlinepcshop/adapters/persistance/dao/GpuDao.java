@@ -38,6 +38,9 @@ public class GpuDao {
     @Column(name = "manufacturer")
     String manufacturer;
 
+    @Column(name = "sale_type")
+    String saleType;
+
 
     @Column(name = "pcie_type")
     String pcieType;

@@ -40,16 +40,24 @@ public class UseCaseConfig {
     }
 
     @Bean
-    MotherboardUseCase motherboardUseCase(MotherboardRepository motherboardRepository) {
+    MotherboardUseCase motherboardUseCase(MotherboardRepository motherboardRepository,
+                                          PcieInterfaceRepository pcieInterfaceRepository,
+                                          StorageInterfaceRepository storageInterfaceRepository,
+                                          MotherboardPcieInterfaceRepository motherboardPcieInterfaceRepository,
+                                          MotherboardStorageInterfaceRepository motherboardStorageInterfaceRepository) {
         return MotherboardUseCaseImpl.builder()
                 .motherboardRepository(motherboardRepository)
+                .pcieInterfaceRepository(pcieInterfaceRepository)
+                .storageInterfaceRepository(storageInterfaceRepository)
+                .motherboardPcieInterfaceRepository(motherboardPcieInterfaceRepository)
+                .motherboardStorageInterfaceRepository(motherboardStorageInterfaceRepository)
                 .build();
     }
 
     @Bean
-    CoolerUseCase cpuCoolerUseCase(CpuCoolerRepository cpuCoolerRepository) {
+    CoolerUseCase coolerUseCase(CoolerRepository coolerRepository) {
         return CoolerUseCaseImpl.builder()
-                .cpuCoolerRepository(cpuCoolerRepository)
+                .coolerRepository(coolerRepository)
                 .build();
     }
 

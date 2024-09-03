@@ -38,6 +38,9 @@ public class PowerSupplyDao {
     @Column(name = "manufacturer")
     String manufacturer;
 
+    @Column(name = "sale_type")
+    String saleType;
+
 
     @Column(name = "efficiency_rating")
     String efficiencyRating;

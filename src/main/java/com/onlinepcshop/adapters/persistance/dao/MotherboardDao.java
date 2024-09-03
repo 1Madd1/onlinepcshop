@@ -40,6 +40,9 @@ public class MotherboardDao {
     @Column(name = "manufacturer")
     String manufacturer;
 
+    @Column(name = "sale_type")
+    String saleType;
+
 
     @Column(name = "socket_type")
     String socketType;

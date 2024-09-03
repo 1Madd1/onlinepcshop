@@ -2,6 +2,7 @@ package com.onlinepcshop.core.domain.entity;
 
 import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
 import com.onlinepcshop.core.domain.entity.enums.MemoryType;
+import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.entity.enums.SocketType;
 import com.onlinepcshop.core.domain.value.Money;
 import lombok.AllArgsConstructor;
@@ -27,5 +28,6 @@ public class Motherboard {
 
     SocketType socketType;
     MemoryType memoryType;
+    SaleType saleType;
     Integer tdp;
 }

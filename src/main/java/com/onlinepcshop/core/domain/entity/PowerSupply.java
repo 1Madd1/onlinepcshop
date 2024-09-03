@@ -2,6 +2,7 @@ package com.onlinepcshop.core.domain.entity;
 
 import com.onlinepcshop.core.domain.entity.enums.Colors;
 import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
+import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.value.Money;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class PowerSupply {
     Manufacturer manufacturer;
 
     String efficiencyRating;
+    SaleType saleType;
     Integer wattage;
     Colors color;
 }

@@ -21,7 +21,7 @@ public class CoolerController {
     @GetMapping("/{id}")
     public CoolerDto getById(@PathVariable(name = "id") UUID cpuCoolerId) {
         System.out.println("CpuCoolerController.geyById with id: " + cpuCoolerId + " called");
-        Optional<Cooler> cpuCooler = coolerUseCase.findCpuCoolerById(cpuCoolerId);
+        Optional<Cooler> cpuCooler = coolerUseCase.findCoolerById(cpuCoolerId);
         if(cpuCooler.isEmpty()) {
             System.out.println("CpuCooler with id " + cpuCoolerId + " not found");
             return null;
@@ -33,7 +33,7 @@ public class CoolerController {
     public CoolerDto createCpuCooler(@RequestBody CoolerDto coolerDto) {
         System.out.println("CpuCoolerController.createCpuCooler called - " + coolerDto);
 
-        Cooler createdCooler = coolerUseCase.createCpuCooler(CoolerMapperApi.INSTANCE.cpuCoolerDtoToCpuCooler(coolerDto));
+        Cooler createdCooler = coolerUseCase.createCooler(CoolerMapperApi.INSTANCE.cpuCoolerDtoToCpuCooler(coolerDto));
         return CoolerMapperApi.INSTANCE.cpuCoolerToCpuCoolerDto(createdCooler);
     }
 
@@ -41,20 +41,20 @@ public class CoolerController {
     public CoolerDto updateCpuCooler(@RequestBody CoolerDto coolerDto) {
         System.out.println("CpuCoolerController.updateCpuCooler called - " + coolerDto);
 
-        Cooler updatedCooler = coolerUseCase.updateCpuCooler(CoolerMapperApi.INSTANCE.cpuCoolerDtoToCpuCooler(coolerDto));
+        Cooler updatedCooler = coolerUseCase.updateCooler(CoolerMapperApi.INSTANCE.cpuCoolerDtoToCpuCooler(coolerDto));
         return CoolerMapperApi.INSTANCE.cpuCoolerToCpuCoolerDto(updatedCooler);
     }
 
     @DeleteMapping
     public void deleteCpuCoolerById(@RequestParam UUID cpuCoolerId) {
         System.out.println("CpuCoolerController.deleteCpuCoolerById called for cpuCoolerId - " + cpuCoolerId);
-        coolerUseCase.deleteCpuCooler(cpuCoolerId);
+        coolerUseCase.deleteCooler(cpuCoolerId);
     }
 
     @GetMapping
     public List<CoolerDto> findAll() {
         System.out.println("CpuCoolerController.findAll called");
-        return CoolerMapperApi.INSTANCE.cpuCoolerListToCpuCoolerDtoList(coolerUseCase.findAllCpuCoolers());
+        return CoolerMapperApi.INSTANCE.cpuCoolerListToCpuCoolerDtoList(coolerUseCase.findAllCoolers());
     }
 
 }

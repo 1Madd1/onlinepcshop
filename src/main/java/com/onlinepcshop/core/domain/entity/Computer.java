@@ -1,6 +1,7 @@
 package com.onlinepcshop.core.domain.entity;
 
 import com.onlinepcshop.core.domain.entity.enums.ComputerType;
+import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.value.Money;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class Computer {
     String description;
     String image;
     Integer tdp;
+    SaleType saleType;
     ComputerCase computerCase;
     Gpu gpu;
     PowerSupply powerSupply;

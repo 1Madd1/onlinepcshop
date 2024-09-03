@@ -38,6 +38,9 @@ public class RamDao {
     @Column(name = "manufacturer")
     String manufacturer;
 
+    @Column(name = "sale_type")
+    String saleType;
+
 
     @Column(name = "memory_type")
     String memoryType;

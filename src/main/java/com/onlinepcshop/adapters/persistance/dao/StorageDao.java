@@ -38,6 +38,9 @@ public class StorageDao {
     @Column(name = "manufacturer")
     String manufacturer;
 
+    @Column(name = "sale_type")
+    String saleType;
+
 
     @Column(name = "storage_type")
     String storageType;

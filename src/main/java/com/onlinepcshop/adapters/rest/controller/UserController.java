@@ -50,7 +50,15 @@ public class UserController {
 
     @PostMapping
     public UserDto createUser(@RequestBody UserDto userDto) {
-        System.out.println("AgentController.createUser called - " + userDto);
+        System.out.println("UserController.createUser called - " + userDto);
+
+        User createdUser = userUseCase.createUser(UserMapperApi.INSTANCE.userDtoToUser(userDto));
+        return UserMapperApi.INSTANCE.userToUserDto(createdUser);
+    }
+
+    @PostMapping("/register")
+    public UserDto registerUser(@RequestBody UserDto userDto) {
+        System.out.println("UserController.registerUser called - " + userDto);
 
         User createdUser = userUseCase.createUser(UserMapperApi.INSTANCE.userDtoToUser(userDto));
         return UserMapperApi.INSTANCE.userToUserDto(createdUser);

@@ -2,6 +2,7 @@ package com.onlinepcshop.core.domain.entity;
 
 import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
 import com.onlinepcshop.core.domain.entity.enums.PcieType;
+import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.value.Money;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,6 @@ public class Gpu {
     Manufacturer manufacturer;
 
     PcieType pcieType;
+    SaleType saleType;
     Integer tdp;
 }

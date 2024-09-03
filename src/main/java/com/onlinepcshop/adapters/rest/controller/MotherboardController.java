@@ -17,6 +17,8 @@ import java.util.UUID;
 public class MotherboardController {
 
     private final MotherboardUseCase motherboardUseCase;
+    private final MotherboardPcieInterfaceUseCase motherboardPcieInterfaceUseCase;
+    private final MotherboardStorageInterfaceUseCase motherboardStorageInterfaceUseCase;
 
     @GetMapping("/{id}")
     public MotherboardDto getById(@PathVariable(name = "id") UUID motherboardId) {

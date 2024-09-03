@@ -1,6 +1,7 @@
 package com.onlinepcshop.core.domain.entity;
 
 import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
+import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.entity.enums.StorageType;
 import com.onlinepcshop.core.domain.value.Money;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class Storage {
     Manufacturer manufacturer;
 
     StorageType storageType;
+    SaleType saleType;
     Integer capacity;
     Integer tdp;
 }

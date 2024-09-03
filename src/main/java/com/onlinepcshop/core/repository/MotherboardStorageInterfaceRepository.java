@@ -14,4 +14,7 @@ public interface MotherboardStorageInterfaceRepository {
     MotherboardStorageInterface saveMotherboardStorageInterface(MotherboardStorageInterface motherboardStorageInterface);
 
     void deleteMotherboardStorageInterface(UUID id);
+
+    List<MotherboardStorageInterface> findAllByStorageInterfaceAndMotherboard(UUID storageInterfaceId, UUID motherboardId);
 }
+

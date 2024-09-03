@@ -35,6 +35,9 @@ public class ComputerDao {
     @Column(name = "computer_type")
     String computerType;
 
+    @Column(name = "sale_type")
+    String saleType;
+
     @Column(name = "tdp")
     Integer tdp;
 

@@ -21,39 +21,56 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, KeycloakJwtRolesConverter jwtRolesConverter)
             throws Exception {
-        http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/operator/**")
-                .access(AuthorizationManagers.allOf(
-                        AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
-                .requestMatchers(
-                        HttpMethod.POST,
-                        "/upravnik")
-                .access(AuthorizationManagers.allOf(
-                        AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ADMIN", "OPERATOR")))
-                .requestMatchers(
-                        HttpMethod.DELETE,
-                        "/upravnik")
-                .access(AuthorizationManagers.allOf(
-                        AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ADMIN", "OPERATOR")))
-                .requestMatchers(HttpMethod.PUT, "/operator/**", "/upravnik/**")
-                .access(AuthorizationManagers.allOf(
-                        AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
-                .requestMatchers("/admin/**")
-                .access(AuthorizationManagers.allOf(
-                        AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
-                .requestMatchers("/test/**")
-                .permitAll()
-                .requestMatchers("/**")
-                .access(AuthorizationManagers.allOf(
-                        AuthorityAuthorizationManager.hasAnyAuthority("SCOPE_all"),
-                        AuthorityAuthorizationManager.hasAnyRole("ADMIN", "USER"))));
-        http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtRolesConverter);
+        http
+                .authorizeHttpRequests(auth -> auth
+                        // Allow everyone to access /user/register
+                        .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+
+                        // Allow public access to /test/** endpoints
+                        .requestMatchers("/test/**").permitAll()
+
+                        // Secure /operator/** GET requests for ADMIN role with SCOPE_all authority
+                        .requestMatchers(HttpMethod.GET, "/operator/**")
+                        .access(AuthorizationManagers.allOf(
+                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
+                                AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
+
+                        // Secure /upravnik POST and DELETE requests for ADMIN or OPERATOR roles with SCOPE_all authority
+                        .requestMatchers(HttpMethod.POST, "/upravnik")
+                        .access(AuthorizationManagers.allOf(
+                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
+                                AuthorityAuthorizationManager.hasAnyRole("ADMIN", "OPERATOR")))
+                        .requestMatchers(HttpMethod.DELETE, "/upravnik")
+                        .access(AuthorizationManagers.allOf(
+                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
+                                AuthorityAuthorizationManager.hasAnyRole("ADMIN", "OPERATOR")))
+
+                        // Secure /operator/** and /upravnik/** PUT requests for ADMIN role with SCOPE_all authority
+                        .requestMatchers(HttpMethod.PUT, "/operator/**", "/upravnik/**")
+                        .access(AuthorizationManagers.allOf(
+                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
+                                AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
+
+                        // Secure /admin/** endpoints for ADMIN role with SCOPE_all authority
+                        .requestMatchers("/admin/**")
+                        .access(AuthorizationManagers.allOf(
+                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
+                                AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
+
+                        // Secure all other endpoints for users with ADMIN or USER roles and SCOPE_all authority
+                        .anyRequest()
+                        .access(AuthorizationManagers.allOf(
+                                AuthorityAuthorizationManager.hasAnyAuthority("SCOPE_all"),
+                                AuthorityAuthorizationManager.hasAnyRole("ADMIN", "USER")))
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/user/register") // Disable CSRF protection for /user/register
+                )
+                .oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtRolesConverter);
+
         return http.build();
     }
+
 
     @Bean
     SecurityProvider securityProvider(KeycloakSecurityProperties props) {

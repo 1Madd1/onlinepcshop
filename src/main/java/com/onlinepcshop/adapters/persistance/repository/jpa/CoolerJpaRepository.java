@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface CpuCoolerJpaRepository extends JpaRepository<CoolerDao, UUID> {
+public interface CoolerJpaRepository extends JpaRepository<CoolerDao, UUID> {
 }

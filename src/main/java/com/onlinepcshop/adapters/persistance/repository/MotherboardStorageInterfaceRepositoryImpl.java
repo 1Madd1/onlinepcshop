@@ -36,4 +36,9 @@ public class MotherboardStorageInterfaceRepositoryImpl implements MotherboardSto
     public void deleteMotherboardStorageInterface(UUID id) {
         motherboardStorageInterfaceJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<MotherboardStorageInterface> findAllByStorageInterfaceAndMotherboard(UUID storageInterfaceId, UUID motherboardId) {
+        return MotherboardStorageInterfaceMapperDB.INSTANCE.motherboardStorageInterfaceDaoListToMotherboardStorageInterfaceList(motherboardStorageInterfaceJpaRepository.findAllByMotherboardIdAndStorageInterfaceId(motherboardId, storageInterfaceId));
+    }
 }

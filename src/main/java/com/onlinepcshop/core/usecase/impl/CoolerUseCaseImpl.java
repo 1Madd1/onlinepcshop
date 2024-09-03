@@ -1,7 +1,7 @@
 package com.onlinepcshop.core.usecase.impl;
 
 import com.onlinepcshop.core.domain.entity.Cooler;
-import com.onlinepcshop.core.repository.CpuCoolerRepository;
+import com.onlinepcshop.core.repository.CoolerRepository;
 import com.onlinepcshop.core.usecase.CoolerUseCase;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -15,30 +15,30 @@ import java.util.UUID;
 @Slf4j
 @Builder
 public class CoolerUseCaseImpl implements CoolerUseCase {
-    private final CpuCoolerRepository cpuCoolerRepository;
+    private final CoolerRepository coolerRepository;
 
     @Override
-    public Cooler createCpuCooler(Cooler cooler) {
-        return cpuCoolerRepository.saveCpuCooler(cooler);
+    public Cooler createCooler(Cooler cooler) {
+        return coolerRepository.saveCpuCooler(cooler);
     }
 
     @Override
-    public Cooler updateCpuCooler(Cooler cooler) {
-        return cpuCoolerRepository.saveCpuCooler(cooler);
+    public Cooler updateCooler(Cooler cooler) {
+        return coolerRepository.saveCpuCooler(cooler);
     }
 
     @Override
-    public List<Cooler> findAllCpuCoolers() {
-        return cpuCoolerRepository.findAllCpuCoolers();
+    public List<Cooler> findAllCoolers() {
+        return coolerRepository.findAllCpuCoolers();
     }
 
     @Override
-    public Optional<Cooler> findCpuCoolerById(UUID cpuCoolerId) {
-        return cpuCoolerRepository.findById(cpuCoolerId);
+    public Optional<Cooler> findCoolerById(UUID cpuCoolerId) {
+        return coolerRepository.findById(cpuCoolerId);
     }
 
     @Override
-    public void deleteCpuCooler(UUID id) {
-        cpuCoolerRepository.deleteCpuCooler(id);
+    public void deleteCooler(UUID id) {
+        coolerRepository.deleteCpuCooler(id);
     }
 }

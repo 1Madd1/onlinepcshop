@@ -14,4 +14,6 @@ public interface MotherboardRepository {
     Motherboard saveMotherboard(Motherboard motherboard);
 
     void deleteMotherboard(UUID id);
+
+    List<Motherboard> findAllMotherboardsByMaxPrice(Double maxPrice);
 }

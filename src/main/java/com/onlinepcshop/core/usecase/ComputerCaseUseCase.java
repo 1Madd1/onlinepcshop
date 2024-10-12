@@ -40,4 +40,11 @@ public interface ComputerCaseUseCase {
      * @param id must be a valid
      */
     void deleteComputerCase(UUID id);
+
+    /**
+     *
+     * @param maxPrice - max. allowed price of searched computer case
+     * @return - List of all computer cases that are equal or below max. price
+     */
+    List<ComputerCase> findAllComputerCasesByMaxPrice(Double maxPrice);
 }

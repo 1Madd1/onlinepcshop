@@ -1,6 +1,7 @@
 package com.onlinepcshop.core.repository;
 
 import com.onlinepcshop.core.domain.entity.ComputerCase;
+import com.onlinepcshop.core.domain.entity.Motherboard;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,6 @@ public interface ComputerCaseRepository {
     ComputerCase saveComputerCase(ComputerCase computerCase);
 
     void deleteComputerCase(UUID id);
+
+    List<ComputerCase> findAllComputerCasesByMaxPrice(Double maxPrice);
 }

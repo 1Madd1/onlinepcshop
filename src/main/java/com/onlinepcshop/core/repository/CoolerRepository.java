@@ -7,11 +7,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CoolerRepository {
-    List<Cooler> findAllCpuCoolers();
+    List<Cooler> findAllCoolers();
 
     Optional<Cooler> findById(UUID cpuCoolerId);
 
-    Cooler saveCpuCooler(Cooler cooler);
+    Cooler saveCooler(Cooler cooler);
 
-    void deleteCpuCooler(UUID id);
+    void deleteCooler(UUID id);
+
+    List<Cooler> findAllCoolersByMaxPrice(Double maxPrice);
 }

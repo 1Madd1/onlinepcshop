@@ -19,17 +19,17 @@ public class CoolerUseCaseImpl implements CoolerUseCase {
 
     @Override
     public Cooler createCooler(Cooler cooler) {
-        return coolerRepository.saveCpuCooler(cooler);
+        return coolerRepository.saveCooler(cooler);
     }
 
     @Override
     public Cooler updateCooler(Cooler cooler) {
-        return coolerRepository.saveCpuCooler(cooler);
+        return coolerRepository.saveCooler(cooler);
     }
 
     @Override
     public List<Cooler> findAllCoolers() {
-        return coolerRepository.findAllCpuCoolers();
+        return coolerRepository.findAllCoolers();
     }
 
     @Override
@@ -39,6 +39,11 @@ public class CoolerUseCaseImpl implements CoolerUseCase {
 
     @Override
     public void deleteCooler(UUID id) {
-        coolerRepository.deleteCpuCooler(id);
+        coolerRepository.deleteCooler(id);
+    }
+
+    @Override
+    public List<Cooler> findAllCoolersByMaxPrice(Double maxPrice) {
+        return coolerRepository.findAllCoolersByMaxPrice(maxPrice);
     }
 }

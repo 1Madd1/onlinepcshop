@@ -36,4 +36,9 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
     public void deleteComputerCase(UUID id) {
         computerCaseJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<ComputerCase> findAllComputerCasesByMaxPrice(Double maxPrice) {
+        return ComputerCaseMapperDB.INSTANCE.computerCaseDaoListToComputerCaseList(computerCaseJpaRepository.findByPriceLessThanEqual(maxPrice));
+    }
 }

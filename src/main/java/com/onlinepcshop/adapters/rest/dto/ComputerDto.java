@@ -19,11 +19,13 @@ public class ComputerDto {
     private String computerName;
     private Integer quantity;
     private BigDecimal price;
+    private String currency;
     private String computerType;
     private String description;
     private String image;
     private Integer tdp;
     private String saleType;
+    private Boolean purchased;
 
     private UUID computerCaseId;
     private UUID gpuId;

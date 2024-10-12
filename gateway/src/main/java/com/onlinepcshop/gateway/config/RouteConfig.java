@@ -13,6 +13,7 @@ public class RouteConfig {
     public RouteLocator myRoutes(RouteLocatorBuilder builder, GatewayProperties props) {
         return builder.routes()
                 .route("backend_service", p -> p.path(
+                                "/computer/**",
                                 "/case-fan/**",
                                 "/user/**",
                                 "/cpu/**",
@@ -24,7 +25,8 @@ public class RouteConfig {
                                 "/power-supply/**",
                                 "/ram/**",
                                 "/storage/**",
-                                "/storage-interface/**")
+                                "/storage-interface/**",
+                                "/power-supply/**")
                         .filters(f -> f.prefixPath("/backend_service"))
                         .uri("http://" + props.getBackendHost() + "/"))
                 .build();

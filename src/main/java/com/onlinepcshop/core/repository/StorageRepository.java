@@ -14,4 +14,6 @@ public interface StorageRepository {
     Storage saveStorage(Storage storage);
 
     void deleteStorage(UUID id);
+
+    List<Storage> findAllStoragesByMaxPriceAndStorageInterface(Double maxPrice, String storageType);
 }

@@ -40,4 +40,11 @@ public interface StorageInterfaceUseCase {
      * @param id must be a valid
      */
     void deleteStorageInterface(UUID id);
+
+    /**
+     *
+     * @param motherboardId - id of given motherboard
+     * @return - List of all motherboard storage interfaces that have same motherboard id
+     */
+    List<StorageInterface> findAllStorageInterfacesByMotherboard(UUID motherboardId);
 }

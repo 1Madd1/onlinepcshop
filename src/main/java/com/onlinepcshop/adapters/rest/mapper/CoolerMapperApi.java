@@ -28,7 +28,7 @@ public interface CoolerMapperApi {
 
     @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
     @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
-    CoolerDto cpuCoolerToCpuCoolerDto(Cooler cooler);
+    CoolerDto coolerToCoolerDto(Cooler cooler);
 
     @Named("mapToMoney")
     default Money mapToMoney(CoolerDto coolerDto) {
@@ -38,8 +38,8 @@ public interface CoolerMapperApi {
     @Mapping(target = "price", source = ".", qualifiedByName = "mapToMoney")
     @Mapping(source = "price", target = ".", ignore = true)
     @Mapping(source = "currency", target = ".", ignore = true)
-    Cooler cpuCoolerDtoToCpuCooler(CoolerDto coolerDto);
+    Cooler coolerDtoToCooler(CoolerDto coolerDto);
 
-    List<CoolerDto> cpuCoolerListToCpuCoolerDtoList(List<Cooler> coolerList);
-    List<Cooler> cpuCoolerDtoListToCpuCoolerList(List<CoolerDto> coolerDtoList);
+    List<CoolerDto> coolerListToCoolerDtoList(List<Cooler> coolerList);
+    List<Cooler> coolerDtoListToCoolerList(List<CoolerDto> coolerDtoList);
 }

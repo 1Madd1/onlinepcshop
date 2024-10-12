@@ -20,6 +20,9 @@ public class ComputerDao {
     @Column(name = "computer_name")
     String computerName;
 
+    @Column(name = "quantity")
+    Integer quantity;
+
     @Column(name = "price")
     BigDecimal price;
 
@@ -37,6 +40,9 @@ public class ComputerDao {
 
     @Column(name = "sale_type")
     String saleType;
+
+    @Column(name = "purchased")
+    Boolean purchased;
 
     @Column(name = "tdp")
     Integer tdp;

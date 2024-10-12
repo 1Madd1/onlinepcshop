@@ -14,4 +14,6 @@ public interface RamRepository {
     Ram saveRam(Ram ram);
 
     void deleteRam(UUID id);
+
+    List<Ram> findAllRamsByMaxPriceAndMemoryType(Double maxPrice, String memoryType);
 }

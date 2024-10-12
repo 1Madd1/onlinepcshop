@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = ComputerMapperApi.class)
 public interface ComputerCaseFanMapperApi {
     ComputerCaseFanMapperApi INSTANCE = Mappers.getMapper(ComputerCaseFanMapperApi.class);
 

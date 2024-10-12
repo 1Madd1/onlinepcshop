@@ -1,6 +1,8 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.PcieInterfaceDto;
+import com.onlinepcshop.adapters.rest.dto.PcieInterfaceDto;
+import com.onlinepcshop.adapters.rest.mapper.PcieInterfaceMapperApi;
 import com.onlinepcshop.adapters.rest.mapper.PcieInterfaceMapperApi;
 import com.onlinepcshop.core.domain.entity.PcieInterface;
 import com.onlinepcshop.core.usecase.PcieInterfaceUseCase;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -55,6 +58,13 @@ public class PcieInterfaceController {
     public List<PcieInterfaceDto> findAll() {
         System.out.println("PcieInterfaceController.findAll called");
         return PcieInterfaceMapperApi.INSTANCE.pcieInterfaceListToPcieInterfaceDtoList(pcieInterfaceUseCase.findAllPcieInterfaces());
+    }
+
+    @GetMapping("/find-all-by-motherboard-id")
+    public List<PcieInterfaceDto> findAllPcieInterfacesByMotherboardId(@RequestParam Map<String, String> paramMap) {
+        System.out.println("PcieInterfaceController.findAllPcieInterfacesByMotherboardId called");
+        UUID motherboardId = UUID.fromString(paramMap.get("motherboardId"));
+        return PcieInterfaceMapperApi.INSTANCE.pcieInterfaceListToPcieInterfaceDtoList(pcieInterfaceUseCase.findAllPcieInterfacesByMotherboard(motherboardId));
     }
 
 }

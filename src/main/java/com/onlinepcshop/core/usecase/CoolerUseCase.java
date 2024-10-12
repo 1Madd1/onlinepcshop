@@ -40,4 +40,11 @@ public interface CoolerUseCase {
      * @param id must be a valid
      */
     void deleteCooler(UUID id);
+
+    /**
+     *
+     * @param maxPrice - max. price of cooler
+     * @return - List of all coolers that are equal or below max. price
+     */
+    List<Cooler> findAllCoolersByMaxPrice(Double maxPrice);
 }

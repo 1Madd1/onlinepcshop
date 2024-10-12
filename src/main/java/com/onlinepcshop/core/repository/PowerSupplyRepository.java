@@ -14,4 +14,6 @@ public interface PowerSupplyRepository {
     PowerSupply savePowerSupply(PowerSupply powerSupply);
 
     void deletePowerSupply(UUID id);
+
+    List<PowerSupply> findAllPowerSupplysByMaxPriceAndMinWattage(Double maxPrice, Integer minWattage);
 }

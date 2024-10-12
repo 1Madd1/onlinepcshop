@@ -65,7 +65,7 @@ public class KeycloakSecurityProvider implements SecurityProvider {
     public String createPrincipal(User user) {
         PrincipalDto principal = PrincipalMapper.INSTANCE.userToPrincipal(user);
         principal.setCredentials(
-                List.of(CredentialsDto.builder().value("admin").temporary(false).build()));
+                List.of(CredentialsDto.builder().value(user.getPassword()).temporary(false).build()));
         return createPrincipal(principal);
     }
 

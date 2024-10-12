@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface MotherboardPcieInterfaceJpaRepository extends JpaRepository<MotherboardPcieInterfaceDao, UUID> {
     List<MotherboardPcieInterfaceDao> findAllByMotherboardIdAndPcieInterfaceId(UUID motherboardId, UUID pcieInterfaceId);
+    List<MotherboardPcieInterfaceDao> findAllByMotherboardId(UUID motherboardId);
 }

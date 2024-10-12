@@ -1,6 +1,8 @@
 package com.onlinepcshop.core.usecase;
 
+import com.onlinepcshop.core.domain.entity.MotherboardStorageInterface;
 import com.onlinepcshop.core.domain.entity.Storage;
+import com.onlinepcshop.core.domain.entity.StorageInterface;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,4 +42,27 @@ public interface StorageUseCase {
      * @param id must be a valid
      */
     void deleteStorage(UUID id);
+
+    /**
+     *
+     * @param maxPrice - max. price of storage
+     * @param motherboardId - id of given motherboard
+     * @return - List of storages that are the same or below max. price and are compatible with given motherboard
+     */
+    List<Storage> findAllStoragesByMaxPriceAndMotherboard(Double maxPrice, UUID motherboardId);
+
+    /**
+     *
+     * @param computerId - valid UUID of existing computer
+     * @return - List of all storages that have the same computer id
+     */
+    List<Storage> findAllStoragesByComputerId(UUID computerId);
+
+    /**
+     *
+     * @param storageId - valid UUID of existing storage
+     * @param computerId - valid UUID of existing computer
+     * @return - amount of storages that are assigned to the computer
+     */
+    Integer findQuantityByStorageIdAndComputerId(UUID storageId, UUID computerId);
 }

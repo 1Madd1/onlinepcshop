@@ -36,4 +36,9 @@ public class PowerSupplyRepositoryImpl implements PowerSupplyRepository {
     public void deletePowerSupply(UUID id) {
         powerSupplyJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<PowerSupply> findAllPowerSupplysByMaxPriceAndMinWattage(Double maxPrice, Integer minWattage) {
+        return PowerSupplyMapperDB.INSTANCE.powerSupplyDaoListToPowerSupplyList(powerSupplyJpaRepository.findByPriceLessThanEqualAndWattageGreaterThanEqual(maxPrice, minWattage));
+    }
 }

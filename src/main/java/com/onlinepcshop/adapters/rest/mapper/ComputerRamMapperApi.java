@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = ComputerMapperApi.class)
 public interface ComputerRamMapperApi {
     ComputerRamMapperApi INSTANCE = Mappers.getMapper(ComputerRamMapperApi.class);
 

@@ -23,7 +23,5 @@ public interface SecurityProvider {
 
     void updatePrincipal(String principalId, String newEmail);
 
-//    default void updatePrincipal(Vlasnik vlasnik) {}
-
     default void changePassword(String principalId, String newPassword) {}
 }

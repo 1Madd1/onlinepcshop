@@ -1,9 +1,13 @@
 package com.onlinepcshop.adapters.persistance.repository;
 
 import com.onlinepcshop.adapters.persistance.dao.GpuDao;
+import com.onlinepcshop.adapters.persistance.mapper.CpuMapperDB;
 import com.onlinepcshop.adapters.persistance.mapper.GpuMapperDB;
 import com.onlinepcshop.adapters.persistance.repository.jpa.GpuJpaRepository;
+import com.onlinepcshop.core.domain.entity.Cpu;
 import com.onlinepcshop.core.domain.entity.Gpu;
+import com.onlinepcshop.core.domain.entity.PcieInterface;
+import com.onlinepcshop.core.domain.entity.enums.PcieType;
 import com.onlinepcshop.core.repository.GpuRepository;
 import lombok.Builder;
 
@@ -35,5 +39,10 @@ public class GpuRepositoryImpl implements GpuRepository {
     @Override
     public void deleteGpu(UUID id) {
         gpuJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Gpu> findAllGpusByMaxPriceAndPcieInterface(Double maxPrice, String pcieType) {
+        return GpuMapperDB.INSTANCE.gpuDaoListToGpuList(gpuJpaRepository.findByPriceLessThanEqualAndPcieType(maxPrice, pcieType));
     }
 }

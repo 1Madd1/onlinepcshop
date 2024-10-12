@@ -45,7 +45,7 @@ public interface MotherboardUseCase {
 
     /***
      * Assigns a PcieInterface to Motherboard
-     * @param pcieInterfaceId valid UUID of an exising PcieInterface
+     * @param pcieInterfaceId valid UUID of an exising PcieInterface object
      * @param motherboardId valid UUID of an existing Motherboard object
      */
     MotherboardPcieInterface assignPcieInterface(UUID pcieInterfaceId, UUID motherboardId);
@@ -53,14 +53,14 @@ public interface MotherboardUseCase {
 
     /***
      * Unassign a PcieInterface from Motherboard
-     * @param pcieInterfaceId valid UUID of an exising PcieInterface
+     * @param pcieInterfaceId valid UUID of an exising PcieInterface object
      * @param motherboardId valid UUID of an existing Motherboard object
      */
     void unassignPcieInterface(UUID pcieInterfaceId, UUID motherboardId);
 
     /***
      * Assigns a StorageInterface to Motherboard
-     * @param storageInterfaceId valid UUID of an exising StorageInterface
+     * @param storageInterfaceId valid UUID of an exising StorageInterface object
      * @param motherboardId valid UUID of an existing Motherboard object
      */
     MotherboardStorageInterface assignStorageInterface(UUID storageInterfaceId, UUID motherboardId);
@@ -68,8 +68,16 @@ public interface MotherboardUseCase {
 
     /***
      * Unassign a StorageInterface from Motherboard
-     * @param storageInterfaceId valid UUID of an exising StorageInterface
+     * @param storageInterfaceId valid UUID of an exising StorageInterface object
      * @param motherboardId valid UUID of an existing Motherboard object
      */
     void unassignStorageInterface(UUID storageInterfaceId, UUID motherboardId);
+
+    /**
+     *
+     * @param maxPrice - max. allowed price of searched motherboard
+     * @param storageInterfaceLimit - max. number of motherboard's storage interfaces
+     * @return - List of all motherboards that are equal or below max. price and max. number of storage interfaces
+     */
+    List<Motherboard> findAllMotherboardsByMaxPriceAndByStorageInterfaceLimit(Double maxPrice, Integer storageInterfaceLimit);
 }

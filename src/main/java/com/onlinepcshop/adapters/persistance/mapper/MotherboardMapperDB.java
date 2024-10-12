@@ -19,11 +19,17 @@ public interface MotherboardMapperDB {
 
     @Named("mapPriceToCurrency")
     default String mapPriceToCurrency(Money price) {
+        if (price == null || price.getCurrency() == null) {
+            return null;
+        }
         return price.getCurrency().getCurrencyCode();
     }
 
     @Named("mapPriceToValue")
     default BigDecimal mapPriceToValue(Money price) {
+        if (price == null) {
+            return null;
+        }
         return price.getAmount();
     }
 
@@ -33,6 +39,9 @@ public interface MotherboardMapperDB {
 
     @Named("mapToMoney")
     default Money mapToMoney(MotherboardDao motherboardDao) {
+        if (motherboardDao == null || motherboardDao.getPrice() == null || motherboardDao.getCurrency() == null) {
+            return null;
+        }
         return new Money(motherboardDao.getPrice(), Currency.getInstance(motherboardDao.getCurrency()));
     }
 

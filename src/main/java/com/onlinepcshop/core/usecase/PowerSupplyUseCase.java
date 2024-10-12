@@ -40,4 +40,12 @@ public interface PowerSupplyUseCase {
      * @param id must be a valid
      */
     void deletePowerSupply(UUID id);
+
+    /**
+     *
+     * @param maxPrice - max. price of power supply
+     * @param minWattage - min. needed wattage of power supply
+     * @return - List of all power supplies that are equal or below max. price and are equal or above min. wattage
+     */
+    List<PowerSupply> findAllPowerSupplysByMaxPriceAndMinWattage(Double maxPrice, Integer minWattage);
 }

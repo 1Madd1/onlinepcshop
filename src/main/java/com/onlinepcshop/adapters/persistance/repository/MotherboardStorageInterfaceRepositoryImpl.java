@@ -41,4 +41,9 @@ public class MotherboardStorageInterfaceRepositoryImpl implements MotherboardSto
     public List<MotherboardStorageInterface> findAllByStorageInterfaceAndMotherboard(UUID storageInterfaceId, UUID motherboardId) {
         return MotherboardStorageInterfaceMapperDB.INSTANCE.motherboardStorageInterfaceDaoListToMotherboardStorageInterfaceList(motherboardStorageInterfaceJpaRepository.findAllByMotherboardIdAndStorageInterfaceId(motherboardId, storageInterfaceId));
     }
+
+    @Override
+    public List<MotherboardStorageInterface> findAllByMotherboardId(UUID motherboardId) {
+        return MotherboardStorageInterfaceMapperDB.INSTANCE.motherboardStorageInterfaceDaoListToMotherboardStorageInterfaceList(motherboardStorageInterfaceJpaRepository.findAllByMotherboardId(motherboardId));
+    }
 }

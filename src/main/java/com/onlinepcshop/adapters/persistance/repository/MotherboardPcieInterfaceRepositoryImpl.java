@@ -3,10 +3,14 @@ package com.onlinepcshop.adapters.persistance.repository;
 import com.onlinepcshop.adapters.persistance.dao.MotherboardPcieInterfaceDao;
 import com.onlinepcshop.adapters.persistance.mapper.MotherboardPcieInterfaceMapperDB;
 import com.onlinepcshop.adapters.persistance.repository.jpa.MotherboardPcieInterfaceJpaRepository;
+import com.onlinepcshop.core.domain.entity.Motherboard;
 import com.onlinepcshop.core.domain.entity.MotherboardPcieInterface;
+import com.onlinepcshop.core.domain.value.Money;
 import com.onlinepcshop.core.repository.MotherboardPcieInterfaceRepository;
 import lombok.Builder;
 
+import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,5 +44,10 @@ public class MotherboardPcieInterfaceRepositoryImpl implements MotherboardPcieIn
     @Override
     public List<MotherboardPcieInterface> findAllByPcieInterfaceAndMotherboard(UUID pcieInterfaceId, UUID motherboardId) {
         return MotherboardPcieInterfaceMapperDB.INSTANCE.motherboardPcieInterfaceDaoListToMotherboardPcieInterfaceList(motherboardPcieInterfaceJpaRepository.findAllByMotherboardIdAndPcieInterfaceId(motherboardId, pcieInterfaceId));
+    }
+
+    @Override
+    public List<MotherboardPcieInterface> findAllByMotherboardId(UUID motherboardId) {
+        return MotherboardPcieInterfaceMapperDB.INSTANCE.motherboardPcieInterfaceDaoListToMotherboardPcieInterfaceList(motherboardPcieInterfaceJpaRepository.findAllByMotherboardId(motherboardId));
     }
 }

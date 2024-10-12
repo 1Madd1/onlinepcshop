@@ -14,4 +14,10 @@ public interface ComputerRamRepository {
     ComputerRam saveComputerRam(ComputerRam computerRam);
 
     void deleteComputerRam(UUID id);
+
+    List<ComputerRam> findAllByRamAndComputer(UUID ramId, UUID computerId);
+
+    List<ComputerRam> findAllByComputer(UUID computerId);
+
+    Integer findQuantityByRamIdAndComputerId(UUID ramId, UUID computerId);
 }

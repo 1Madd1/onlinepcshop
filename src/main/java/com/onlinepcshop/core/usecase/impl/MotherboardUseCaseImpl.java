@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,12 +51,10 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
     @Override
     public MotherboardPcieInterface assignPcieInterface(UUID pcieInterfaceId, UUID motherboardId) {
         Optional<PcieInterface> pcieInterfaceOptional = pcieInterfaceRepository.findById(pcieInterfaceId);
-
         if(pcieInterfaceOptional.isEmpty()) {
             System.out.println("PCIe interface with id " + pcieInterfaceId + " not found");
             throw new PcieInterfaceNotFoundException("PcieInterface with id " + pcieInterfaceId + " not found");
         }
-
         Optional<Motherboard> motherboardOptional = motherboardRepository.findById(motherboardId);
 
         if(motherboardOptional.isEmpty()) {
@@ -63,11 +62,18 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
             throw new MotherboardNotFoundException("Motherboard with id " + motherboardId + "not found");
         }
 
+        for(MotherboardPcieInterface motherboardPcieInterface : motherboardPcieInterfaceRepository.findAllByPcieInterfaceAndMotherboard(pcieInterfaceId, motherboardId)) {
+            if (motherboardPcieInterface.getMotherboard().getId().equals(motherboardId)) {
+                if (motherboardPcieInterface.getPcieInterface().getId().equals(pcieInterfaceId)) {
+                    return null;
+                }
+            }
+        }
+
         MotherboardPcieInterface motherboardPcieInterface = MotherboardPcieInterface.builder()
                 .motherboard(Motherboard.builder().id(motherboardId).build())
                 .pcieInterface(PcieInterface.builder().id(pcieInterfaceId).build())
                 .build();
-
         return motherboardPcieInterfaceRepository.saveMotherboardPcieInterface(motherboardPcieInterface);
     }
 
@@ -101,6 +107,14 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
             throw new MotherboardNotFoundException("Motherboard with id " + motherboardId + "not found");
         }
 
+        for(MotherboardStorageInterface motherboardStorageInterface : motherboardStorageInterfaceRepository.findAllByStorageInterfaceAndMotherboard(storageInterfaceId, motherboardId)) {
+            if (motherboardStorageInterface.getMotherboard().getId().equals(motherboardId)) {
+                if (motherboardStorageInterface.getStorageInterface().getId().equals(storageInterfaceId)) {
+                    return null;
+                }
+            }
+        }
+
         MotherboardStorageInterface motherboardStorageInterface = MotherboardStorageInterface.builder()
                 .motherboard(Motherboard.builder().id(motherboardId).build())
                 .storageInterface(StorageInterface.builder().id(storageInterfaceId).build())
@@ -121,5 +135,18 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
         MotherboardStorageInterface motherboardStorageInterface = motherboardStorageInterfaceList.get(0);
 
         motherboardStorageInterfaceRepository.deleteMotherboardStorageInterface(motherboardStorageInterface.getId());
+    }
+
+    @Override
+    public List<Motherboard> findAllMotherboardsByMaxPriceAndByStorageInterfaceLimit(Double maxPrice, Integer storageInterfaceLimit) {
+        List<Motherboard> motherboardResultList = new ArrayList<>();
+        List<Motherboard> motherboardList = motherboardRepository.findAllMotherboardsByMaxPrice(maxPrice);
+        for(Motherboard motherboard : motherboardList) {
+            List<MotherboardStorageInterface> motherboardStorageInterfaceList = motherboardStorageInterfaceRepository.findAllByMotherboardId(motherboard.getId());
+            if(motherboardStorageInterfaceList.size() <= storageInterfaceLimit) {
+                motherboardResultList.add(motherboard);
+            }
+        }
+        return motherboardResultList;
     }
 }

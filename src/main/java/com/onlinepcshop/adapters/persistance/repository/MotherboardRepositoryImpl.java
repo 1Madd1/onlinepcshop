@@ -36,4 +36,9 @@ public class MotherboardRepositoryImpl implements MotherboardRepository {
     public void deleteMotherboard(UUID id) {
         motherboardJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<Motherboard> findAllMotherboardsByMaxPrice(Double maxPrice) {
+        return MotherboardMapperDB.INSTANCE.motherboardDaoListToMotherboardList(motherboardJpaRepository.findByPriceLessThanEqual(maxPrice));
+    }
 }

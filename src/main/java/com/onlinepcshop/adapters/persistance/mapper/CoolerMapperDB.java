@@ -1,6 +1,7 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
 import com.onlinepcshop.adapters.persistance.dao.CoolerDao;
+import com.onlinepcshop.adapters.persistance.dao.CpuDao;
 import com.onlinepcshop.core.domain.entity.Cooler;
 import com.onlinepcshop.core.domain.value.Money;
 import org.mapstruct.Mapper;
@@ -19,29 +20,38 @@ public interface CoolerMapperDB {
 
     @Named("mapPriceToCurrency")
     default String mapPriceToCurrency(Money price) {
+        if (price == null || price.getCurrency() == null) {
+            return null;
+        }
         return price.getCurrency().getCurrencyCode();
     }
 
     @Named("mapPriceToValue")
     default BigDecimal mapPriceToValue(Money price) {
+        if (price == null) {
+            return null;
+        }
         return price.getAmount();
     }
 
     @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
     @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
-    CoolerDao cpuCoolerToCpuCoolerDao(Cooler cooler);
+    CoolerDao coolerToCoolerDao(Cooler cooler);
 
     @Named("mapToMoney")
     default Money mapToMoney(CoolerDao coolerDao) {
+        if (coolerDao == null || coolerDao.getPrice() == null || coolerDao.getCurrency() == null) {
+            return null;
+        }
         return new Money(coolerDao.getPrice(), Currency.getInstance(coolerDao.getCurrency()));
     }
 
     @Mapping(target = "price", source = ".", qualifiedByName = "mapToMoney")
     @Mapping(source = "price", target = ".", ignore = true)
     @Mapping(source = "currency", target = ".", ignore = true)
-    Cooler cpuCoolerDaoToCpuCooler(CoolerDao coolerDao);
+    Cooler coolerDaoToCooler(CoolerDao coolerDao);
 
-    List<CoolerDao> cpuCoolerListToCpuCoolerDaoList(List<Cooler> coolerList);
-    List<Cooler> cpuCoolerDaoListToCpuCoolerList(List<CoolerDao> coolerDaoList);
+    List<CoolerDao> coolerListToCoolerDaoList(List<Cooler> coolerList);
+    List<Cooler> coolerDaoListToCoolerList(List<CoolerDao> coolerDaoList);
 
 }

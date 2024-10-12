@@ -36,4 +36,9 @@ public class RamRepositoryImpl implements RamRepository {
     public void deleteRam(UUID id) {
         ramJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<Ram> findAllRamsByMaxPriceAndMemoryType(Double maxPrice, String memoryType) {
+        return RamMapperDB.INSTANCE.ramDaoListToRamList(ramJpaRepository.findByPriceLessThanEqualAndMemoryType(maxPrice, memoryType));
+    }
 }

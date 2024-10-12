@@ -36,4 +36,9 @@ public class CpuRepositoryImpl implements CpuRepository {
     public void deleteCpu(UUID id) {
         cpuJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<Cpu> findAllCpusByMaxPriceAndSocketTypeIncludesCoolerAndIntegratedGpu(Double maxPrice, String socketType, Boolean includesCooler, Boolean includesIntegratedGpu) {
+        return CpuMapperDB.INSTANCE.cpuDaoListToCpuList(cpuJpaRepository.findByPriceLessThanEqualAndSocketTypeAndIncludesCoolerAndIncludesIntegratedGpu(maxPrice, socketType, includesCooler, includesIntegratedGpu));
+    }
 }

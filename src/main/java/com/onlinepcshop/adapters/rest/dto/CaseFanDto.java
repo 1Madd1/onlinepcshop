@@ -13,4 +13,5 @@ public class CaseFanDto extends ComponentDto {
     String color;
     String rpm;
     String noiseLevel;
+    Integer tdp;
 }

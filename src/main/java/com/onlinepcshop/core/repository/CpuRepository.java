@@ -1,5 +1,6 @@
 package com.onlinepcshop.core.repository;
 
+import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.entity.Cpu;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface CpuRepository {
     Cpu saveCpu(Cpu cpu);
 
     void deleteCpu(UUID id);
+
+    List<Cpu> findAllCpusByMaxPriceAndSocketTypeIncludesCoolerAndIntegratedGpu(Double maxPrice, String socketType, Boolean includesCooler, Boolean includesIntegratedGpu);
 }

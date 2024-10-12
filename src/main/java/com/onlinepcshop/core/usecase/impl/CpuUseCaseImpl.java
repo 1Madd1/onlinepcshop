@@ -41,4 +41,9 @@ public class CpuUseCaseImpl implements CpuUseCase {
     public void deleteCpu(UUID id) {
         cpuRepository.deleteCpu(id);
     }
+
+    @Override
+    public List<Cpu> findAllCpusByMaxPriceAndSocketTypeIncludesCoolerAndIntegratedGpu(Double maxPrice, String socketType, Boolean includesCooler, Boolean includesIntegratedGpu) {
+        return cpuRepository.findAllCpusByMaxPriceAndSocketTypeIncludesCoolerAndIntegratedGpu(maxPrice, socketType, includesCooler, includesIntegratedGpu);
+    }
 }

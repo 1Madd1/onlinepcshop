@@ -1,13 +1,18 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.PowerSupplyDto;
+import com.onlinepcshop.adapters.rest.dto.PowerSupplyDto;
 import com.onlinepcshop.adapters.rest.mapper.PowerSupplyMapperApi;
+import com.onlinepcshop.adapters.rest.mapper.PowerSupplyMapperApi;
+import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.entity.PowerSupply;
+import com.onlinepcshop.core.error.exception.PowerSupplyAlreadyExistsException;
 import com.onlinepcshop.core.usecase.PowerSupplyUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +38,13 @@ public class PowerSupplyController {
     public PowerSupplyDto createPowerSupply(@RequestBody PowerSupplyDto powerSupplyDto) {
         System.out.println("PowerSupplyController.createPowerSupply called - " + powerSupplyDto);
 
+        for (PowerSupply ps : powerSupplyUseCase.findAllPowerSupplys()) {
+            if (powerSupplyDto.getComponentName().equals(ps.getComponentName())){
+                System.out.println("Power supply " + powerSupplyDto.getComponentName() + " already exists");
+                throw new PowerSupplyAlreadyExistsException("Power supply " + powerSupplyDto.getComponentName() + " already exists");
+            }
+        }
+
         PowerSupply createdPowerSupply = powerSupplyUseCase.createPowerSupply(PowerSupplyMapperApi.INSTANCE.powerSupplyDtoToPowerSupply(powerSupplyDto));
         return PowerSupplyMapperApi.INSTANCE.powerSupplyToPowerSupplyDto(createdPowerSupply);
     }
@@ -55,6 +67,14 @@ public class PowerSupplyController {
     public List<PowerSupplyDto> findAll() {
         System.out.println("PowerSupplyController.findAll called");
         return PowerSupplyMapperApi.INSTANCE.powerSupplyListToPowerSupplyDtoList(powerSupplyUseCase.findAllPowerSupplys());
+    }
+
+    @GetMapping("/find-by-max-price-and-wattage")
+    public List<PowerSupplyDto> findAllPowerSupplysByMaxPriceAndMinWattage(@RequestParam Map<String, String> paramMap) {
+        System.out.println("PowerSupplyController.findAllPowerSupplysByMaxPriceAndMinWattage called");
+        Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
+        Integer minWattage = Integer.valueOf(paramMap.get("minWattage"));
+        return PowerSupplyMapperApi.INSTANCE.powerSupplyListToPowerSupplyDtoList(powerSupplyUseCase.findAllPowerSupplysByMaxPriceAndMinWattage(maxPrice, minWattage));
     }
 
 }

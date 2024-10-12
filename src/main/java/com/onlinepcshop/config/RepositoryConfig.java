@@ -119,6 +119,13 @@ public class RepositoryConfig {
     }
 
     @Bean
+    ComputerRepository computerRepository(ComputerJpaRepository computerJpaRepository) {
+        return ComputerRepositoryImpl.builder()
+                .computerJpaRepository(computerJpaRepository)
+                .build();
+    }
+
+    @Bean
     ComputerCaseFanRepository computerCaseFanRepository(ComputerCaseFanJpaRepository computerCaseFanJpaRepository) {
         return ComputerCaseFanRepositoryImpl.builder()
                 .computerCaseFanJpaRepository(computerCaseFanJpaRepository)

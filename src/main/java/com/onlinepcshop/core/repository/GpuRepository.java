@@ -1,6 +1,7 @@
 package com.onlinepcshop.core.repository;
 
 import com.onlinepcshop.core.domain.entity.Gpu;
+import com.onlinepcshop.core.domain.entity.PcieInterface;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,6 @@ public interface GpuRepository {
     Gpu saveGpu(Gpu gpu);
 
     void deleteGpu(UUID id);
+
+    List<Gpu> findAllGpusByMaxPriceAndPcieInterface(Double maxPrice, String pcieType);
 }

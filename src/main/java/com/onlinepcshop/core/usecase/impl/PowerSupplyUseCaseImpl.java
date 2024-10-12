@@ -41,4 +41,9 @@ public class PowerSupplyUseCaseImpl implements PowerSupplyUseCase {
     public void deletePowerSupply(UUID id) {
         powerSupplyRepository.deletePowerSupply(id);
     }
+
+    @Override
+    public List<PowerSupply> findAllPowerSupplysByMaxPriceAndMinWattage(Double maxPrice, Integer minWattage) {
+        return powerSupplyRepository.findAllPowerSupplysByMaxPriceAndMinWattage(maxPrice, minWattage);
+    }
 }

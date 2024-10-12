@@ -1,5 +1,6 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
+import com.onlinepcshop.adapters.persistance.dao.RamDao;
 import com.onlinepcshop.adapters.persistance.dao.StorageDao;
 import com.onlinepcshop.core.domain.entity.Storage;
 import com.onlinepcshop.core.domain.value.Money;
@@ -19,11 +20,17 @@ public interface StorageMapperDB {
 
     @Named("mapPriceToCurrency")
     default String mapPriceToCurrency(Money price) {
+        if (price == null || price.getCurrency() == null) {
+            return null;
+        }
         return price.getCurrency().getCurrencyCode();
     }
 
     @Named("mapPriceToValue")
     default BigDecimal mapPriceToValue(Money price) {
+        if (price == null) {
+            return null;
+        }
         return price.getAmount();
     }
 
@@ -33,6 +40,9 @@ public interface StorageMapperDB {
 
     @Named("mapToMoney")
     default Money mapToMoney(StorageDao storageDao) {
+        if (storageDao == null || storageDao.getPrice() == null || storageDao.getCurrency() == null) {
+            return null;
+        }
         return new Money(storageDao.getPrice(), Currency.getInstance(storageDao.getCurrency()));
     }
 

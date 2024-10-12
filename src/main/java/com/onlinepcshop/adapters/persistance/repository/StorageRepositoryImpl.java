@@ -36,4 +36,9 @@ public class StorageRepositoryImpl implements StorageRepository {
     public void deleteStorage(UUID id) {
         storageJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<Storage> findAllStoragesByMaxPriceAndStorageInterface(Double maxPrice, String storageType) {
+        return StorageMapperDB.INSTANCE.storageDaoListToStorageList(storageJpaRepository.findByPriceLessThanEqualAndStorageType(maxPrice, storageType));
+    }
 }

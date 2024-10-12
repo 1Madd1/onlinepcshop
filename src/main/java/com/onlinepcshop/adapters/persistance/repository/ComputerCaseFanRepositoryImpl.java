@@ -4,6 +4,8 @@ import com.onlinepcshop.adapters.persistance.dao.ComputerCaseFanDao;
 import com.onlinepcshop.adapters.persistance.mapper.ComputerCaseFanMapperDB;
 import com.onlinepcshop.adapters.persistance.repository.jpa.ComputerCaseFanJpaRepository;
 import com.onlinepcshop.core.domain.entity.ComputerCaseFan;
+import com.onlinepcshop.core.error.exception.ComputerAlreadyExistsException;
+import com.onlinepcshop.core.error.exception.ComputerCaseFanNotFoundException;
 import com.onlinepcshop.core.repository.ComputerCaseFanRepository;
 import lombok.Builder;
 
@@ -35,5 +37,25 @@ public class ComputerCaseFanRepositoryImpl implements ComputerCaseFanRepository 
     @Override
     public void deleteComputerCaseFan(UUID id) {
         computerCaseFanJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ComputerCaseFan> findAllByCaseFanAndComputer(UUID caseFanId, UUID computerId) {
+        return ComputerCaseFanMapperDB.INSTANCE.computerCaseFanDaoListToComputerCaseFanList(computerCaseFanJpaRepository.findAllByCaseFanIdAndComputerId(caseFanId, computerId));
+    }
+
+    @Override
+    public List<ComputerCaseFan> findAllByComputer(UUID computerId) {
+        return ComputerCaseFanMapperDB.INSTANCE.computerCaseFanDaoListToComputerCaseFanList(computerCaseFanJpaRepository.findAllByComputerId(computerId));
+    }
+
+    @Override
+    public Integer findQuantityByCaseFanIdAndComputerId(UUID caseFanId, UUID computerId) {
+        ComputerCaseFan computerCaseFan = ComputerCaseFanMapperDB.INSTANCE.computerCaseFanDaoToComputerCaseFan(computerCaseFanJpaRepository.findByCaseFanIdAndComputerId(caseFanId, computerId).orElse(null));
+        if (computerCaseFan == null) {
+            System.out.println("ComputerCaseFan with caseFan id " + caseFanId + " and computer id " + computerId + " not found!");
+            throw new ComputerCaseFanNotFoundException("ComputerCaseFan with caseFan id " + caseFanId + " and computer id " + computerId + " not found!");
+        }
+        return computerCaseFan.getQuantity();
     }
 }

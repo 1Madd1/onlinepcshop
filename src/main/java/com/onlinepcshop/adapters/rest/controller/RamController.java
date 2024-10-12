@@ -1,13 +1,20 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.RamDto;
+import com.onlinepcshop.adapters.rest.dto.GpuDto;
+import com.onlinepcshop.adapters.rest.dto.RamDto;
 import com.onlinepcshop.adapters.rest.mapper.RamMapperApi;
+import com.onlinepcshop.adapters.rest.mapper.GpuMapperApi;
+import com.onlinepcshop.adapters.rest.mapper.RamMapperApi;
+import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.entity.Ram;
+import com.onlinepcshop.core.error.exception.RamAlreadyExistsException;
 import com.onlinepcshop.core.usecase.RamUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +40,13 @@ public class RamController {
     public RamDto createRam(@RequestBody RamDto ramDto) {
         System.out.println("RamController.createRam called - " + ramDto);
 
+        for (Ram ram : ramUseCase.findAllRams()) {
+            if (ramDto.getComponentName().equals(ram.getComponentName())){
+                System.out.println("Ram " + ramDto.getComponentName() + " already exists");
+                throw new RamAlreadyExistsException("Ram " + ramDto.getComponentName() + " already exists");
+            }
+        }
+
         Ram createdRam = ramUseCase.createRam(RamMapperApi.INSTANCE.ramDtoToRam(ramDto));
         return RamMapperApi.INSTANCE.ramToRamDto(createdRam);
     }
@@ -55,6 +69,29 @@ public class RamController {
     public List<RamDto> findAll() {
         System.out.println("RamController.findAll called");
         return RamMapperApi.INSTANCE.ramListToRamDtoList(ramUseCase.findAllRams());
+    }
+
+    @GetMapping("/find-by-max-price-and-memory-type")
+    public List<RamDto> findAllRamsByMaxPrice(@RequestParam Map<String, String> paramMap) {
+        System.out.println("RamController.findAllRamsByMaxPrice called");
+        Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
+        String memoryType = paramMap.get("memoryType");
+        return RamMapperApi.INSTANCE.ramListToRamDtoList(ramUseCase.findAllRamsByMaxPriceAndMemoryType(maxPrice, memoryType));
+    }
+
+    @GetMapping("/find-by-computer-id")
+    public List<RamDto> findAllRamsByComputerId(@RequestParam Map<String, String> paramMap) {
+        System.out.println("RamController.findAllRamsByComputerId called");
+        UUID computerId = UUID.fromString(paramMap.get("computerId"));
+        return RamMapperApi.INSTANCE.ramListToRamDtoList(ramUseCase.findAllRamsByComputerId(computerId));
+    }
+
+    @GetMapping("/find-quantity-by-ram-id-and-computer-id")
+    public Integer findQuantityByRamIdAndComputerId(@RequestParam Map<String, String> paramMap) {
+        System.out.println("RamController.findAllRamsByComputerId called");
+        UUID ramId = UUID.fromString(paramMap.get("ramId"));
+        UUID computerId = UUID.fromString(paramMap.get("computerId"));
+        return ramUseCase.findQuantityByRamIdAndComputerId(ramId, computerId);
     }
 
 }

@@ -41,4 +41,26 @@ public interface CaseFanUseCase {
      * @param id must be a valid
      */
     void deleteCaseFan(UUID id);
+
+    /**
+     *
+     * @param maxPrice - max. price of case fan
+     * @return - List of all case fans that are equal or below max. price
+     */
+    List<CaseFan> findAllCaseFansByMaxPrice(Double maxPrice);
+
+    /**
+     *
+     * @param computerId - valid UUID of existing computer
+     * @return - List of all case fans that have the same computer id
+     */
+    List<CaseFan> findAllCaseFansByComputerId(UUID computerId);
+
+    /**
+     *
+     * @param caseFanId - valid UUID of existing case fan
+     * @param computerId - valid UUID of existing computer
+     * @return - amount of case fans that are assigned to the computer
+     */
+    Integer findQuantityByCaseFanIdAndComputerId(UUID caseFanId, UUID computerId);
 }

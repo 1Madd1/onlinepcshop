@@ -14,4 +14,10 @@ public interface ComputerCaseFanRepository {
     ComputerCaseFan saveComputerCaseFan(ComputerCaseFan computerCaseFan);
 
     void deleteComputerCaseFan(UUID id);
+
+    List<ComputerCaseFan> findAllByCaseFanAndComputer(UUID caseFanId, UUID computerId);
+
+    List<ComputerCaseFan> findAllByComputer(UUID computerId);
+
+    Integer findQuantityByCaseFanIdAndComputerId(UUID caseFanId, UUID computerId);
 }

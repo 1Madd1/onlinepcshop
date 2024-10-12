@@ -14,4 +14,10 @@ public interface ComputerStorageRepository {
     ComputerStorage saveComputerStorage(ComputerStorage computerStorage);
 
     void deleteComputerStorage(UUID id);
+
+    List<ComputerStorage> findAllByStorageAndComputer(UUID storageId, UUID computerId);
+
+    List<ComputerStorage> findAllByComputer(UUID computerId);
+
+    Integer findQuantityByStorageIdAndComputerId(UUID storageId, UUID computerId);
 }

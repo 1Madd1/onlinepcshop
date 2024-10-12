@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -55,6 +56,13 @@ public class StorageInterfaceController {
     public List<StorageInterfaceDto> findAll() {
         System.out.println("StorageInterfaceController.findAll called");
         return StorageInterfaceMapperApi.INSTANCE.storageInterfaceListToStorageInterfaceDtoList(storageInterfaceUseCase.findAllStorageInterfaces());
+    }
+
+    @GetMapping("/find-all-by-motherboard-id")
+    public List<StorageInterfaceDto> findAllStorageInterfacesByMotherboardId(@RequestParam Map<String, String> paramMap) {
+        System.out.println("StorageInterfaceController.findAllStorageInterfacesByMotherboardId called");
+        UUID motherboardId = UUID.fromString(paramMap.get("motherboardId"));
+        return StorageInterfaceMapperApi.INSTANCE.storageInterfaceListToStorageInterfaceDtoList(storageInterfaceUseCase.findAllStorageInterfacesByMotherboard(motherboardId));
     }
 
 }

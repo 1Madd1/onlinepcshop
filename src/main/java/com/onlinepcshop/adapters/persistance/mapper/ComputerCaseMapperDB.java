@@ -1,5 +1,6 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
+import com.onlinepcshop.adapters.persistance.dao.CaseFanDao;
 import com.onlinepcshop.adapters.persistance.dao.ComputerCaseDao;
 import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.value.Money;
@@ -19,11 +20,17 @@ public interface ComputerCaseMapperDB {
 
     @Named("mapPriceToCurrency")
     default String mapPriceToCurrency(Money price) {
+        if (price == null || price.getCurrency() == null) {
+            return null;
+        }
         return price.getCurrency().getCurrencyCode();
     }
 
     @Named("mapPriceToValue")
     default BigDecimal mapPriceToValue(Money price) {
+        if (price == null) {
+            return null;
+        }
         return price.getAmount();
     }
 
@@ -33,6 +40,9 @@ public interface ComputerCaseMapperDB {
 
     @Named("mapToMoney")
     default Money mapToMoney(ComputerCaseDao computerCaseDao) {
+        if (computerCaseDao == null || computerCaseDao.getPrice() == null || computerCaseDao.getCurrency() == null) {
+            return null;
+        }
         return new Money(computerCaseDao.getPrice(), Currency.getInstance(computerCaseDao.getCurrency()));
     }
 

@@ -1,0 +1,9 @@
+insert into pcie_interface (id, pcie_type) values (gen_random_uuid(), 'PCIe_x1');
+insert into pcie_interface (id, pcie_type) values (gen_random_uuid(), 'PCIe_x2');
+insert into pcie_interface (id, pcie_type) values (gen_random_uuid(), 'PCIe_x4');
+insert into pcie_interface (id, pcie_type) values (gen_random_uuid(), 'PCIe_x8');
+insert into pcie_interface (id, pcie_type) values (gen_random_uuid(), 'PCIe_x16');
+insert into storage_interface (id, storage_type) values (gen_random_uuid(), 'SATA_3');
+insert into storage_interface (id, storage_type) values (gen_random_uuid(), 'SATA_6');
+insert into storage_interface (id, storage_type) values (gen_random_uuid(), 'M_2');
+insert into storage_interface (id, storage_type) values (gen_random_uuid(), 'MSATA');

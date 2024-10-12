@@ -1,6 +1,7 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
 import com.onlinepcshop.adapters.persistance.dao.ComputerDao;
+import com.onlinepcshop.adapters.persistance.dao.MotherboardDao;
 import com.onlinepcshop.core.domain.entity.Computer;
 import com.onlinepcshop.core.domain.value.Money;
 import org.mapstruct.Mapper;
@@ -21,11 +22,17 @@ public interface ComputerMapperDB {
 
     @Named("mapComputerPriceToCurrency")
     default String mapPriceToCurrency(Money price) {
+        if (price == null || price.getCurrency() == null) {
+            return null;
+        }
         return price.getCurrency().getCurrencyCode();
     }
 
     @Named("mapComputerPriceToValue")
     default BigDecimal mapPriceToValue(Money price) {
+        if (price == null) {
+            return null;
+        }
         return price.getAmount();
     }
 
@@ -35,6 +42,9 @@ public interface ComputerMapperDB {
 
     @Named("mapComputerToMoney")
     default Money mapToMoney(ComputerDao computerDao) {
+        if (computerDao == null || computerDao.getPrice() == null || computerDao.getCurrency() == null) {
+            return null;
+        }
         return new Money(computerDao.getPrice(), Currency.getInstance(computerDao.getCurrency()));
     }
 

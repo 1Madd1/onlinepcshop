@@ -40,4 +40,14 @@ public interface CpuUseCase {
      * @param id must be a valid
      */
     void deleteCpu(UUID id);
+
+    /**
+     *
+     * @param maxPrice - max. allowed price of searched cpu
+     * @param includesCooler - cpu has cooler
+     * @param includesIntegratedGpu - cpu has integrated gpu
+     * @param socketType - socket type of cpu
+     * @return - List of all cpu's that are equal or below max. price, are of same socket type and match rest of criteria
+     */
+    List<Cpu> findAllCpusByMaxPriceAndSocketTypeIncludesCoolerAndIntegratedGpu(Double maxPrice, String socketType, Boolean includesCooler, Boolean includesIntegratedGpu);
 }

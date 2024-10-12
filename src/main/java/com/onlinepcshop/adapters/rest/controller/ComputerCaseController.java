@@ -1,13 +1,18 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.ComputerCaseDto;
+import com.onlinepcshop.adapters.rest.dto.MotherboardDto;
 import com.onlinepcshop.adapters.rest.mapper.ComputerCaseMapperApi;
+import com.onlinepcshop.adapters.rest.mapper.MotherboardMapperApi;
+import com.onlinepcshop.core.domain.entity.CaseFan;
 import com.onlinepcshop.core.domain.entity.ComputerCase;
+import com.onlinepcshop.core.error.exception.ComputerCaseAlreadyExistsException;
 import com.onlinepcshop.core.usecase.ComputerCaseUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +38,13 @@ public class ComputerCaseController {
     public ComputerCaseDto createComputerCase(@RequestBody ComputerCaseDto computerCaseDto) {
         System.out.println("ComputerCaseController.createComputerCase called - " + computerCaseDto);
 
+        for (ComputerCase cc : computerCaseUseCase.findAllComputerCases()) {
+            if (computerCaseDto.getComponentName().equals(cc.getComponentName())){
+                System.out.println("Computer case " + computerCaseDto.getComponentName() + " already exists");
+                throw new ComputerCaseAlreadyExistsException("Computer case " + computerCaseDto.getComponentName() + " already exists");
+            }
+        }
+
         ComputerCase createdComputerCase = computerCaseUseCase.createComputerCase(ComputerCaseMapperApi.INSTANCE.computerCaseDtoToComputerCase(computerCaseDto));
         return ComputerCaseMapperApi.INSTANCE.computerCaseToComputerCaseDto(createdComputerCase);
     }
@@ -55,6 +67,13 @@ public class ComputerCaseController {
     public List<ComputerCaseDto> findAll() {
         System.out.println("ComputerCaseController.findAll called");
         return ComputerCaseMapperApi.INSTANCE.computerCaseListToComputerCaseDtoList(computerCaseUseCase.findAllComputerCases());
+    }
+
+    @GetMapping("/find-by-max-price")
+    public List<ComputerCaseDto> findAllComputerCasesByMaxPrice(@RequestParam Map<String, String> paramMap) {
+        System.out.println("ComputerCaseController.findAllComputerCasesByMaxPrice called");
+        Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
+        return ComputerCaseMapperApi.INSTANCE.computerCaseListToComputerCaseDtoList(computerCaseUseCase.findAllComputerCasesByMaxPrice(maxPrice));
     }
 
 }

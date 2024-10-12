@@ -40,4 +40,11 @@ public interface PcieInterfaceUseCase {
      * @param id must be a valid
      */
     void deletePcieInterface(UUID id);
+
+    /**
+     *
+     * @param motherboardId - id of given motherboard
+     * @return - List of all motherboard PCIe interfaces that have same motherboard id
+     */
+    List<PcieInterface> findAllPcieInterfacesByMotherboard(UUID motherboardId);
 }

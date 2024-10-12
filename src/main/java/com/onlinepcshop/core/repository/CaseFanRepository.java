@@ -14,4 +14,6 @@ public interface CaseFanRepository {
     CaseFan saveCaseFan(CaseFan caseFan);
 
     void deleteCaseFan(UUID id);
+
+    List<CaseFan> findAllCaseFansByMaxPrice(Double maxPrice);
 }

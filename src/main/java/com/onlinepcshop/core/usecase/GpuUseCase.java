@@ -1,5 +1,6 @@
 package com.onlinepcshop.core.usecase;
 
+import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.entity.Gpu;
 
 import java.util.List;
@@ -40,4 +41,12 @@ public interface GpuUseCase {
      * @param id must be a valid
      */
     void deleteGpu(UUID id);
+
+    /**
+     *
+     * @param maxPrice - max. allowed price of searched gpu
+     * @param motherboardId - id of given motherboard to get its list of all PCIe interfaces
+     * @return - List of all gpus that are equal or below max. price and that are the same interface with given motherboard
+     */
+    List<Gpu> findAllGpusByMaxPriceAndMotherboard(Double maxPrice, UUID motherboardId);
 }

@@ -1,19 +1,20 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.CaseFanDto;
-import com.onlinepcshop.adapters.rest.dto.UserDto;
-import com.onlinepcshop.adapters.rest.dto.request.ChangePasswordRequest;
+import com.onlinepcshop.adapters.rest.dto.CaseFanDto;
 import com.onlinepcshop.adapters.rest.mapper.CaseFanMapperApi;
-import com.onlinepcshop.adapters.rest.mapper.UserMapperApi;
+import com.onlinepcshop.adapters.rest.mapper.CaseFanMapperApi;
 import com.onlinepcshop.core.domain.entity.CaseFan;
-import com.onlinepcshop.core.domain.entity.User;
-import com.onlinepcshop.core.error.exception.UserNotFoundException;
+import com.onlinepcshop.core.domain.entity.Computer;
+import com.onlinepcshop.core.error.exception.CaseFanAlreadyExistsException;
+import com.onlinepcshop.core.error.exception.ComputerAlreadyExistsException;
 import com.onlinepcshop.core.usecase.CaseFanUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,6 +40,13 @@ public class CaseFanController {
     public CaseFanDto createCaseFan(@RequestBody CaseFanDto caseFanDto) {
         System.out.println("CaseFanController.createCaseFan called - " + caseFanDto);
 
+        for (CaseFan cf : caseFanUseCase.findAllCaseFans()) {
+            if (caseFanDto.getComponentName().equals(cf.getComponentName())){
+                System.out.println("Case Fan " + caseFanDto.getComponentName() + " already exists");
+                throw new CaseFanAlreadyExistsException("Case fan " + caseFanDto.getComponentName() + " already exists");
+            }
+        }
+
         CaseFan createdCaseFan = caseFanUseCase.createCaseFan(CaseFanMapperApi.INSTANCE.caseFanDtoToCaseFan(caseFanDto));
         return CaseFanMapperApi.INSTANCE.caseFanToCaseFanDto(createdCaseFan);
     }
@@ -61,6 +69,28 @@ public class CaseFanController {
     public List<CaseFanDto> findAll() {
         System.out.println("CaseFanController.findAll called");
         return CaseFanMapperApi.INSTANCE.caseFanListToCaseFanDtoList(caseFanUseCase.findAllCaseFans());
+    }
+
+    @GetMapping("/find-by-max-price")
+    public List<CaseFanDto> findAllCaseFansByMaxPrice(@RequestParam Map<String, String> paramMap) {
+        System.out.println("CaseFanController.findAllCaseFansByMaxPrice called");
+        Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
+        return CaseFanMapperApi.INSTANCE.caseFanListToCaseFanDtoList(caseFanUseCase.findAllCaseFansByMaxPrice(maxPrice));
+    }
+
+    @GetMapping("/find-by-computer-id")
+    public List<CaseFanDto> findAllCaseFansByComputerId(@RequestParam Map<String, String> paramMap) {
+        System.out.println("CaseFanController.findAllCaseFansByComputerId called");
+        UUID computerId = UUID.fromString(paramMap.get("computerId"));
+        return CaseFanMapperApi.INSTANCE.caseFanListToCaseFanDtoList(caseFanUseCase.findAllCaseFansByComputerId(computerId));
+    }
+
+    @GetMapping("/find-quantity-by-case-fan-id-and-computer-id")
+    public Integer findQuantityByCaseFanIdAndComputerId(@RequestParam Map<String, String> paramMap) {
+        System.out.println("CaseFanController.findAllCaseFansByComputerId called");
+        UUID caseFanId = UUID.fromString(paramMap.get("caseFanId"));
+        UUID computerId = UUID.fromString(paramMap.get("computerId"));
+        return caseFanUseCase.findQuantityByCaseFanIdAndComputerId(caseFanId, computerId);
     }
 
 }

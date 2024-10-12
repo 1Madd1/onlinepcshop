@@ -14,8 +14,10 @@ import java.util.UUID;
 public class User {
     UUID id;
     String principalId;
+    String username;
     String email;
     String firstName;
     String lastName;
     String telephone;
+    String password;
 }

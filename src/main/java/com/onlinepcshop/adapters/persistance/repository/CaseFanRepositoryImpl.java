@@ -36,4 +36,9 @@ public class CaseFanRepositoryImpl implements CaseFanRepository {
     public void deleteCaseFan(UUID id) {
         caseFanJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<CaseFan> findAllCaseFansByMaxPrice(Double maxPrice) {
+        return CaseFanMapperDB.INSTANCE.caseFanDaoListToCaseFanList(caseFanJpaRepository.findByPriceLessThanEqual(maxPrice));
+    }
 }

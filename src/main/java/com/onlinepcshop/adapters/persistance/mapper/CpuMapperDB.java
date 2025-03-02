@@ -1,7 +1,6 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
 import com.onlinepcshop.adapters.persistance.dao.CpuDao;
-import com.onlinepcshop.adapters.persistance.dao.GpuDao;
 import com.onlinepcshop.core.domain.entity.Cpu;
 import com.onlinepcshop.core.domain.value.Money;
 import org.mapstruct.Mapper;
@@ -34,8 +33,8 @@ public interface CpuMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     CpuDao cpuToCpuDao(Cpu cpu);
 
     @Named("mapToMoney")
@@ -52,6 +51,7 @@ public interface CpuMapperDB {
     Cpu cpuDaoToCpu(CpuDao cpuDao);
 
     List<CpuDao> cpuListToCpuDaoList(List<Cpu> cpuList);
+
     List<Cpu> cpuDaoListToCpuList(List<CpuDao> cpuDaoList);
 
 }

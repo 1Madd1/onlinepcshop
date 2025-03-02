@@ -28,6 +28,12 @@ public interface RamUseCase {
      */
     List<Ram> findAllRams();
 
+    /***
+     *
+     * @return List of all rams that have quantity greater than
+     */
+    List<Ram> findAllAvailableRams();
+
 
     /***
      * @param ramId valid ram UUID
@@ -42,25 +48,34 @@ public interface RamUseCase {
     void deleteRam(UUID id);
 
     /**
-     *
-     * @param maxPrice - max. allowed price of searched ram
+     * @param maxPrice   - max. allowed price of searched ram
      * @param memoryType - memory type of searched ram
      * @return - List of all rams that are equal or below max. price and are of same memory type
      */
     List<Ram> findAllRamsByMaxPriceAndMemoryType(Double maxPrice, String memoryType);
 
     /**
-     *
      * @param computerId - valid UUID of existing computer
      * @return - List of all rams that have the same computer id
      */
     List<Ram> findAllRamsByComputerId(UUID computerId);
 
     /**
-     *
-     * @param ramId - valid UUID of existing ram
+     * @param ramId      - valid UUID of existing ram
      * @param computerId - valid UUID of existing computer
      * @return - amount of rams that are assigned to the computer
      */
     Integer findQuantityByRamIdAndComputerId(UUID ramId, UUID computerId);
+
+    /**
+     * @param name - valid component name of existing ram
+     * @return - List of all computers that include given component name
+     */
+    List<Ram> searchByName(String name);
+
+    /**
+     * @param ramId - valid UUID of existing ram
+     * @return - average ram rating based on given ram id
+     */
+    Double getRamAverageRating(UUID ramId);
 }

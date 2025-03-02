@@ -25,8 +25,4 @@ public interface PrincipalMapper {
     @Mapping(source = "username", target = "username")
     @Mapping(source = "email", target = "email")
     PrincipalDto userToPrincipal(User user);
-
-//    @Mapping(target = "enabled", constant = "true")
-//    @Mapping(source = "email", target = "username")
-//    PrincipalUpdateRequestDto operatorToPrincipalUpdateRequestDto(Operator operator);
 }

@@ -1,15 +1,12 @@
 package com.onlinepcshop.adapters.persistance.dao;
 
-import com.onlinepcshop.core.domain.entity.enums.CaseType;
-import com.onlinepcshop.core.domain.entity.enums.Colors;
-import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
-import com.onlinepcshop.core.domain.value.Money;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity(name = "computer_case")
@@ -38,6 +35,9 @@ public class ComputerCaseDao {
 
     @Column(name = "image")
     String image;
+
+    @Column(name = "date_of_creation")
+    LocalDate dateOfCreation;
 
     @Column(name = "manufacturer")
     String manufacturer;

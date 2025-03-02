@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = {CreditCardMapperDB.class})
 public interface UserMapperDB {
     UserMapperDB INSTANCE = Mappers.getMapper(UserMapperDB.class);
 
@@ -16,5 +16,6 @@ public interface UserMapperDB {
     User userDaoToUser(UserDao userDao);
 
     List<UserDao> userListToUserDaoList(List<User> userList);
+
     List<User> userDaoListToUserList(List<UserDao> userDaoList);
 }

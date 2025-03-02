@@ -9,6 +9,8 @@ import java.util.UUID;
 public interface StorageRepository {
     List<Storage> findAllStorages();
 
+    List<Storage> findAllAvailableStorages();
+
     Optional<Storage> findById(UUID storageId);
 
     Storage saveStorage(Storage storage);
@@ -16,4 +18,10 @@ public interface StorageRepository {
     void deleteStorage(UUID id);
 
     List<Storage> findAllStoragesByMaxPriceAndStorageInterface(Double maxPrice, String storageType);
+
+    List<Storage> findAllByHavingSaleAndByComponentName(String componentName);
+
+    List<Storage> searchByComponentName(String componentName);
+
+    List<Storage> findAllNewStoragesByComponentName(String componentName);
 }

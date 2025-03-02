@@ -1,10 +1,7 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.PowerSupplyDto;
-import com.onlinepcshop.adapters.rest.dto.PowerSupplyDto;
 import com.onlinepcshop.adapters.rest.mapper.PowerSupplyMapperApi;
-import com.onlinepcshop.adapters.rest.mapper.PowerSupplyMapperApi;
-import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.entity.PowerSupply;
 import com.onlinepcshop.core.error.exception.PowerSupplyAlreadyExistsException;
 import com.onlinepcshop.core.usecase.PowerSupplyUseCase;
@@ -27,7 +24,7 @@ public class PowerSupplyController {
     public PowerSupplyDto getById(@PathVariable(name = "id") UUID powerSupplyId) {
         System.out.println("PowerSupplyController.geyById with id: " + powerSupplyId + " called");
         Optional<PowerSupply> powerSupply = powerSupplyUseCase.findPowerSupplyById(powerSupplyId);
-        if(powerSupply.isEmpty()) {
+        if (powerSupply.isEmpty()) {
             System.out.println("PowerSupply with id " + powerSupplyId + " not found");
             return null;
         }
@@ -39,7 +36,7 @@ public class PowerSupplyController {
         System.out.println("PowerSupplyController.createPowerSupply called - " + powerSupplyDto);
 
         for (PowerSupply ps : powerSupplyUseCase.findAllPowerSupplys()) {
-            if (powerSupplyDto.getComponentName().equals(ps.getComponentName())){
+            if (powerSupplyDto.getComponentName().equals(ps.getComponentName())) {
                 System.out.println("Power supply " + powerSupplyDto.getComponentName() + " already exists");
                 throw new PowerSupplyAlreadyExistsException("Power supply " + powerSupplyDto.getComponentName() + " already exists");
             }
@@ -69,12 +66,32 @@ public class PowerSupplyController {
         return PowerSupplyMapperApi.INSTANCE.powerSupplyListToPowerSupplyDtoList(powerSupplyUseCase.findAllPowerSupplys());
     }
 
+    @GetMapping("/find-all-available")
+    public List<PowerSupplyDto> findAllAvailablePowerSupplys() {
+        System.out.println("PowerSupplyController.findAllAvailablePowerSupplys called");
+        return PowerSupplyMapperApi.INSTANCE.powerSupplyListToPowerSupplyDtoList(powerSupplyUseCase.findAllAvailablePowerSupplys());
+    }
+
     @GetMapping("/find-by-max-price-and-wattage")
     public List<PowerSupplyDto> findAllPowerSupplysByMaxPriceAndMinWattage(@RequestParam Map<String, String> paramMap) {
         System.out.println("PowerSupplyController.findAllPowerSupplysByMaxPriceAndMinWattage called");
         Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
         Integer minWattage = Integer.valueOf(paramMap.get("minWattage"));
         return PowerSupplyMapperApi.INSTANCE.powerSupplyListToPowerSupplyDtoList(powerSupplyUseCase.findAllPowerSupplysByMaxPriceAndMinWattage(maxPrice, minWattage));
+    }
+
+    @GetMapping("/search-by-name")
+    public List<PowerSupplyDto> searchByName(@RequestParam Map<String, String> paramMap) {
+        System.out.println("PowerSupplyController.searchByName called");
+        String name = paramMap.get("name");
+        return PowerSupplyMapperApi.INSTANCE.powerSupplyListToPowerSupplyDtoList(powerSupplyUseCase.searchByName(name));
+    }
+
+    @GetMapping("/get-power-supply-average-rating")
+    public Double getPowerSupplyAverageRating(@RequestParam Map<String, String> paramMap) {
+        System.out.println("PowerSupplyController.getPowerSupplyAverageRating called");
+        UUID powerSupplyId = UUID.fromString(paramMap.get("powerSupplyId"));
+        return powerSupplyUseCase.getPowerSupplyAverageRating(powerSupplyId);
     }
 
 }

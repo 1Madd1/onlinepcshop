@@ -7,6 +7,7 @@ import com.onlinepcshop.core.domain.entity.Cpu;
 import com.onlinepcshop.core.repository.CpuRepository;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,11 @@ public class CpuRepositoryImpl implements CpuRepository {
     @Override
     public List<Cpu> findAllCpus() {
         return CpuMapperDB.INSTANCE.cpuDaoListToCpuList(cpuJpaRepository.findAll());
+    }
+
+    @Override
+    public List<Cpu> findAllAvailableCpus() {
+        return CpuMapperDB.INSTANCE.cpuDaoListToCpuList(cpuJpaRepository.findAllByQuantityGreaterThan(0));
     }
 
     @Override
@@ -39,6 +45,22 @@ public class CpuRepositoryImpl implements CpuRepository {
 
     @Override
     public List<Cpu> findAllCpusByMaxPriceAndSocketTypeIncludesCoolerAndIntegratedGpu(Double maxPrice, String socketType, Boolean includesCooler, Boolean includesIntegratedGpu) {
-        return CpuMapperDB.INSTANCE.cpuDaoListToCpuList(cpuJpaRepository.findByPriceLessThanEqualAndSocketTypeAndIncludesCoolerAndIncludesIntegratedGpu(maxPrice, socketType, includesCooler, includesIntegratedGpu));
+        return CpuMapperDB.INSTANCE.cpuDaoListToCpuList(cpuJpaRepository.findByPriceLessThanEqualAndSocketTypeAndIncludesCoolerAndIncludesIntegratedGpuAndQuantityGreaterThan(maxPrice, socketType, includesCooler, includesIntegratedGpu, 0));
+    }
+
+    @Override
+    public List<Cpu> findAllByHavingSaleAndByComponentName(String componentName) {
+        return CpuMapperDB.INSTANCE.cpuDaoListToCpuList(cpuJpaRepository.findBySaleTypeNotNullAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<Cpu> searchByComponentName(String componentName) {
+        return CpuMapperDB.INSTANCE.cpuDaoListToCpuList(cpuJpaRepository.findByComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<Cpu> findAllNewCpusByComponentName(String componentName) {
+        LocalDate localDate = LocalDate.now().minusMonths(1);
+        return CpuMapperDB.INSTANCE.cpuDaoListToCpuList(cpuJpaRepository.findByDateOfCreationAfterAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(localDate, componentName, 0));
     }
 }

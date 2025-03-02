@@ -7,6 +7,7 @@ import com.onlinepcshop.core.domain.entity.Motherboard;
 import com.onlinepcshop.core.repository.MotherboardRepository;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,11 @@ public class MotherboardRepositoryImpl implements MotherboardRepository {
     @Override
     public List<Motherboard> findAllMotherboards() {
         return MotherboardMapperDB.INSTANCE.motherboardDaoListToMotherboardList(motherboardJpaRepository.findAll());
+    }
+
+    @Override
+    public List<Motherboard> findAllAvailableMotherboards() {
+        return MotherboardMapperDB.INSTANCE.motherboardDaoListToMotherboardList(motherboardJpaRepository.findAllByQuantityGreaterThan(0));
     }
 
     @Override
@@ -39,6 +45,22 @@ public class MotherboardRepositoryImpl implements MotherboardRepository {
 
     @Override
     public List<Motherboard> findAllMotherboardsByMaxPrice(Double maxPrice) {
-        return MotherboardMapperDB.INSTANCE.motherboardDaoListToMotherboardList(motherboardJpaRepository.findByPriceLessThanEqual(maxPrice));
+        return MotherboardMapperDB.INSTANCE.motherboardDaoListToMotherboardList(motherboardJpaRepository.findByPriceLessThanEqualAndQuantityGreaterThan(maxPrice, 0));
+    }
+
+    @Override
+    public List<Motherboard> findAllByHavingSaleAndByComponentName(String componentName) {
+        return MotherboardMapperDB.INSTANCE.motherboardDaoListToMotherboardList(motherboardJpaRepository.findBySaleTypeNotNullAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<Motherboard> searchByComponentName(String componentName) {
+        return MotherboardMapperDB.INSTANCE.motherboardDaoListToMotherboardList(motherboardJpaRepository.findByComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<Motherboard> findAllNewMotherboardsByComponentName(String componentName) {
+        LocalDate localDate = LocalDate.now().minusMonths(1);
+        return MotherboardMapperDB.INSTANCE.motherboardDaoListToMotherboardList(motherboardJpaRepository.findByDateOfCreationAfterAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(localDate, componentName, 0));
     }
 }

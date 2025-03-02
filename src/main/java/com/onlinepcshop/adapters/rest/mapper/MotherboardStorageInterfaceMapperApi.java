@@ -16,5 +16,6 @@ public interface MotherboardStorageInterfaceMapperApi {
     MotherboardStorageInterface motherboardStorageInterfaceDtoToMotherboardStorageInterface(MotherboardStorageInterfaceDto motherboardStorageInterfaceDto);
 
     List<MotherboardStorageInterfaceDto> motherboardStorageInterfaceListToMotherboardStorageInterfaceDtoList(List<MotherboardStorageInterface> motherboardStorageInterfaceList);
+
     List<MotherboardStorageInterface> motherboardStorageInterfaceDtoListToMotherboardStorageInterfaceList(List<MotherboardStorageInterfaceDto> motherboardStorageInterfaceDtoList);
 }

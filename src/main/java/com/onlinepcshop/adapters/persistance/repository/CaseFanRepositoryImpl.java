@@ -7,6 +7,7 @@ import com.onlinepcshop.core.domain.entity.CaseFan;
 import com.onlinepcshop.core.repository.CaseFanRepository;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,11 @@ public class CaseFanRepositoryImpl implements CaseFanRepository {
     @Override
     public List<CaseFan> findAllCaseFans() {
         return CaseFanMapperDB.INSTANCE.caseFanDaoListToCaseFanList(caseFanJpaRepository.findAll());
+    }
+
+    @Override
+    public List<CaseFan> findAllAvailableCaseFans() {
+        return CaseFanMapperDB.INSTANCE.caseFanDaoListToCaseFanList(caseFanJpaRepository.findAllByQuantityGreaterThan(0));
     }
 
     @Override
@@ -39,6 +45,22 @@ public class CaseFanRepositoryImpl implements CaseFanRepository {
 
     @Override
     public List<CaseFan> findAllCaseFansByMaxPrice(Double maxPrice) {
-        return CaseFanMapperDB.INSTANCE.caseFanDaoListToCaseFanList(caseFanJpaRepository.findByPriceLessThanEqual(maxPrice));
+        return CaseFanMapperDB.INSTANCE.caseFanDaoListToCaseFanList(caseFanJpaRepository.findByPriceLessThanEqualAndQuantityGreaterThan(maxPrice, 0));
+    }
+
+    @Override
+    public List<CaseFan> searchByComponentName(String componentName) {
+        return CaseFanMapperDB.INSTANCE.caseFanDaoListToCaseFanList(caseFanJpaRepository.findByComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<CaseFan> findAllByHavingSaleAndByComponentName(String componentName) {
+        return CaseFanMapperDB.INSTANCE.caseFanDaoListToCaseFanList(caseFanJpaRepository.findBySaleTypeNotNullAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<CaseFan> findAllNewCaseFansByComponentName(String componentName) {
+        LocalDate localDate = LocalDate.now().minusMonths(1);
+        return CaseFanMapperDB.INSTANCE.caseFanDaoListToCaseFanList(caseFanJpaRepository.findByDateOfCreationAfterAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(localDate, componentName, 0));
     }
 }

@@ -17,6 +17,7 @@ public interface MotherboardStorageInterfaceMapperDB {
     MotherboardStorageInterface motherboardStorageInterfaceDaoToMotherboardStorageInterface(MotherboardStorageInterfaceDao motherboardStorageInterfaceDao);
 
     List<MotherboardStorageInterfaceDao> motherboardStorageInterfaceListToMotherboardStorageInterfaceDaoList(List<MotherboardStorageInterface> motherboardStorageInterfaceList);
+
     List<MotherboardStorageInterface> motherboardStorageInterfaceDaoListToMotherboardStorageInterfaceList(List<MotherboardStorageInterfaceDao> motherboardStorageInterfaceDaoList);
 
 }

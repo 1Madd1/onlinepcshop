@@ -1,12 +1,11 @@
 package com.onlinepcshop.adapters.rest.dto.abstracts;
 
-import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -22,4 +21,6 @@ public abstract class ComponentDto {
     String image;
     String manufacturer;
     String saleType;
+    Double avgRating;
+    LocalDate dateOfCreation;
 }

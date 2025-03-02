@@ -34,8 +34,8 @@ public interface ComputerCaseMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     ComputerCaseDao computerCaseToComputerCaseDao(ComputerCase computerCase);
 
     @Named("mapToMoney")
@@ -52,6 +52,7 @@ public interface ComputerCaseMapperDB {
     ComputerCase computerCaseDaoToComputerCase(ComputerCaseDao computerCaseDao);
 
     List<ComputerCaseDao> computerCaseListToComputerCaseDaoList(List<ComputerCase> computerCaseList);
+
     List<ComputerCase> computerCaseDaoListToComputerCaseList(List<ComputerCaseDao> computerCaseDaoList);
 
 }

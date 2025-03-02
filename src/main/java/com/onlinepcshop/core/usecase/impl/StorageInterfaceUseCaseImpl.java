@@ -50,7 +50,7 @@ public class StorageInterfaceUseCaseImpl implements StorageInterfaceUseCase {
     public List<StorageInterface> findAllStorageInterfacesByMotherboard(UUID motherboardId) {
         List<StorageInterface> storageInterfaceList = new ArrayList<>();
         List<MotherboardStorageInterface> motherboardStorageInterfaceList = motherboardStorageInterfaceRepository.findAllByMotherboardId(motherboardId);
-        for(MotherboardStorageInterface motherboardStorageInterface : motherboardStorageInterfaceList) {
+        for (MotherboardStorageInterface motherboardStorageInterface : motherboardStorageInterfaceList) {
             storageInterfaceList.add(motherboardStorageInterface.getStorageInterface());
         }
         return storageInterfaceList;

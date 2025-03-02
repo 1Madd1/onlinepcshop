@@ -1,7 +1,10 @@
 package com.onlinepcshop.core.usecase.impl;
 
 import com.onlinepcshop.core.domain.entity.*;
-import com.onlinepcshop.core.error.exception.*;
+import com.onlinepcshop.core.error.exception.MotherboardNotFoundException;
+import com.onlinepcshop.core.error.exception.PcieInterfaceNotAssignedException;
+import com.onlinepcshop.core.error.exception.PcieInterfaceNotFoundException;
+import com.onlinepcshop.core.error.exception.StorageInterfaceNotFoundException;
 import com.onlinepcshop.core.repository.*;
 import com.onlinepcshop.core.usecase.MotherboardUseCase;
 import lombok.Builder;
@@ -12,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -22,6 +26,7 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
     private final StorageInterfaceRepository storageInterfaceRepository;
     private final MotherboardPcieInterfaceRepository motherboardPcieInterfaceRepository;
     private final MotherboardStorageInterfaceRepository motherboardStorageInterfaceRepository;
+    private final ProductRatingRepository productRatingRepository;
 
     @Override
     public Motherboard createMotherboard(Motherboard motherboard) {
@@ -35,7 +40,16 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
 
     @Override
     public List<Motherboard> findAllMotherboards() {
-        return motherboardRepository.findAllMotherboards();
+        return motherboardRepository.findAllMotherboards().stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Motherboard> findAllAvailableMotherboards() {
+        return motherboardRepository.findAllAvailableMotherboards().stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -51,18 +65,18 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
     @Override
     public MotherboardPcieInterface assignPcieInterface(UUID pcieInterfaceId, UUID motherboardId) {
         Optional<PcieInterface> pcieInterfaceOptional = pcieInterfaceRepository.findById(pcieInterfaceId);
-        if(pcieInterfaceOptional.isEmpty()) {
+        if (pcieInterfaceOptional.isEmpty()) {
             System.out.println("PCIe interface with id " + pcieInterfaceId + " not found");
             throw new PcieInterfaceNotFoundException("PcieInterface with id " + pcieInterfaceId + " not found");
         }
         Optional<Motherboard> motherboardOptional = motherboardRepository.findById(motherboardId);
 
-        if(motherboardOptional.isEmpty()) {
+        if (motherboardOptional.isEmpty()) {
             System.out.println("Motherboard with id " + motherboardId + " not found");
             throw new MotherboardNotFoundException("Motherboard with id " + motherboardId + "not found");
         }
 
-        for(MotherboardPcieInterface motherboardPcieInterface : motherboardPcieInterfaceRepository.findAllByPcieInterfaceAndMotherboard(pcieInterfaceId, motherboardId)) {
+        for (MotherboardPcieInterface motherboardPcieInterface : motherboardPcieInterfaceRepository.findAllByPcieInterfaceAndMotherboard(pcieInterfaceId, motherboardId)) {
             if (motherboardPcieInterface.getMotherboard().getId().equals(motherboardId)) {
                 if (motherboardPcieInterface.getPcieInterface().getId().equals(pcieInterfaceId)) {
                     return null;
@@ -81,9 +95,9 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
     public void unassignPcieInterface(UUID pcieInterfaceId, UUID motherboardId) {
         List<MotherboardPcieInterface> motherboardPcieInterfaceList =
                 motherboardPcieInterfaceRepository.findAllByPcieInterfaceAndMotherboard(pcieInterfaceId, motherboardId);
-        if(motherboardPcieInterfaceList.isEmpty()) {
+        if (motherboardPcieInterfaceList.isEmpty()) {
             System.out.println("Motherboard with id " + motherboardId + ", has no PCIe interface with id " + pcieInterfaceId + " assigned");
-            throw new PcieInterfaceNotAssignedException("Motherboard with id " + motherboardId + ", has no PcieInterface with id " + pcieInterfaceId +" assigned.");
+            throw new PcieInterfaceNotAssignedException("Motherboard with id " + motherboardId + ", has no PcieInterface with id " + pcieInterfaceId + " assigned.");
         }
 
         MotherboardPcieInterface motherboardPcieInterface = motherboardPcieInterfaceList.get(0);
@@ -95,19 +109,19 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
     public MotherboardStorageInterface assignStorageInterface(UUID storageInterfaceId, UUID motherboardId) {
         Optional<StorageInterface> storageInterfaceOptional = storageInterfaceRepository.findById(storageInterfaceId);
 
-        if(storageInterfaceOptional.isEmpty()) {
+        if (storageInterfaceOptional.isEmpty()) {
             System.out.println("Storage interface with id " + storageInterfaceId + " not found");
             throw new StorageInterfaceNotFoundException("StorageInterface with id " + storageInterfaceId + " not found");
         }
 
         Optional<Motherboard> motherboardOptional = motherboardRepository.findById(motherboardId);
 
-        if(motherboardOptional.isEmpty()) {
+        if (motherboardOptional.isEmpty()) {
             System.out.println("Motherboard with id " + motherboardId + " not found");
             throw new MotherboardNotFoundException("Motherboard with id " + motherboardId + "not found");
         }
 
-        for(MotherboardStorageInterface motherboardStorageInterface : motherboardStorageInterfaceRepository.findAllByStorageInterfaceAndMotherboard(storageInterfaceId, motherboardId)) {
+        for (MotherboardStorageInterface motherboardStorageInterface : motherboardStorageInterfaceRepository.findAllByStorageInterfaceAndMotherboard(storageInterfaceId, motherboardId)) {
             if (motherboardStorageInterface.getMotherboard().getId().equals(motherboardId)) {
                 if (motherboardStorageInterface.getStorageInterface().getId().equals(storageInterfaceId)) {
                     return null;
@@ -127,9 +141,9 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
     public void unassignStorageInterface(UUID storageInterfaceId, UUID motherboardId) {
         List<MotherboardStorageInterface> motherboardStorageInterfaceList =
                 motherboardStorageInterfaceRepository.findAllByStorageInterfaceAndMotherboard(storageInterfaceId, motherboardId);
-        if(motherboardStorageInterfaceList.isEmpty()) {
+        if (motherboardStorageInterfaceList.isEmpty()) {
             System.out.println("Motherboard with id " + motherboardId + ", has no storage interface with id " + storageInterfaceId + " assigned");
-            throw new PcieInterfaceNotAssignedException("Motherboard with id " + motherboardId + ", has no StorageInterface with id " + storageInterfaceId +" assigned.");
+            throw new PcieInterfaceNotAssignedException("Motherboard with id " + motherboardId + ", has no StorageInterface with id " + storageInterfaceId + " assigned.");
         }
 
         MotherboardStorageInterface motherboardStorageInterface = motherboardStorageInterfaceList.get(0);
@@ -141,12 +155,44 @@ public class MotherboardUseCaseImpl implements MotherboardUseCase {
     public List<Motherboard> findAllMotherboardsByMaxPriceAndByStorageInterfaceLimit(Double maxPrice, Integer storageInterfaceLimit) {
         List<Motherboard> motherboardResultList = new ArrayList<>();
         List<Motherboard> motherboardList = motherboardRepository.findAllMotherboardsByMaxPrice(maxPrice);
-        for(Motherboard motherboard : motherboardList) {
+        for (Motherboard motherboard : motherboardList) {
             List<MotherboardStorageInterface> motherboardStorageInterfaceList = motherboardStorageInterfaceRepository.findAllByMotherboardId(motherboard.getId());
-            if(motherboardStorageInterfaceList.size() <= storageInterfaceLimit) {
+            if (motherboardStorageInterfaceList.size() <= storageInterfaceLimit) {
+                motherboard.setAvgRating(productRatingRepository.findAverageRatingByProductId(motherboard.getId()));
                 motherboardResultList.add(motherboard);
             }
         }
         return motherboardResultList;
     }
+
+    @Override
+    public List<Motherboard> searchByName(String name) {
+        return motherboardRepository.searchByComponentName(name).stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PcieInterface> getAllPcieInterfacesByMotherboardId(UUID motherboardId) {
+        List<PcieInterface> pcieInterfaceList = new ArrayList<>();
+        for (MotherboardPcieInterface mpi : motherboardPcieInterfaceRepository.findAllByMotherboardId(motherboardId)) {
+            pcieInterfaceList.add(mpi.getPcieInterface());
+        }
+        return pcieInterfaceList;
+    }
+
+    @Override
+    public List<StorageInterface> getAllStorageInterfacesByMotherboardId(UUID motherboardId) {
+        List<StorageInterface> storageInterfaceList = new ArrayList<>();
+        for (MotherboardStorageInterface msi : motherboardStorageInterfaceRepository.findAllByMotherboardId(motherboardId)) {
+            storageInterfaceList.add(msi.getStorageInterface());
+        }
+        return storageInterfaceList;
+    }
+
+    @Override
+    public Double getMotherboardAverageRating(UUID motherboardId) {
+        return productRatingRepository.findAverageRatingByProductId(motherboardId);
+    }
+
 }

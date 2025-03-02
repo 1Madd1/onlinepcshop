@@ -17,6 +17,7 @@ public interface ComputerCaseFanMapperDB {
     ComputerCaseFan computerCaseFanDaoToComputerCaseFan(ComputerCaseFanDao computerCaseFanDao);
 
     List<ComputerCaseFanDao> computerCaseFanListToComputerCaseFanDaoList(List<ComputerCaseFan> computerCaseFanList);
+
     List<ComputerCaseFan> computerCaseFanDaoListToComputerCaseFanList(List<ComputerCaseFanDao> computerCaseFanDaoList);
 
 }

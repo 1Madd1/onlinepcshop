@@ -12,6 +12,8 @@ import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationManagers;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -23,33 +25,14 @@ public class SecurityConfig {
             throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Allow everyone to access /user/register
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                        // Allow everyone to access /user/register and /multiple-tables/all-requested-components
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/multiple-tables/all-requested-components").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/multiple-tables/purchase-products").permitAll()
 
                         // Allow public access to /test/** endpoints
                         .requestMatchers("/test/**").permitAll()
-
-                        // Secure /operator/** GET requests for ADMIN role with SCOPE_all authority
-                        .requestMatchers(HttpMethod.GET, "/operator/**")
-                        .access(AuthorizationManagers.allOf(
-                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                                AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
-
-                        // Secure /upravnik POST and DELETE requests for ADMIN or OPERATOR roles with SCOPE_all authority
-                        .requestMatchers(HttpMethod.POST, "/upravnik")
-                        .access(AuthorizationManagers.allOf(
-                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                                AuthorityAuthorizationManager.hasAnyRole("ADMIN", "OPERATOR")))
-                        .requestMatchers(HttpMethod.DELETE, "/upravnik")
-                        .access(AuthorizationManagers.allOf(
-                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                                AuthorityAuthorizationManager.hasAnyRole("ADMIN", "OPERATOR")))
-
-                        // Secure /operator/** and /upravnik/** PUT requests for ADMIN role with SCOPE_all authority
-                        .requestMatchers(HttpMethod.PUT, "/operator/**", "/upravnik/**")
-                        .access(AuthorizationManagers.allOf(
-                                AuthorityAuthorizationManager.hasAuthority("SCOPE_all"),
-                                AuthorityAuthorizationManager.hasAnyRole("ADMIN")))
 
                         // Secure /admin/** endpoints for ADMIN role with SCOPE_all authority
                         .requestMatchers("/admin/**")
@@ -64,18 +47,34 @@ public class SecurityConfig {
                                 AuthorityAuthorizationManager.hasAnyRole("ADMIN", "USER")))
                 )
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/user/register") // Disable CSRF protection for /user/register
+                        // Disable CSRF protection for /user/register, /multiple-tables/all-requested-components nad /multiple-tables/purchase-products
+                        // Should change in future for post request so that it doesn't use post as a way to get information for computer
+                        .ignoringRequestMatchers("/user/register")
+                        .ignoringRequestMatchers("/multiple-tables/all-requested-components")
+                        .ignoringRequestMatchers("/multiple-tables/purchase-products")
                 )
-                .oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtRolesConverter);
+                .oauth2ResourceServer()
+                .jwt()
+                .jwtAuthenticationConverter(jwtRolesConverter);
 
         return http.build();
+
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 
     @Bean
-    SecurityProvider securityProvider(KeycloakSecurityProperties props) {
-        return KeycloakSecurityProvider.builder().properties(props).build();
+    SecurityProvider securityProvider(KeycloakSecurityProperties props, PasswordEncoder passwordEncoder) {
+        return KeycloakSecurityProvider.builder()
+                .properties(props)
+                .passwordEncoder(passwordEncoder)
+                .build();
     }
+
 
     @Bean
     KeycloakJwtRolesConverter jwtRolesConverter() {

@@ -17,6 +17,7 @@ public interface ComputerStorageMapperDB {
     ComputerStorage computerStorageDaoToComputerStorage(ComputerStorageDao computerStorageDao);
 
     List<ComputerStorageDao> computerStorageListToComputerStorageDaoList(List<ComputerStorage> computerStorageList);
+
     List<ComputerStorage> computerStorageDaoListToComputerStorageList(List<ComputerStorageDao> computerStorageDaoList);
 
 }

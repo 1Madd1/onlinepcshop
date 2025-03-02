@@ -1,7 +1,6 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
 import com.onlinepcshop.adapters.persistance.dao.GpuDao;
-import com.onlinepcshop.adapters.persistance.dao.StorageDao;
 import com.onlinepcshop.core.domain.entity.Gpu;
 import com.onlinepcshop.core.domain.value.Money;
 import org.mapstruct.Mapper;
@@ -34,8 +33,8 @@ public interface GpuMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     GpuDao gpuToGpuDao(Gpu gpu);
 
     @Named("mapToMoney")
@@ -52,6 +51,7 @@ public interface GpuMapperDB {
     Gpu gpuDaoToGpu(GpuDao gpuDao);
 
     List<GpuDao> gpuListToGpuDaoList(List<Gpu> gpuList);
+
     List<Gpu> gpuDaoListToGpuList(List<GpuDao> gpuDaoList);
 
 }

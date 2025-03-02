@@ -16,5 +16,6 @@ public interface ComputerRamMapperApi {
     ComputerRam computerRamDtoToComputerRam(ComputerRamDto computerRamDto);
 
     List<ComputerRamDto> computerRamListToComputerRamDtoList(List<ComputerRam> computerRamList);
+
     List<ComputerRam> computerRamDtoListToComputerRamList(List<ComputerRamDto> computerRamDtoList);
 }

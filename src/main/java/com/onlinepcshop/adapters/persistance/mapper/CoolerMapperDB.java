@@ -1,7 +1,6 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
 import com.onlinepcshop.adapters.persistance.dao.CoolerDao;
-import com.onlinepcshop.adapters.persistance.dao.CpuDao;
 import com.onlinepcshop.core.domain.entity.Cooler;
 import com.onlinepcshop.core.domain.value.Money;
 import org.mapstruct.Mapper;
@@ -34,8 +33,8 @@ public interface CoolerMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     CoolerDao coolerToCoolerDao(Cooler cooler);
 
     @Named("mapToMoney")
@@ -52,6 +51,7 @@ public interface CoolerMapperDB {
     Cooler coolerDaoToCooler(CoolerDao coolerDao);
 
     List<CoolerDao> coolerListToCoolerDaoList(List<Cooler> coolerList);
+
     List<Cooler> coolerDaoListToCoolerList(List<CoolerDao> coolerDaoList);
 
 }

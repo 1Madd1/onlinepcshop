@@ -1,7 +1,7 @@
 package com.onlinepcshop.core.domain.entity;
 
-import com.onlinepcshop.core.domain.entity.enums.Colors;
 import com.onlinepcshop.core.domain.entity.enums.CaseType;
+import com.onlinepcshop.core.domain.entity.enums.Colors;
 import com.onlinepcshop.core.domain.entity.enums.Manufacturer;
 import com.onlinepcshop.core.domain.entity.enums.SaleType;
 import com.onlinepcshop.core.domain.value.Money;
@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -23,7 +24,9 @@ public class ComputerCase {
     Money price;
     String description;
     String image;
+    LocalDate dateOfCreation;
     Manufacturer manufacturer;
+    Double avgRating;
 
     CaseType caseType;
     SaleType saleType;

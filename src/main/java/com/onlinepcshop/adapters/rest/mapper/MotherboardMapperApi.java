@@ -26,8 +26,8 @@ public interface MotherboardMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     MotherboardDto motherboardToMotherboardDto(Motherboard motherboard);
 
     @Named("mapToMoney")
@@ -41,5 +41,6 @@ public interface MotherboardMapperApi {
     Motherboard motherboardDtoToMotherboard(MotherboardDto motherboardDto);
 
     List<MotherboardDto> motherboardListToMotherboardDtoList(List<Motherboard> motherboardList);
+
     List<Motherboard> motherboardDtoListToMotherboardList(List<MotherboardDto> motherboardDtoList);
 }

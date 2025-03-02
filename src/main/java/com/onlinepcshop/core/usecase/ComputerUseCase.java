@@ -31,8 +31,15 @@ public interface ComputerUseCase {
      */
     List<Computer> findAllComputers();
 
+    /***
+     *
+     * @param type - the type of computer to be searched
+     * @return List of all computers that have quantity greater than 0 and are the same given computer type
+     */
+    List<Computer> findAllAvailableComputersByType(String type);
 
     /***
+     *
      * @param computerId valid computer UUID
      * @return Computer with provided agentId if one exists
      */
@@ -46,9 +53,10 @@ public interface ComputerUseCase {
 
     /**
      * Assigns a Ram to existing Computer
-     * @param ramId - valid UUID of an exising Ram
+     *
+     * @param ramId      - valid UUID of an exising Ram
      * @param computerId - valid UUID of an exising Computer
-     * @param quantity - amount of Ram being assigned to existing Computer
+     * @param quantity   - amount of Ram being assigned to existing Computer
      */
     ComputerRam assignRam(UUID ramId, UUID computerId, Integer quantity);
 
@@ -61,9 +69,10 @@ public interface ComputerUseCase {
 
     /**
      * Assigns a Storage to existing Computer
-     * @param storageId - valid UUID of an exising Storage
+     *
+     * @param storageId  - valid UUID of an exising Storage
      * @param computerId - valid UUID of an exising Computer
-     * @param quantity - amount of Storage being assigned to existing Computer
+     * @param quantity   - amount of Storage being assigned to existing Computer
      */
     ComputerStorage assignStorage(UUID storageId, UUID computerId, Integer quantity);
 
@@ -76,9 +85,10 @@ public interface ComputerUseCase {
 
     /**
      * Assigns a Case Fan to existing Computer
-     * @param caseFanId - valid UUID of an exising Case Fan
+     *
+     * @param caseFanId  - valid UUID of an exising Case Fan
      * @param computerId - valid UUID of an exising Computer
-     * @param quantity - amount of Case Fan being assigned to existing Computer
+     * @param quantity   - amount of Case Fan being assigned to existing Computer
      */
     ComputerCaseFan assignCaseFan(UUID caseFanId, UUID computerId, Integer quantity);
 
@@ -88,4 +98,17 @@ public interface ComputerUseCase {
      * @param computerId valid UUID of an existing Computer object
      */
     void unassignCaseFan(UUID caseFanId, UUID computerId);
+
+    /**
+     * @param name - valid computer name of existing computer
+     * @param type - valid computer type of existing computer
+     * @return - List of all computers that include given computer name and type
+     */
+    List<Computer> searchByNameAndType(String name, String type);
+
+    /**
+     * @param computerId - valid UUID of existing computer
+     * @return - average computer rating based on given computer id
+     */
+    Double getComputerAverageRating(UUID computerId);
 }

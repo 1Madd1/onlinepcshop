@@ -26,8 +26,8 @@ public interface GpuMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     GpuDto gpuToGpuDto(Gpu gpu);
 
     @Named("mapToMoney")
@@ -41,5 +41,6 @@ public interface GpuMapperApi {
     Gpu gpuDtoToGpu(GpuDto gpuDto);
 
     List<GpuDto> gpuListToGpuDtoList(List<Gpu> gpuList);
+
     List<Gpu> gpuDtoListToGpuList(List<GpuDto> gpuDtoList);
 }

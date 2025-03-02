@@ -16,5 +16,6 @@ public interface MotherboardPcieInterfaceMapperApi {
     MotherboardPcieInterface motherboardPcieInterfaceDtoToMotherboardPcieInterface(MotherboardPcieInterfaceDto motherboardPcieInterfaceDto);
 
     List<MotherboardPcieInterfaceDto> motherboardPcieInterfaceListToMotherboardPcieInterfaceDtoList(List<MotherboardPcieInterface> motherboardPcieInterfaceList);
+
     List<MotherboardPcieInterface> motherboardPcieInterfaceDtoListToMotherboardPcieInterfaceList(List<MotherboardPcieInterfaceDto> motherboardPcieInterfaceDtoList);
 }

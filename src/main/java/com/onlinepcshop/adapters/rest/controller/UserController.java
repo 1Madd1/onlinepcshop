@@ -26,7 +26,7 @@ public class UserController {
     public UserDto getById(@PathVariable(name = "id") UUID userId) {
         System.out.println("UserController.geyById with id: " + userId + " called");
         Optional<User> user = userUseCase.findUserById(userId);
-        if(user.isEmpty()) {
+        if (user.isEmpty()) {
             System.out.println("User with id " + userId + " not found");
             return null;
         }
@@ -42,7 +42,7 @@ public class UserController {
     public UserDto getLoggedUser(Principal principal) {
         System.out.println("UserController.getLoggedUser called - principalId " + principal.getName());
         Optional<User> userOptional = userUseCase.findUserByPrincipalId(principal.getName());
-        if ( userOptional.isEmpty()) {
+        if (userOptional.isEmpty()) {
             throw new UserNotFoundException("User not found for the given principal id!");
         }
         return UserMapperApi.INSTANCE.userToUserDto(userOptional.get());

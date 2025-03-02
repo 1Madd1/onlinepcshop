@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity(name = "cpu")
@@ -35,12 +36,14 @@ public class CpuDao {
     @Column(name = "image")
     String image;
 
+    @Column(name = "date_of_creation")
+    LocalDate dateOfCreation;
+
     @Column(name = "manufacturer")
     String manufacturer;
 
     @Column(name = "sale_type")
     String saleType;
-
 
     @Column(name = "socket_type")
     String socketType;

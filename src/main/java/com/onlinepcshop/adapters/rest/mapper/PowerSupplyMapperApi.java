@@ -26,8 +26,8 @@ public interface PowerSupplyMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     PowerSupplyDto powerSupplyToPowerSupplyDto(PowerSupply powerSupply);
 
     @Named("mapToMoney")
@@ -41,5 +41,6 @@ public interface PowerSupplyMapperApi {
     PowerSupply powerSupplyDtoToPowerSupply(PowerSupplyDto powerSupplyDto);
 
     List<PowerSupplyDto> powerSupplyListToPowerSupplyDtoList(List<PowerSupply> powerSupplyList);
+
     List<PowerSupply> powerSupplyDtoListToPowerSupplyList(List<PowerSupplyDto> powerSupplyDtoList);
 }

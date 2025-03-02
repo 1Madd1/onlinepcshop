@@ -1,18 +1,18 @@
 package com.onlinepcshop.core.usecase.impl;
 
-import com.onlinepcshop.core.domain.entity.*;
-import com.onlinepcshop.core.repository.ComputerStorageRepository;
-import com.onlinepcshop.core.repository.MotherboardStorageInterfaceRepository;
-import com.onlinepcshop.core.repository.StorageInterfaceRepository;
-import com.onlinepcshop.core.repository.StorageRepository;
+import com.onlinepcshop.core.domain.entity.ComputerStorage;
+import com.onlinepcshop.core.domain.entity.MotherboardStorageInterface;
+import com.onlinepcshop.core.domain.entity.Storage;
+import com.onlinepcshop.core.domain.entity.StorageInterface;
+import com.onlinepcshop.core.repository.*;
 import com.onlinepcshop.core.usecase.StorageUseCase;
-import com.onlinepcshop.core.util.GpuComparator;
 import com.onlinepcshop.core.util.StorageComparator;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -22,6 +22,7 @@ public class StorageUseCaseImpl implements StorageUseCase {
     private final MotherboardStorageInterfaceRepository motherboardStorageInterfaceRepository;
     private final StorageInterfaceRepository storageInterfaceRepository;
     private final ComputerStorageRepository computerStorageRepository;
+    private final ProductRatingRepository productRatingRepository;
 
     @Override
     public Storage createStorage(Storage storage) {
@@ -35,7 +36,16 @@ public class StorageUseCaseImpl implements StorageUseCase {
 
     @Override
     public List<Storage> findAllStorages() {
-        return storageRepository.findAllStorages();
+        return storageRepository.findAllStorages().stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Storage> findAllAvailableStorages() {
+        return storageRepository.findAllAvailableStorages().stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -61,7 +71,9 @@ public class StorageUseCaseImpl implements StorageUseCase {
             }
         }
         for (String storageType : storageTypes) {
-            filteredStorageList = storageRepository.findAllStoragesByMaxPriceAndStorageInterface(maxPrice, storageType);
+            filteredStorageList = storageRepository.findAllStoragesByMaxPriceAndStorageInterface(maxPrice, storageType).stream()
+                    .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                    .collect(Collectors.toList());
             finalStorageList.addAll(filteredStorageList);
         }
         Collections.sort(finalStorageList, new StorageComparator());
@@ -72,7 +84,9 @@ public class StorageUseCaseImpl implements StorageUseCase {
     public List<Storage> findAllStoragesByComputerId(UUID computerId) {
         List<Storage> storageList = new ArrayList<>();
         for (ComputerStorage ccf : computerStorageRepository.findAllByComputer(computerId)) {
-            storageList.add(ccf.getStorage());
+            Storage storage = ccf.getStorage();
+            storage.setAvgRating(productRatingRepository.findAverageRatingByProductId(storage.getId()));
+            storageList.add(storage);
         }
         return storageList;
     }
@@ -80,5 +94,17 @@ public class StorageUseCaseImpl implements StorageUseCase {
     @Override
     public Integer findQuantityByStorageIdAndComputerId(UUID storageId, UUID computerId) {
         return computerStorageRepository.findQuantityByStorageIdAndComputerId(storageId, computerId);
+    }
+
+    @Override
+    public List<Storage> searchByName(String name) {
+        return storageRepository.searchByComponentName(name).stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Double getStorageAverageRating(UUID storageId) {
+        return productRatingRepository.findAverageRatingByProductId(storageId);
     }
 }

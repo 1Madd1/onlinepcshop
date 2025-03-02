@@ -1,13 +1,12 @@
 package com.onlinepcshop.adapters.persistance.dao;
 
-import com.onlinepcshop.core.domain.entity.PcieInterface;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity(name = "motherboard")
@@ -37,6 +36,9 @@ public class MotherboardDao {
     @Column(name = "image")
     String image;
 
+    @Column(name = "date_of_creation")
+    LocalDate dateOfCreation;
+
     @Column(name = "manufacturer")
     String manufacturer;
 
@@ -52,20 +54,4 @@ public class MotherboardDao {
 
     @Column(name = "tdp")
     Integer tdp;
-//
-//    @ManyToMany
-//    @JoinTable(
-//            name = "motherboard_pcie_interface",
-//            joinColumns = @JoinColumn(name = "pcie_interface_id"),
-//            inverseJoinColumns = @JoinColumn(name = "motherboard_id")
-//    )
-//    List<PcieInterfaceDao> pcieInterfaceList;
-//
-//    @ManyToMany
-//    @JoinTable(
-//            name = "motherboard_storage_interface",
-//            joinColumns = @JoinColumn(name = "storage_interface_id"),
-//            inverseJoinColumns = @JoinColumn(name = "motherboard_id")
-//    )
-//    List<StorageInterfaceDao> storageInterfaceList;
 }

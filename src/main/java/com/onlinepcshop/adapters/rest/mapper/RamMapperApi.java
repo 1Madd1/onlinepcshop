@@ -26,8 +26,8 @@ public interface RamMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     RamDto ramToRamDto(Ram ram);
 
     @Named("mapToMoney")
@@ -41,5 +41,6 @@ public interface RamMapperApi {
     Ram ramDtoToRam(RamDto ramDto);
 
     List<RamDto> ramListToRamDtoList(List<Ram> ramList);
+
     List<Ram> ramDtoListToRamList(List<RamDto> ramDtoList);
 }

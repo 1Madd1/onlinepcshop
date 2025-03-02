@@ -1,8 +1,9 @@
 package com.onlinepcshop.core.usecase.impl;
 
-import com.onlinepcshop.core.domain.entity.Ram;
 import com.onlinepcshop.core.domain.entity.ComputerRam;
+import com.onlinepcshop.core.domain.entity.Ram;
 import com.onlinepcshop.core.repository.ComputerRamRepository;
+import com.onlinepcshop.core.repository.ProductRatingRepository;
 import com.onlinepcshop.core.repository.RamRepository;
 import com.onlinepcshop.core.usecase.RamUseCase;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -20,6 +22,7 @@ import java.util.UUID;
 public class RamUseCaseImpl implements RamUseCase {
     private final RamRepository ramRepository;
     private final ComputerRamRepository computerRamRepository;
+    private final ProductRatingRepository productRatingRepository;
 
     @Override
     public Ram createRam(Ram ram) {
@@ -33,7 +36,16 @@ public class RamUseCaseImpl implements RamUseCase {
 
     @Override
     public List<Ram> findAllRams() {
-        return ramRepository.findAllRams();
+        return ramRepository.findAllRams().stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Ram> findAllAvailableRams() {
+        return ramRepository.findAllAvailableRams().stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -55,7 +67,9 @@ public class RamUseCaseImpl implements RamUseCase {
     public List<Ram> findAllRamsByComputerId(UUID computerId) {
         List<Ram> ramList = new ArrayList<>();
         for (ComputerRam cr : computerRamRepository.findAllByComputer(computerId)) {
-            ramList.add(cr.getRam());
+            Ram ram = cr.getRam();
+            ram.setAvgRating(productRatingRepository.findAverageRatingByProductId(ram.getId()));
+            ramList.add(ram);
         }
         return ramList;
     }
@@ -63,5 +77,17 @@ public class RamUseCaseImpl implements RamUseCase {
     @Override
     public Integer findQuantityByRamIdAndComputerId(UUID ramId, UUID computerId) {
         return computerRamRepository.findQuantityByRamIdAndComputerId(ramId, computerId);
+    }
+
+    @Override
+    public List<Ram> searchByName(String name) {
+        return ramRepository.searchByComponentName(name).stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Double getRamAverageRating(UUID ramId) {
+        return productRatingRepository.findAverageRatingByProductId(ramId);
     }
 }

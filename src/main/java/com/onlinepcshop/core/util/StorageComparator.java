@@ -1,6 +1,5 @@
 package com.onlinepcshop.core.util;
 
-import com.onlinepcshop.core.domain.entity.Gpu;
 import com.onlinepcshop.core.domain.entity.Storage;
 
 import java.util.Comparator;

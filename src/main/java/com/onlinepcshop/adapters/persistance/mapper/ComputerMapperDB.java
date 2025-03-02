@@ -1,7 +1,6 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
 import com.onlinepcshop.adapters.persistance.dao.ComputerDao;
-import com.onlinepcshop.adapters.persistance.dao.MotherboardDao;
 import com.onlinepcshop.core.domain.entity.Computer;
 import com.onlinepcshop.core.domain.value.Money;
 import org.mapstruct.Mapper;
@@ -36,8 +35,8 @@ public interface ComputerMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapComputerPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapComputerPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapComputerPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapComputerPriceToCurrency")
     ComputerDao computerToComputerDao(Computer computer);
 
     @Named("mapComputerToMoney")
@@ -54,6 +53,7 @@ public interface ComputerMapperDB {
     Computer computerDaoToComputer(ComputerDao computerDao);
 
     List<ComputerDao> computerListToComputerDaoList(List<Computer> computerList);
+
     List<Computer> computerDaoListToComputerList(List<ComputerDao> computerDaoList);
 
 }

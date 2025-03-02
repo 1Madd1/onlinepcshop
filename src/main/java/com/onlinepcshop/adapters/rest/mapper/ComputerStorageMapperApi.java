@@ -16,5 +16,6 @@ public interface ComputerStorageMapperApi {
     ComputerStorage computerStorageDtoToComputerStorage(ComputerStorageDto computerStorageDto);
 
     List<ComputerStorageDto> computerStorageListToComputerStorageDtoList(List<ComputerStorage> computerStorageList);
+
     List<ComputerStorage> computerStorageDtoListToComputerStorageList(List<ComputerStorageDto> computerStorageDtoList);
 }

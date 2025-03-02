@@ -26,8 +26,8 @@ public interface CoolerMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     CoolerDto coolerToCoolerDto(Cooler cooler);
 
     @Named("mapToMoney")
@@ -41,5 +41,6 @@ public interface CoolerMapperApi {
     Cooler coolerDtoToCooler(CoolerDto coolerDto);
 
     List<CoolerDto> coolerListToCoolerDtoList(List<Cooler> coolerList);
+
     List<Cooler> coolerDtoListToCoolerList(List<CoolerDto> coolerDtoList);
 }

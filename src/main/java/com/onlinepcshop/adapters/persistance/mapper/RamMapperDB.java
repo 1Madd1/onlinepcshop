@@ -1,6 +1,5 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
-import com.onlinepcshop.adapters.persistance.dao.MotherboardDao;
 import com.onlinepcshop.adapters.persistance.dao.RamDao;
 import com.onlinepcshop.core.domain.entity.Ram;
 import com.onlinepcshop.core.domain.value.Money;
@@ -34,8 +33,8 @@ public interface RamMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     RamDao ramToRamDao(Ram ram);
 
     @Named("mapToMoney")
@@ -52,6 +51,7 @@ public interface RamMapperDB {
     Ram ramDaoToRam(RamDao ramDao);
 
     List<RamDao> ramListToRamDaoList(List<Ram> ramList);
+
     List<Ram> ramDaoListToRamList(List<RamDao> ramDaoList);
 
 }

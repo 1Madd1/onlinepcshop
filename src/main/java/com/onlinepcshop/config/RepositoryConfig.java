@@ -9,21 +9,18 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RepositoryConfig {
-//    @Bean
-//    PosebniDeoRepository posebniDeoRepository(PosebniDeoJpaRepository posebniDeoJpaRepository,
-//            PosebniDeoPagingAndSortingRepository posebniDeoPagingAndSortingRepository,
-//            JPAStreamer jpaStreamer){
-//        return PosebniDeoRepositoryImpl.builder()
-//                .posebniDeoJpaRepository(posebniDeoJpaRepository)
-//                .posebniDeoPagingAndSortingRepository(posebniDeoPagingAndSortingRepository)
-//                .jpaStreamer(jpaStreamer)
-//                .build();
-//    }
 
     @Bean
     UserRepository userRepository(UserJpaRepository userJpaRepository) {
         return UserRepositoryImpl.builder()
                 .userJpaRepository(userJpaRepository)
+                .build();
+    }
+
+    @Bean
+    CreditCardRepository creditCardRepository(CreditCardJpaRepository creditCardJpaRepository) {
+        return CreditCardRepositoryImpl.builder()
+                .creditCardJpaRepository(creditCardJpaRepository)
                 .build();
     }
 
@@ -146,14 +143,24 @@ public class RepositoryConfig {
                 .build();
     }
 
-//    @Bean
-//    VlasnikRepository vlasnikRepository(VlasnikJpaRepository vlasnikJpaRepository,
-//                                        VlasnikPagingAndSortingRepository vlasnikPagingAndSortingRepository,
-//                                        JPAStreamer jpaStreamer) {
-//        return VlasnikRepositoryImpl.builder()
-//                .vlasnikJpaRepository(vlasnikJpaRepository)
-//                .vlasnikPagingAndSortingRepository(vlasnikPagingAndSortingRepository)
-//                .jpaStreamer(jpaStreamer)
-//                .build();
-//    }
+    @Bean
+    PurchaseTransactionRepository purchaseTransactionRepository(PurchaseTransactionJpaRepository purchaseTransactionJpaRepository) {
+        return PurchaseTransactionRepositoryImpl.builder()
+                .purchaseTransactionJpaRepository(purchaseTransactionJpaRepository)
+                .build();
+    }
+
+    @Bean
+    PurchaseTransactionProductRepository purchaseTransactionProductRepository(PurchaseTransactionProductJpaRepository purchaseTransactionProductJpaRepository) {
+        return PurchaseTransactionProductRepositoryImpl.builder()
+                .purchaseTransactionProductJpaRepository(purchaseTransactionProductJpaRepository)
+                .build();
+    }
+
+    @Bean
+    ProductRatingRepository productRatingRepository(ProductRatingJpaRepository productRatingJpaRepository) {
+        return ProductRatingRepositoryImpl.builder()
+                .productRatingJpaRepository(productRatingJpaRepository)
+                .build();
+    }
 }

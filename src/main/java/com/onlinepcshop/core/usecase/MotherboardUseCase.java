@@ -1,8 +1,6 @@
 package com.onlinepcshop.core.usecase;
 
-import com.onlinepcshop.core.domain.entity.Motherboard;
-import com.onlinepcshop.core.domain.entity.MotherboardPcieInterface;
-import com.onlinepcshop.core.domain.entity.MotherboardStorageInterface;
+import com.onlinepcshop.core.domain.entity.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +27,12 @@ public interface MotherboardUseCase {
      * @return List of all motherboards
      */
     List<Motherboard> findAllMotherboards();
+
+    /***
+     *
+     * @return List of all motherboards that have quantity greater than 0
+     */
+    List<Motherboard> findAllAvailableMotherboards();
 
 
     /***
@@ -74,10 +78,33 @@ public interface MotherboardUseCase {
     void unassignStorageInterface(UUID storageInterfaceId, UUID motherboardId);
 
     /**
-     *
-     * @param maxPrice - max. allowed price of searched motherboard
+     * @param maxPrice              - max. allowed price of searched motherboard
      * @param storageInterfaceLimit - max. number of motherboard's storage interfaces
      * @return - List of all motherboards that are equal or below max. price and max. number of storage interfaces
      */
     List<Motherboard> findAllMotherboardsByMaxPriceAndByStorageInterfaceLimit(Double maxPrice, Integer storageInterfaceLimit);
+
+    /**
+     * @param name - valid component name of existing motherboard
+     * @return - List of all computers that include given component name
+     */
+    List<Motherboard> searchByName(String name);
+
+    /**
+     * @param motherboardId - valid motherboard UUID
+     * @return - list of all PCIe interfaces that are assigned to given motherboard id
+     */
+    List<PcieInterface> getAllPcieInterfacesByMotherboardId(UUID motherboardId);
+
+    /**
+     * @param motherboardId - valid motherboard UUID
+     * @return - list of all Storage interfaces that are assigned to given motherboard id
+     */
+    List<StorageInterface> getAllStorageInterfacesByMotherboardId(UUID motherboardId);
+
+    /**
+     * @param motherboardId - valid UUID of existing motherboard
+     * @return - average motherboard rating based on given motherboard id
+     */
+    Double getMotherboardAverageRating(UUID motherboardId);
 }

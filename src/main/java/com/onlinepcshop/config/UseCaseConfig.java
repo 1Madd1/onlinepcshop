@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class UseCaseConfig {
 
     @Bean
-    UserUseCase userUseCase(UserRepository userRepository, SecurityProvider securityProvider) {
+    UserUseCase userUseCase(UserRepository userRepository,
+                            SecurityProvider securityProvider) {
         return UserUseCaseImpl.builder()
                 .userRepository(userRepository)
                 .securityProvider(securityProvider)
@@ -19,25 +20,38 @@ public class UseCaseConfig {
     }
 
     @Bean
+    CreditCardUseCase creditCardUseCase(CreditCardRepository creditCardRepository) {
+        return CreditCardUseCaseImpl.builder()
+                .creditCardRepository(creditCardRepository)
+                .build();
+    }
+
+    @Bean
     CaseFanUseCase caseFanUseCase(CaseFanRepository caseFanRepository,
-                                  ComputerCaseFanRepository computerCaseFanRepository) {
+                                  ComputerCaseFanRepository computerCaseFanRepository,
+                                  ProductRatingRepository productRatingRepository) {
         return CaseFanUseCaseImpl.builder()
                 .caseFanRepository(caseFanRepository)
+                .productRatingRepository(productRatingRepository)
                 .computerCaseFanRepository(computerCaseFanRepository)
                 .build();
     }
 
     @Bean
-    ComputerCaseUseCase computerCaseUseCase(ComputerCaseRepository computerCaseRepository) {
+    ComputerCaseUseCase computerCaseUseCase(ComputerCaseRepository computerCaseRepository,
+                                            ProductRatingRepository productRatingRepository) {
         return ComputerCaseUseCaseImpl.builder()
                 .computerCaseRepository(computerCaseRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 
     @Bean
-    CpuUseCase cpuUseCase(CpuRepository cpuRepository) {
+    CpuUseCase cpuUseCase(CpuRepository cpuRepository,
+                          ProductRatingRepository productRatingRepository) {
         return CpuUseCaseImpl.builder()
                 .cpuRepository(cpuRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 
@@ -46,47 +60,57 @@ public class UseCaseConfig {
                                           PcieInterfaceRepository pcieInterfaceRepository,
                                           StorageInterfaceRepository storageInterfaceRepository,
                                           MotherboardPcieInterfaceRepository motherboardPcieInterfaceRepository,
-                                          MotherboardStorageInterfaceRepository motherboardStorageInterfaceRepository) {
+                                          MotherboardStorageInterfaceRepository motherboardStorageInterfaceRepository,
+                                          ProductRatingRepository productRatingRepository) {
         return MotherboardUseCaseImpl.builder()
                 .motherboardRepository(motherboardRepository)
                 .pcieInterfaceRepository(pcieInterfaceRepository)
                 .storageInterfaceRepository(storageInterfaceRepository)
                 .motherboardPcieInterfaceRepository(motherboardPcieInterfaceRepository)
                 .motherboardStorageInterfaceRepository(motherboardStorageInterfaceRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 
     @Bean
-    CoolerUseCase coolerUseCase(CoolerRepository coolerRepository) {
+    CoolerUseCase coolerUseCase(CoolerRepository coolerRepository,
+                                ProductRatingRepository productRatingRepository) {
         return CoolerUseCaseImpl.builder()
                 .coolerRepository(coolerRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 
     @Bean
     GpuUseCase gpuUseCase(GpuRepository gpuRepository,
                           MotherboardPcieInterfaceRepository motherboardPcieInterfaceRepository,
-                          PcieInterfaceRepository pcieInterfaceRepository) {
+                          PcieInterfaceRepository pcieInterfaceRepository,
+                          ProductRatingRepository productRatingRepository) {
         return GpuUseCaseImpl.builder()
                 .gpuRepository(gpuRepository)
                 .motherboardPcieInterfaceRepository(motherboardPcieInterfaceRepository)
                 .pcieInterfaceRepository(pcieInterfaceRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 
     @Bean
-    PowerSupplyUseCase powerSupplyUseCase(PowerSupplyRepository powerSupplyRepository) {
+    PowerSupplyUseCase powerSupplyUseCase(PowerSupplyRepository powerSupplyRepository,
+                                          ProductRatingRepository productRatingRepository) {
         return PowerSupplyUseCaseImpl.builder()
                 .powerSupplyRepository(powerSupplyRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 
     @Bean
     RamUseCase ramUseCase(RamRepository ramRepository,
-                          ComputerRamRepository computerRamRepository) {
+                          ComputerRamRepository computerRamRepository,
+                          ProductRatingRepository productRatingRepository) {
         return RamUseCaseImpl.builder()
                 .ramRepository(ramRepository)
                 .computerRamRepository(computerRamRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 
@@ -94,12 +118,14 @@ public class UseCaseConfig {
     StorageUseCase storageUseCase(StorageRepository storageRepository,
                                   MotherboardStorageInterfaceRepository motherboardStorageInterfaceRepository,
                                   StorageInterfaceRepository storageInterfaceRepository,
-                                  ComputerStorageRepository computerStorageRepository) {
+                                  ComputerStorageRepository computerStorageRepository,
+                                  ProductRatingRepository productRatingRepository) {
         return StorageUseCaseImpl.builder()
                 .storageRepository(storageRepository)
                 .motherboardStorageInterfaceRepository(motherboardStorageInterfaceRepository)
                 .storageInterfaceRepository(storageInterfaceRepository)
                 .computerStorageRepository(computerStorageRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 
@@ -122,6 +148,13 @@ public class UseCaseConfig {
     }
 
     @Bean
+    ProductRatingUseCase productRatingUseCase(ProductRatingRepository productRatingRepository) {
+        return ProductRatingUseCaseImpl.builder()
+                .productRatingRepository(productRatingRepository)
+                .build();
+    }
+
+    @Bean
     ComputerUseCase computerUseCase(ComputerRepository computerRepository,
                                     ComputerCaseRepository computerCaseRepository,
                                     MotherboardRepository motherboardRepository,
@@ -134,7 +167,8 @@ public class UseCaseConfig {
                                     CaseFanRepository caseFanRepository,
                                     ComputerRamRepository computerRamRepository,
                                     ComputerStorageRepository computerStorageRepository,
-                                    ComputerCaseFanRepository computerCaseFanRepository) {
+                                    ComputerCaseFanRepository computerCaseFanRepository,
+                                    ProductRatingRepository productRatingRepository) {
         return ComputerUseCaseImpl.builder()
                 .computerRepository(computerRepository)
                 .computerCaseRepository(computerCaseRepository)
@@ -149,6 +183,44 @@ public class UseCaseConfig {
                 .computerRamRepository(computerRamRepository)
                 .computerStorageRepository(computerStorageRepository)
                 .computerCaseFanRepository(computerCaseFanRepository)
+                .productRatingRepository(productRatingRepository)
+                .build();
+    }
+
+    @Bean
+    MultipleTablesUseCase multipleTablesUseCase(ComputerRepository computerRepository,
+                                                ComputerCaseRepository computerCaseRepository,
+                                                MotherboardRepository motherboardRepository,
+                                                CpuRepository cpuRepository,
+                                                CoolerRepository coolerRepository,
+                                                GpuRepository gpuRepository,
+                                                PowerSupplyRepository powerSupplyRepository,
+                                                RamRepository ramRepository,
+                                                StorageRepository storageRepository,
+                                                CaseFanRepository caseFanRepository,
+                                                ComputerRamRepository computerRamRepository,
+                                                ComputerStorageRepository computerStorageRepository,
+                                                ComputerCaseFanRepository computerCaseFanRepository,
+                                                PurchaseTransactionRepository purchaseTransactionRepository,
+                                                PurchaseTransactionProductRepository purchaseTransactionProductRepository,
+                                                ProductRatingRepository productRatingRepository) {
+        return MultipleTablesUseCaseImpl.builder()
+                .computerRepository(computerRepository)
+                .computerCaseRepository(computerCaseRepository)
+                .motherboardRepository(motherboardRepository)
+                .cpuRepository(cpuRepository)
+                .coolerRepository(coolerRepository)
+                .gpuRepository(gpuRepository)
+                .powerSupplyRepository(powerSupplyRepository)
+                .ramRepository(ramRepository)
+                .storageRepository(storageRepository)
+                .caseFanRepository(caseFanRepository)
+                .computerStorageRepository(computerStorageRepository)
+                .computerCaseFanRepository(computerCaseFanRepository)
+                .computerRamRepository(computerRamRepository)
+                .purchaseTransactionRepository(purchaseTransactionRepository)
+                .purchaseTransactionProductRepository(purchaseTransactionProductRepository)
+                .productRatingRepository(productRatingRepository)
                 .build();
     }
 }

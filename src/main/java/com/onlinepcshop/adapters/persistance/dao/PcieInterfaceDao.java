@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "pcie_interface")
@@ -20,7 +18,4 @@ public class PcieInterfaceDao {
 
     @Column(name = "pcie_type")
     String pcieType;
-
-//    @ManyToMany(mappedBy = "pcieInterfaceList")
-//    private List<MotherboardDao> motherboardList;
 }

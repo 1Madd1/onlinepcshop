@@ -31,6 +31,18 @@ public class UserDao {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "telephone")
-    private String telephone;
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "password")
+    private String password;
+
+    @ManyToOne
+    CreditCardDao creditCard;
 }

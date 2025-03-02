@@ -18,6 +18,9 @@ public class User {
     String email;
     String firstName;
     String lastName;
-    String telephone;
+    String street;
+    String postalCode;
+    String phoneNumber;
     String password;
+    CreditCard creditCard;
 }

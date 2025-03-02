@@ -2,6 +2,7 @@ package com.onlinepcshop.adapters.persistance.repository;
 
 import com.onlinepcshop.adapters.persistance.dao.UserDao;
 import com.onlinepcshop.adapters.persistance.mapper.UserMapperDB;
+import com.onlinepcshop.adapters.persistance.repository.jpa.CreditCardJpaRepository;
 import com.onlinepcshop.adapters.persistance.repository.jpa.UserJpaRepository;
 import com.onlinepcshop.core.domain.entity.User;
 import com.onlinepcshop.core.repository.UserRepository;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Builder
 public class UserRepositoryImpl implements UserRepository {
     private UserJpaRepository userJpaRepository;
+
     @Override
     public List<User> findAllUsers() {
         return UserMapperDB.INSTANCE.userDaoListToUserList(userJpaRepository.findAll());

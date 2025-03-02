@@ -1,21 +1,24 @@
 package com.onlinepcshop.core.util;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 
 @Slf4j
 public class PDFBuilder {
 
-    public static Font stavkeDataFont = new Font(Font.FontFamily.TIMES_ROMAN,8.0f,Font.BOLD);
+    public static Font stavkeDataFont = new Font(Font.FontFamily.TIMES_ROMAN, 8.0f, Font.BOLD);
 
     public static Paragraph createParagraphLineData(String value, int alignment, Font font) {
         Paragraph lineData = new Paragraph(value);
         lineData.setExtraParagraphSpace(0);
         lineData.setAlignment(alignment);
 
-        if(font != null) {
+        if (font != null) {
             lineData.setFont(font);
         }
 
@@ -24,7 +27,7 @@ public class PDFBuilder {
 
     public static List<PdfPCell> createDataTableDataRow(String label, String value, int alignment, Font font) {
         PdfPCell labelCell = new PdfPCell();
-        Font f = new Font(Font.FontFamily.TIMES_ROMAN,10.0f,Font.BOLD);
+        Font f = new Font(Font.FontFamily.TIMES_ROMAN, 10.0f, Font.BOLD);
         Paragraph labelParagraph = new Paragraph(label);
         labelParagraph.setAlignment(alignment);
         labelParagraph.setFont(font);

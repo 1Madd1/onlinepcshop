@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
-public class PageObject<T>{
+public class PageObject<T> {
     List<T> data;
     int page;
     int rowsPerPage;

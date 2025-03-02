@@ -16,5 +16,6 @@ public interface ComputerCaseFanMapperApi {
     ComputerCaseFan computerCaseFanDtoToComputerCaseFan(ComputerCaseFanDto computerCaseFanDto);
 
     List<ComputerCaseFanDto> computerCaseFanListToComputerCaseFanDtoList(List<ComputerCaseFan> computerCaseFanList);
+
     List<ComputerCaseFan> computerCaseFanDtoListToComputerCaseFanList(List<ComputerCaseFanDto> computerCaseFanDtoList);
 }

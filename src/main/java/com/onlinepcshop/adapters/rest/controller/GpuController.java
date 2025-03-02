@@ -1,10 +1,7 @@
 package com.onlinepcshop.adapters.rest.controller;
 
-import com.onlinepcshop.adapters.rest.dto.ComputerCaseDto;
 import com.onlinepcshop.adapters.rest.dto.GpuDto;
-import com.onlinepcshop.adapters.rest.mapper.ComputerCaseMapperApi;
 import com.onlinepcshop.adapters.rest.mapper.GpuMapperApi;
-import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.entity.Gpu;
 import com.onlinepcshop.core.error.exception.GpuAlreadyExistsException;
 import com.onlinepcshop.core.usecase.GpuUseCase;
@@ -27,7 +24,7 @@ public class GpuController {
     public GpuDto getById(@PathVariable(name = "id") UUID gpuId) {
         System.out.println("GpuController.geyById with id: " + gpuId + " called");
         Optional<Gpu> gpu = gpuUseCase.findGpuById(gpuId);
-        if(gpu.isEmpty()) {
+        if (gpu.isEmpty()) {
             System.out.println("Gpu with id " + gpuId + " not found");
             return null;
         }
@@ -39,7 +36,7 @@ public class GpuController {
         System.out.println("GpuController.createGpu called - " + gpuDto);
 
         for (Gpu cc : gpuUseCase.findAllGpus()) {
-            if (gpuDto.getComponentName().equals(cc.getComponentName())){
+            if (gpuDto.getComponentName().equals(cc.getComponentName())) {
                 System.out.println("Gpu " + gpuDto.getComponentName() + " already exists");
                 throw new GpuAlreadyExistsException("Gpu " + gpuDto.getComponentName() + " already exists");
             }
@@ -69,12 +66,32 @@ public class GpuController {
         return GpuMapperApi.INSTANCE.gpuListToGpuDtoList(gpuUseCase.findAllGpus());
     }
 
+    @GetMapping("/find-all-available")
+    public List<GpuDto> findAllAvailableGpus() {
+        System.out.println("GpuController.findAllAvailableGpus called");
+        return GpuMapperApi.INSTANCE.gpuListToGpuDtoList(gpuUseCase.findAllAvailableGpus());
+    }
+
     @GetMapping("/find-by-max-price-and-motherboard-id")
     public List<GpuDto> findAllGpusByMaxPriceAndMotherboardId(@RequestParam Map<String, String> paramMap) {
         System.out.println("GpuController.findAllGpusByMaxPriceAndMotherboardId called");
         Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
         UUID motherboardId = UUID.fromString(paramMap.get("motherboardId"));
         return GpuMapperApi.INSTANCE.gpuListToGpuDtoList(gpuUseCase.findAllGpusByMaxPriceAndMotherboard(maxPrice, motherboardId));
+    }
+
+    @GetMapping("/search-by-name")
+    public List<GpuDto> searchByName(@RequestParam Map<String, String> paramMap) {
+        System.out.println("GpuController.searchByName called");
+        String name = paramMap.get("name");
+        return GpuMapperApi.INSTANCE.gpuListToGpuDtoList(gpuUseCase.searchByName(name));
+    }
+
+    @GetMapping("/get-gpu-average-rating")
+    public Double getGpuAverageRating(@RequestParam Map<String, String> paramMap) {
+        System.out.println("GpuController.getGpuAverageRating called");
+        UUID gpuId = UUID.fromString(paramMap.get("gpuId"));
+        return gpuUseCase.getGpuAverageRating(gpuId);
     }
 
 }

@@ -20,6 +20,7 @@ public class KeycloakJwtRolesConverter implements Converter<Jwt, AbstractAuthent
 
     private static Collection<? extends GrantedAuthority> extractResourceRoles(final Jwt jwt) {
         Collection<String> roles = jwt.getClaim("roles");
+        System.out.println(roles);
         if (roles != null) {
             return roles.stream()
                     .map(x -> new SimpleGrantedAuthority(x))

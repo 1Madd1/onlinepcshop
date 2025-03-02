@@ -4,7 +4,8 @@ import com.onlinepcshop.adapters.rest.dto.*;
 import com.onlinepcshop.adapters.rest.dto.request.MotherboardWithInterfacesRequest;
 import com.onlinepcshop.adapters.rest.dto.response.MotherboardWithInterfacesResponse;
 import com.onlinepcshop.adapters.rest.mapper.MotherboardMapperApi;
-import com.onlinepcshop.core.domain.entity.ComputerCase;
+import com.onlinepcshop.adapters.rest.mapper.PcieInterfaceMapperApi;
+import com.onlinepcshop.adapters.rest.mapper.StorageInterfaceMapperApi;
 import com.onlinepcshop.core.domain.entity.Motherboard;
 import com.onlinepcshop.core.error.exception.MotherboardAlreadyExistsException;
 import com.onlinepcshop.core.usecase.MotherboardUseCase;
@@ -27,7 +28,7 @@ public class MotherboardController {
     public MotherboardDto getById(@PathVariable(name = "id") UUID motherboardId) {
         System.out.println("MotherboardController.geyById with id: " + motherboardId + " called");
         Optional<Motherboard> motherboard = motherboardUseCase.findMotherboardById(motherboardId);
-        if(motherboard.isEmpty()) {
+        if (motherboard.isEmpty()) {
             System.out.println("Motherboard with id " + motherboardId + " not found");
             return null;
         }
@@ -39,19 +40,19 @@ public class MotherboardController {
         System.out.println("MotherboardController.createMotherboard called - " + motherboardWithInterfacesRequest);
 
         for (Motherboard cc : motherboardUseCase.findAllMotherboards()) {
-            if (motherboardWithInterfacesRequest.getMotherboard().getComponentName().equals(cc.getComponentName())){
+            if (motherboardWithInterfacesRequest.getMotherboard().getComponentName().equals(cc.getComponentName())) {
                 System.out.println("Motherboard " + motherboardWithInterfacesRequest.getMotherboard().getComponentName() + " already exists");
                 throw new MotherboardAlreadyExistsException("Motherboard " + motherboardWithInterfacesRequest.getMotherboard().getComponentName() + " already exists");
             }
         }
 
         Motherboard createdMotherboard = motherboardUseCase.createMotherboard(MotherboardMapperApi.INSTANCE.motherboardDtoToMotherboard(motherboardWithInterfacesRequest.getMotherboard()));
-        for(PcieInterfaceDto pid : motherboardWithInterfacesRequest.getPcieInterfaceList()) {
+        for (PcieInterfaceDto pid : motherboardWithInterfacesRequest.getPcieInterfaceList()) {
             System.out.println("PID:" + pid);
             System.out.println("Created Motherboard:" + createdMotherboard);
             motherboardUseCase.assignPcieInterface(pid.getId(), createdMotherboard.getId());
         }
-        for(StorageInterfaceDto sid : motherboardWithInterfacesRequest.getStorageInterfaceList()) {
+        for (StorageInterfaceDto sid : motherboardWithInterfacesRequest.getStorageInterfaceList()) {
             System.out.println("SID:" + sid);
             System.out.println("Created Motherboard:" + createdMotherboard);
             motherboardUseCase.assignStorageInterface(sid.getId(), createdMotherboard.getId());
@@ -71,24 +72,24 @@ public class MotherboardController {
 
         Motherboard updatedMotherboard = motherboardUseCase.updateMotherboard(MotherboardMapperApi.INSTANCE.motherboardDtoToMotherboard(motherboardWithInterfacesRequest.getMotherboard()));
 
-        if(!motherboardWithInterfacesRequest.getPcieInterfacesToBeRemovedList().isEmpty()) {
-            for(MotherboardPcieInterfaceDto motherboardPcieInterfaceDto : motherboardWithInterfacesRequest.getPcieInterfacesToBeRemovedList()) {
+        if (!motherboardWithInterfacesRequest.getPcieInterfacesToBeRemovedList().isEmpty()) {
+            for (MotherboardPcieInterfaceDto motherboardPcieInterfaceDto : motherboardWithInterfacesRequest.getPcieInterfacesToBeRemovedList()) {
                 motherboardUseCase.unassignPcieInterface(motherboardPcieInterfaceDto.getPcieInterfaceId(), motherboardPcieInterfaceDto.getMotherboardId());
             }
         }
 
-        if(!motherboardWithInterfacesRequest.getStorageInterfacesToBeRemovedList().isEmpty()) {
+        if (!motherboardWithInterfacesRequest.getStorageInterfacesToBeRemovedList().isEmpty()) {
             for (MotherboardStorageInterfaceDto motherboardStorageInterfaceDto : motherboardWithInterfacesRequest.getStorageInterfacesToBeRemovedList()) {
                 motherboardUseCase.unassignStorageInterface(motherboardStorageInterfaceDto.getStorageInterfaceId(), motherboardStorageInterfaceDto.getMotherboardId());
             }
         }
 
-        for(PcieInterfaceDto pid : motherboardWithInterfacesRequest.getPcieInterfaceList()) {
+        for (PcieInterfaceDto pid : motherboardWithInterfacesRequest.getPcieInterfaceList()) {
             System.out.println("PID:" + pid);
             System.out.println("Updated Motherboard:" + updatedMotherboard);
             motherboardUseCase.assignPcieInterface(pid.getId(), updatedMotherboard.getId());
         }
-        for(StorageInterfaceDto sid : motherboardWithInterfacesRequest.getStorageInterfaceList()) {
+        for (StorageInterfaceDto sid : motherboardWithInterfacesRequest.getStorageInterfaceList()) {
             System.out.println("SID:" + sid);
             System.out.println("Updated Motherboard:" + updatedMotherboard);
             motherboardUseCase.assignStorageInterface(sid.getId(), updatedMotherboard.getId());
@@ -114,6 +115,12 @@ public class MotherboardController {
         return MotherboardMapperApi.INSTANCE.motherboardListToMotherboardDtoList(motherboardUseCase.findAllMotherboards());
     }
 
+    @GetMapping("/find-all-available")
+    public List<MotherboardDto> findAllAvailableMotherboards() {
+        System.out.println("MotherboardController.findAllAvailableMotherboards called");
+        return MotherboardMapperApi.INSTANCE.motherboardListToMotherboardDtoList(motherboardUseCase.findAllAvailableMotherboards());
+    }
+
     @GetMapping("/find-by-max-price-and-storage-interface-limit")
     public List<MotherboardDto> findAllMotherboardsByMaxPriceAndByStorageInterfaceLimit(@RequestParam Map<String, String> paramMap) {
         System.out.println("MotherboardController.findAllMotherboardsByMaxPriceAndByStorageInterfaceLimit called");
@@ -121,6 +128,30 @@ public class MotherboardController {
         Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
         Integer storageInterfaceLimit = Integer.valueOf(paramMap.get("storageInterfaceLimit"));
         return MotherboardMapperApi.INSTANCE.motherboardListToMotherboardDtoList(motherboardUseCase.findAllMotherboardsByMaxPriceAndByStorageInterfaceLimit(maxPrice, storageInterfaceLimit));
+    }
+
+    @GetMapping("/search-by-name")
+    public List<MotherboardDto> searchByName(@RequestParam Map<String, String> paramMap) {
+        System.out.println("MotherboardController.searchByName called");
+        String name = paramMap.get("name");
+        return MotherboardMapperApi.INSTANCE.motherboardListToMotherboardDtoList(motherboardUseCase.searchByName(name));
+    }
+
+    @GetMapping("/get-all-interfaces-by-motherboard-id/{id}")
+    public MotherboardWithInterfacesResponse getAllInterfacesByMotherboardId(@PathVariable(name = "id") UUID motherboardId) {
+        System.out.println("MotherboardController.getAllInterfacesByMotherboardId with id: " + motherboardId + " called");
+
+        return MotherboardWithInterfacesResponse.builder()
+                .pcieInterfaceList(PcieInterfaceMapperApi.INSTANCE.pcieInterfaceListToPcieInterfaceDtoList(motherboardUseCase.getAllPcieInterfacesByMotherboardId(motherboardId)))
+                .storageInterfaceList(StorageInterfaceMapperApi.INSTANCE.storageInterfaceListToStorageInterfaceDtoList(motherboardUseCase.getAllStorageInterfacesByMotherboardId(motherboardId)))
+                .build();
+    }
+
+    @GetMapping("/get-motherboard-average-rating")
+    public Double getMotherboardAverageRating(@RequestParam Map<String, String> paramMap) {
+        System.out.println("MotherboardController.getMotherboardAverageRating called");
+        UUID motherboardId = UUID.fromString(paramMap.get("motherboardId"));
+        return motherboardUseCase.getMotherboardAverageRating(motherboardId);
     }
 
 }

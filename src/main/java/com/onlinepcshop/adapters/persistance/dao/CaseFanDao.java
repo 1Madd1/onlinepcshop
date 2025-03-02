@@ -1,12 +1,12 @@
 package com.onlinepcshop.adapters.persistance.dao;
 
-import com.onlinepcshop.adapters.persistance.dao.abstracts.ComponentDao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity(name = "case_fan")
@@ -35,6 +35,9 @@ public class CaseFanDao {
 
     @Column(name = "image")
     String image;
+
+    @Column(name = "date_of_creation")
+    LocalDate dateOfCreation;
 
     @Column(name = "manufacturer")
     String manufacturer;

@@ -1,7 +1,6 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
 import com.onlinepcshop.adapters.persistance.dao.CaseFanDao;
-import com.onlinepcshop.adapters.persistance.dao.CoolerDao;
 import com.onlinepcshop.core.domain.entity.CaseFan;
 import com.onlinepcshop.core.domain.value.Money;
 import org.mapstruct.Mapper;
@@ -33,8 +32,8 @@ public interface CaseFanMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     CaseFanDao caseFanToCaseFanDao(CaseFan caseFan);
 
     @Named("mapToMoney")
@@ -51,5 +50,6 @@ public interface CaseFanMapperDB {
     CaseFan caseFanDaoToCaseFan(CaseFanDao caseFanDao);
 
     List<CaseFanDao> caseFanListToCaseFanDaoList(List<CaseFan> caseFanList);
+
     List<CaseFan> caseFanDaoListToCaseFanList(List<CaseFanDao> caseFanDaoList);
 }

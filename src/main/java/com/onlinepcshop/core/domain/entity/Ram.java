@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -22,7 +23,9 @@ public class Ram {
     Money price;
     String description;
     String image;
+    LocalDate dateOfCreation;
     Manufacturer manufacturer;
+    Double avgRating;
 
     MemoryType memoryType;
     SaleType saleType;

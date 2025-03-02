@@ -17,6 +17,7 @@ public interface ComputerRamMapperDB {
     ComputerRam computerRamDaoToComputerRam(ComputerRamDao computerRamDao);
 
     List<ComputerRamDao> computerRamListToComputerRamDaoList(List<ComputerRam> computerRamList);
+
     List<ComputerRam> computerRamDaoListToComputerRamList(List<ComputerRamDao> computerRamDaoList);
 
 }

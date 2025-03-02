@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -20,12 +21,13 @@ public class Computer {
     String computerName;
     Integer quantity;
     Money price;
+    Double avgRating;
     ComputerType computerType;
     String description;
     String image;
     Integer tdp;
     SaleType saleType;
-    Boolean purchased;
+    LocalDate dateOfCreation;
     ComputerCase computerCase;
     Gpu gpu;
     PowerSupply powerSupply;

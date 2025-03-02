@@ -17,6 +17,7 @@ public interface StorageInterfaceMapperDB {
     StorageInterface storageInterfaceDaoToStorageInterface(StorageInterfaceDao storageInterfaceDao);
 
     List<StorageInterfaceDao> storageInterfaceListToStorageInterfaceDaoList(List<StorageInterface> storageInterfaceList);
+
     List<StorageInterface> storageInterfaceDaoListToStorageInterfaceList(List<StorageInterfaceDao> storageInterfaceDaoList);
 
 }

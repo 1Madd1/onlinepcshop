@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -24,7 +24,9 @@ public class Motherboard {
     Money price;
     String description;
     String image;
+    LocalDate dateOfCreation;
     Manufacturer manufacturer;
+    Double avgRating;
 
     SocketType socketType;
     MemoryType memoryType;

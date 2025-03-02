@@ -50,7 +50,7 @@ public class PcieInterfaceUseCaseImpl implements PcieInterfaceUseCase {
     public List<PcieInterface> findAllPcieInterfacesByMotherboard(UUID motherboardId) {
         List<PcieInterface> pcieInterfaceList = new ArrayList<>();
         List<MotherboardPcieInterface> motherboardPcieInterfaceList = motherboardPcieInterfaceRepository.findAllByMotherboardId(motherboardId);
-        for(MotherboardPcieInterface motherboardPcieInterface : motherboardPcieInterfaceList) {
+        for (MotherboardPcieInterface motherboardPcieInterface : motherboardPcieInterfaceList) {
             pcieInterfaceList.add(motherboardPcieInterface.getPcieInterface());
         }
         return pcieInterfaceList;

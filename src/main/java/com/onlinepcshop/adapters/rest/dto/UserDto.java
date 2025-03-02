@@ -16,6 +16,10 @@ public class UserDto {
     private String username;
     private String firstName;
     private String lastName;
+    private String street;
+    private String postalCode;
+    private String phoneNumber;
     private String password;
-    private String telephone;
+
+    private UUID creditCardId;
 }

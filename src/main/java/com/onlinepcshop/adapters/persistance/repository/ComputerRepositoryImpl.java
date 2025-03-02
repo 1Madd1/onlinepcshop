@@ -7,6 +7,7 @@ import com.onlinepcshop.core.domain.entity.Computer;
 import com.onlinepcshop.core.repository.ComputerRepository;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,11 @@ public class ComputerRepositoryImpl implements ComputerRepository {
     @Override
     public List<Computer> findAllComputers() {
         return ComputerMapperDB.INSTANCE.computerDaoListToComputerList(computerJpaRepository.findAll());
+    }
+
+    @Override
+    public List<Computer> findAllAvailableComputersByType(String type) {
+        return ComputerMapperDB.INSTANCE.computerDaoListToComputerList(computerJpaRepository.findAllByQuantityGreaterThanAndComputerTypeContainingIgnoreCase(0, type));
     }
 
     @Override
@@ -35,5 +41,21 @@ public class ComputerRepositoryImpl implements ComputerRepository {
     @Override
     public void deleteComputer(UUID id) {
         computerJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Computer> findAllByHavingSaleAndByComputerName(String computerName) {
+        return ComputerMapperDB.INSTANCE.computerDaoListToComputerList(computerJpaRepository.findBySaleTypeNotNullAndComputerNameContainingIgnoreCaseAndQuantityGreaterThan(computerName, 0));
+    }
+
+    @Override
+    public List<Computer> searchByComputerNameAndType(String computerName, String type) {
+        return ComputerMapperDB.INSTANCE.computerDaoListToComputerList(computerJpaRepository.findComputersByComputerNameAndType(computerName, type.toUpperCase()));
+    }
+
+    @Override
+    public List<Computer> findAllNewComputersByComputerName(String computerName) {
+        LocalDate localDate = LocalDate.now().minusMonths(1);
+        return ComputerMapperDB.INSTANCE.computerDaoListToComputerList(computerJpaRepository.findByDateOfCreationAfterAndComputerNameContainingIgnoreCaseAndQuantityGreaterThan(localDate, computerName, 0));
     }
 }

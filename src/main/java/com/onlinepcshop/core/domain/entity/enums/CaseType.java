@@ -1,7 +1,5 @@
 package com.onlinepcshop.core.domain.entity.enums;
 
-import java.awt.*;
-
 public enum CaseType {
     ATX_DESKTOP,
     ATX_FULL_TOWER,

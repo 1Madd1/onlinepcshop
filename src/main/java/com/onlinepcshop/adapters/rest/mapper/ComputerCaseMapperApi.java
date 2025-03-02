@@ -1,8 +1,6 @@
 package com.onlinepcshop.adapters.rest.mapper;
 
-import com.onlinepcshop.adapters.rest.dto.CaseFanDto;
 import com.onlinepcshop.adapters.rest.dto.ComputerCaseDto;
-import com.onlinepcshop.core.domain.entity.CaseFan;
 import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.value.Money;
 import org.mapstruct.Mapper;
@@ -28,8 +26,8 @@ public interface ComputerCaseMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     ComputerCaseDto computerCaseToComputerCaseDto(ComputerCase computerCase);
 
     @Named("mapToMoney")
@@ -43,5 +41,6 @@ public interface ComputerCaseMapperApi {
     ComputerCase computerCaseDtoToComputerCase(ComputerCaseDto computerCaseDto);
 
     List<ComputerCaseDto> computerCaseListToComputerCaseDtoList(List<ComputerCase> computerCaseList);
+
     List<ComputerCase> computerCaseDtoListToComputerCaseList(List<ComputerCaseDto> computerCaseDtoList);
 }

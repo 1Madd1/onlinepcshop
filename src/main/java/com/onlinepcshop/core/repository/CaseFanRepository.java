@@ -9,6 +9,8 @@ import java.util.UUID;
 public interface CaseFanRepository {
     List<CaseFan> findAllCaseFans();
 
+    List<CaseFan> findAllAvailableCaseFans();
+
     Optional<CaseFan> findById(UUID caseFanId);
 
     CaseFan saveCaseFan(CaseFan caseFan);
@@ -16,4 +18,11 @@ public interface CaseFanRepository {
     void deleteCaseFan(UUID id);
 
     List<CaseFan> findAllCaseFansByMaxPrice(Double maxPrice);
+
+    List<CaseFan> searchByComponentName(String componentName);
+
+    List<CaseFan> findAllByHavingSaleAndByComponentName(String componentName);
+
+    List<CaseFan> findAllNewCaseFansByComponentName(String componentName);
+
 }

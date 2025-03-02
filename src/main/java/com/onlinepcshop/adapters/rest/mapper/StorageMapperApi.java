@@ -26,8 +26,8 @@ public interface StorageMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     StorageDto storageToStorageDto(Storage storage);
 
     @Named("mapToMoney")
@@ -41,5 +41,6 @@ public interface StorageMapperApi {
     Storage storageDtoToStorage(StorageDto storageDto);
 
     List<StorageDto> storageListToStorageDtoList(List<Storage> storageList);
+
     List<Storage> storageDtoListToStorageList(List<StorageDto> storageDtoList);
 }

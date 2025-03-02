@@ -26,8 +26,8 @@ public interface CpuMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     CpuDto cpuToCpuDto(Cpu cpu);
 
     @Named("mapToMoney")
@@ -41,5 +41,6 @@ public interface CpuMapperApi {
     Cpu cpuDtoToCpu(CpuDto cpuDto);
 
     List<CpuDto> cpuListToCpuDtoList(List<Cpu> cpuList);
+
     List<Cpu> cpuDtoListToCpuList(List<CpuDto> cpuDtoList);
 }

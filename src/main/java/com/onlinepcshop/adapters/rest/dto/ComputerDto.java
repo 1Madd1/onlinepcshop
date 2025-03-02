@@ -1,14 +1,11 @@
 package com.onlinepcshop.adapters.rest.dto;
 
-import com.onlinepcshop.core.domain.entity.*;
-import com.onlinepcshop.core.domain.entity.enums.ComputerType;
-import com.onlinepcshop.core.domain.value.Money;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -25,7 +22,8 @@ public class ComputerDto {
     private String image;
     private Integer tdp;
     private String saleType;
-    private Boolean purchased;
+    private Double avgRating;
+    private LocalDate dateOfCreation;
 
     private UUID computerCaseId;
     private UUID gpuId;

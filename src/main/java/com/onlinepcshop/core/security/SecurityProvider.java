@@ -13,15 +13,20 @@ public interface SecurityProvider {
      */
     String createPrincipal(User user);
 
-    default void authorize() {}
+    default void authorize() {
+    }
 
-    default void assignRoles(String principalId, Role... roles) {}
+    default void assignRoles(String principalId, Role... roles) {
+    }
 
-    default void initialize() {}
+    default void initialize() {
+    }
 
-    default void deletePrincipal(String principalId) {}
+    default void deletePrincipal(String principalId) {
+    }
 
-    void updatePrincipal(String principalId, String newEmail);
+    void updatePrincipal(User updatedUser);
 
-    default void changePassword(String principalId, String newPassword) {}
+    default void changePassword(String principalId, String newPassword) {
+    }
 }

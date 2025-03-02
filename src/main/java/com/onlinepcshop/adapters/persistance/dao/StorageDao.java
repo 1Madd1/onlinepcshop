@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity(name = "storage")
@@ -34,6 +35,9 @@ public class StorageDao {
 
     @Column(name = "image")
     String image;
+
+    @Column(name = "date_of_creation")
+    LocalDate dateOfCreation;
 
     @Column(name = "manufacturer")
     String manufacturer;

@@ -26,7 +26,10 @@ public class RouteConfig {
                                 "/ram/**",
                                 "/storage/**",
                                 "/storage-interface/**",
-                                "/power-supply/**")
+                                "/power-supply/**",
+                                "/multiple-tables/**",
+                                "/credit-card/**",
+                                "/product-rating/**")
                         .filters(f -> f.prefixPath("/backend_service"))
                         .uri("http://" + props.getBackendHost() + "/"))
                 .build();

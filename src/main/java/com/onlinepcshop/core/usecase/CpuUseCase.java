@@ -28,6 +28,12 @@ public interface CpuUseCase {
      */
     List<Cpu> findAllCpus();
 
+    /***
+     *
+     * @return List of all cpus that have quantity greater than 0
+     */
+    List<Cpu> findAllAvailableCpus();
+
 
     /***
      * @param cpuId valid cpu UUID
@@ -42,12 +48,23 @@ public interface CpuUseCase {
     void deleteCpu(UUID id);
 
     /**
-     *
-     * @param maxPrice - max. allowed price of searched cpu
-     * @param includesCooler - cpu has cooler
+     * @param maxPrice              - max. allowed price of searched cpu
+     * @param includesCooler        - cpu has cooler
      * @param includesIntegratedGpu - cpu has integrated gpu
-     * @param socketType - socket type of cpu
+     * @param socketType            - socket type of cpu
      * @return - List of all cpu's that are equal or below max. price, are of same socket type and match rest of criteria
      */
     List<Cpu> findAllCpusByMaxPriceAndSocketTypeIncludesCoolerAndIntegratedGpu(Double maxPrice, String socketType, Boolean includesCooler, Boolean includesIntegratedGpu);
+
+    /**
+     * @param name - valid component name of existing cpu
+     * @return - List of all computers that include given component name
+     */
+    List<Cpu> searchByName(String name);
+
+    /**
+     * @param cpuId - valid UUID of existing cpu
+     * @return - average cpu rating based on given cpu id
+     */
+    Double getCpuAverageRating(UUID cpuId);
 }

@@ -10,6 +10,7 @@ import com.onlinepcshop.core.security.SecurityProvider;
 import lombok.Builder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
 @Builder
 public class KeycloakSecurityProvider implements SecurityProvider {
 
+    private final PasswordEncoder passwordEncoder;
     private KeycloakSecurityProperties properties;
     private String authToken;
     private String clientId;
@@ -32,14 +34,6 @@ public class KeycloakSecurityProvider implements SecurityProvider {
             assignRoles(adminId, Role.ADMIN);
         }
     }
-
-//    @Override
-//    public String createPrincipal(Operator operator) {
-//        PrincipalDto principal = PrincipalMapper.INSTANCE.operatorToPrincipal(operator);
-//        principal.setCredentials(
-//                List.of(CredentialsDto.builder().value("admin").temporary(false).build()));
-//        return createPrincipal(principal);
-//    }
 
     @Override
     public void assignRoles(String principalId, Role... roles) {
@@ -133,10 +127,14 @@ public class KeycloakSecurityProvider implements SecurityProvider {
     }
 
     @Override
-    public void updatePrincipal(String principalId, String newEmail) {
+    public void updatePrincipal(User updatedUser) {
         authorize();
-        PrincipalUpdateRequestDto principal = PrincipalUpdateRequestDto.builder().username(newEmail).email(newEmail).enabled(true).build();
-        String url = properties.getUpdatePrincipalUrl().replace("{id}", principalId);
+        PrincipalUpdateRequestDto principal = PrincipalUpdateRequestDto.builder()
+                .username(updatedUser.getUsername())
+                .email(updatedUser.getEmail())
+                .enabled(true)
+                .build();
+        String url = properties.getUpdatePrincipalUrl().replace("{id}", updatedUser.getPrincipalId());
         WebClient client = WebClient.create(url);
         client.put()
                 .contentType(MediaType.APPLICATION_JSON)

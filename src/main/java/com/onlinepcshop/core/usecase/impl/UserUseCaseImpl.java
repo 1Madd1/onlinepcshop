@@ -30,7 +30,7 @@ public class UserUseCaseImpl implements UserUseCase {
 
     @Override
     public User updateUser(User user) {
-        securityProvider.updatePrincipal(user.getPrincipalId(), user.getEmail());
+        securityProvider.updatePrincipal(user);
         return userRepository.saveUser(user);
     }
 

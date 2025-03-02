@@ -1,10 +1,7 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.ComputerCaseDto;
-import com.onlinepcshop.adapters.rest.dto.MotherboardDto;
 import com.onlinepcshop.adapters.rest.mapper.ComputerCaseMapperApi;
-import com.onlinepcshop.adapters.rest.mapper.MotherboardMapperApi;
-import com.onlinepcshop.core.domain.entity.CaseFan;
 import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.error.exception.ComputerCaseAlreadyExistsException;
 import com.onlinepcshop.core.usecase.ComputerCaseUseCase;
@@ -27,7 +24,7 @@ public class ComputerCaseController {
     public ComputerCaseDto getById(@PathVariable(name = "id") UUID computerCaseId) {
         System.out.println("ComputerCaseController.geyById with id: " + computerCaseId + " called");
         Optional<ComputerCase> computerCase = computerCaseUseCase.findComputerCaseById(computerCaseId);
-        if(computerCase.isEmpty()) {
+        if (computerCase.isEmpty()) {
             System.out.println("ComputerCase with id " + computerCaseId + " not found");
             return null;
         }
@@ -39,7 +36,7 @@ public class ComputerCaseController {
         System.out.println("ComputerCaseController.createComputerCase called - " + computerCaseDto);
 
         for (ComputerCase cc : computerCaseUseCase.findAllComputerCases()) {
-            if (computerCaseDto.getComponentName().equals(cc.getComponentName())){
+            if (computerCaseDto.getComponentName().equals(cc.getComponentName())) {
                 System.out.println("Computer case " + computerCaseDto.getComponentName() + " already exists");
                 throw new ComputerCaseAlreadyExistsException("Computer case " + computerCaseDto.getComponentName() + " already exists");
             }
@@ -69,11 +66,31 @@ public class ComputerCaseController {
         return ComputerCaseMapperApi.INSTANCE.computerCaseListToComputerCaseDtoList(computerCaseUseCase.findAllComputerCases());
     }
 
+    @GetMapping("/find-all-available")
+    public List<ComputerCaseDto> findAllAvailableComputerCases() {
+        System.out.println("ComputerCaseController.findAllAvailableComputerCases called");
+        return ComputerCaseMapperApi.INSTANCE.computerCaseListToComputerCaseDtoList(computerCaseUseCase.findAllAvailableComputerCases());
+    }
+
     @GetMapping("/find-by-max-price")
     public List<ComputerCaseDto> findAllComputerCasesByMaxPrice(@RequestParam Map<String, String> paramMap) {
         System.out.println("ComputerCaseController.findAllComputerCasesByMaxPrice called");
         Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
         return ComputerCaseMapperApi.INSTANCE.computerCaseListToComputerCaseDtoList(computerCaseUseCase.findAllComputerCasesByMaxPrice(maxPrice));
+    }
+
+    @GetMapping("/search-by-name")
+    public List<ComputerCaseDto> searchByName(@RequestParam Map<String, String> paramMap) {
+        System.out.println("ComputerCaseController.searchByName called");
+        String name = paramMap.get("name");
+        return ComputerCaseMapperApi.INSTANCE.computerCaseListToComputerCaseDtoList(computerCaseUseCase.searchByName(name));
+    }
+
+    @GetMapping("/get-computer-case-average-rating")
+    public Double getComputerCaseAverageRating(@RequestParam Map<String, String> paramMap) {
+        System.out.println("ComputerCaseController.getComputerCaseAverageRating called");
+        UUID computerCaseId = UUID.fromString(paramMap.get("computerCaseId"));
+        return computerCaseUseCase.getComputerCaseAverageRating(computerCaseId);
     }
 
 }

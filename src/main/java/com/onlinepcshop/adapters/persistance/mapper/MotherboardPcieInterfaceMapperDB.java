@@ -17,6 +17,7 @@ public interface MotherboardPcieInterfaceMapperDB {
     MotherboardPcieInterface motherboardPcieInterfaceDaoToMotherboardPcieInterface(MotherboardPcieInterfaceDao motherboardPcieInterfaceDao);
 
     List<MotherboardPcieInterfaceDao> motherboardPcieInterfaceListToMotherboardPcieInterfaceDaoList(List<MotherboardPcieInterface> motherboardPcieInterfaceList);
+
     List<MotherboardPcieInterface> motherboardPcieInterfaceDaoListToMotherboardPcieInterfaceList(List<MotherboardPcieInterfaceDao> motherboardPcieInterfaceDaoList);
 
 }

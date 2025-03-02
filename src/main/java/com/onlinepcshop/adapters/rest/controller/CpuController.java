@@ -24,7 +24,7 @@ public class CpuController {
     public CpuDto getById(@PathVariable(name = "id") UUID cpuId) {
         System.out.println("CpuController.geyById with id: " + cpuId + " called");
         Optional<Cpu> cpu = cpuUseCase.findCpuById(cpuId);
-        if(cpu.isEmpty()) {
+        if (cpu.isEmpty()) {
             System.out.println("Cpu with id " + cpuId + " not found");
             return null;
         }
@@ -36,7 +36,7 @@ public class CpuController {
         System.out.println("CpuController.createCpu called - " + cpuDto);
 
         for (Cpu c : cpuUseCase.findAllCpus()) {
-            if (cpuDto.getComponentName().equals(c.getComponentName())){
+            if (cpuDto.getComponentName().equals(c.getComponentName())) {
                 System.out.println("Cpu " + cpuDto.getComponentName() + " already exists");
                 throw new CpuAlreadyExistsException("Cpu " + cpuDto.getComponentName() + " already exists");
             }
@@ -66,6 +66,12 @@ public class CpuController {
         return CpuMapperApi.INSTANCE.cpuListToCpuDtoList(cpuUseCase.findAllCpus());
     }
 
+    @GetMapping("/find-all-available")
+    public List<CpuDto> findAllAvailableCpus() {
+        System.out.println("CpuController.findAllAvailableCpus called");
+        return CpuMapperApi.INSTANCE.cpuListToCpuDtoList(cpuUseCase.findAllAvailableCpus());
+    }
+
     @GetMapping("/find-by-requested-params")
     public List<CpuDto> findAllCpusByRequestedParams(@RequestParam Map<String, String> paramMap) {
 //        Smisliti drugaciji nacin fetch-ovanja procesora
@@ -75,5 +81,19 @@ public class CpuController {
         Boolean includesCooler = Boolean.valueOf(paramMap.get("includesCooler"));
         String socketType = paramMap.get("socketType");
         return CpuMapperApi.INSTANCE.cpuListToCpuDtoList(cpuUseCase.findAllCpusByMaxPriceAndSocketTypeIncludesCoolerAndIntegratedGpu(maxPrice, socketType, includesCooler, includesIntegratedGpu));
+    }
+
+    @GetMapping("/search-by-name")
+    public List<CpuDto> searchByName(@RequestParam Map<String, String> paramMap) {
+        System.out.println("CpuController.searchByName called");
+        String name = paramMap.get("name");
+        return CpuMapperApi.INSTANCE.cpuListToCpuDtoList(cpuUseCase.searchByName(name));
+    }
+
+    @GetMapping("/get-cpu-average-rating")
+    public Double getCpuAverageRating(@RequestParam Map<String, String> paramMap) {
+        System.out.println("CpuController.getCpuAverageRating called");
+        UUID cpuId = UUID.fromString(paramMap.get("cpuId"));
+        return cpuUseCase.getCpuAverageRating(cpuId);
     }
 }

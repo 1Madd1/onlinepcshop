@@ -50,10 +50,14 @@ public interface UserUseCase {
 
     /***
      * Updates the password
-     * @param principalId must be a valid principalId
+     * @param principalId - must be a valid principalId
      * @param password valid password string
      */
     void updatePassword(String principalId, String password);
 
+    /**
+     * @param principalId must be a valid principalId
+     * @return user with the given principalId
+     */
     Optional<User> findUserByPrincipalId(String principalId);
 }

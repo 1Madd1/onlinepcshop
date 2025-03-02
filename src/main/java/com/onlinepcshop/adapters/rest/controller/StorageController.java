@@ -1,20 +1,17 @@
 package com.onlinepcshop.adapters.rest.controller;
 
-import com.onlinepcshop.adapters.rest.dto.GpuDto;
 import com.onlinepcshop.adapters.rest.dto.StorageDto;
-import com.onlinepcshop.adapters.rest.dto.StorageDto;
-import com.onlinepcshop.adapters.rest.dto.StorageInterfaceDto;
-import com.onlinepcshop.adapters.rest.mapper.*;
-import com.onlinepcshop.core.domain.entity.ComputerCase;
-import com.onlinepcshop.core.domain.entity.MotherboardStorageInterface;
+import com.onlinepcshop.adapters.rest.mapper.StorageMapperApi;
 import com.onlinepcshop.core.domain.entity.Storage;
-import com.onlinepcshop.core.domain.entity.StorageInterface;
 import com.onlinepcshop.core.error.exception.StorageAlreadyExistsException;
 import com.onlinepcshop.core.usecase.StorageUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("storage")
@@ -27,7 +24,7 @@ public class StorageController {
     public StorageDto getById(@PathVariable(name = "id") UUID storageId) {
         System.out.println("StorageController.geyById with id: " + storageId + " called");
         Optional<Storage> storage = storageUseCase.findStorageById(storageId);
-        if(storage.isEmpty()) {
+        if (storage.isEmpty()) {
             System.out.println("Storage with id " + storageId + " not found");
             return null;
         }
@@ -39,7 +36,7 @@ public class StorageController {
         System.out.println("StorageController.createStorage called - " + storageDto);
 
         for (Storage cc : storageUseCase.findAllStorages()) {
-            if (storageDto.getComponentName().equals(cc.getComponentName())){
+            if (storageDto.getComponentName().equals(cc.getComponentName())) {
                 System.out.println("Storage " + storageDto.getComponentName() + " already exists");
                 throw new StorageAlreadyExistsException("Storage " + storageDto.getComponentName() + " already exists");
             }
@@ -69,6 +66,12 @@ public class StorageController {
         return StorageMapperApi.INSTANCE.storageListToStorageDtoList(storageUseCase.findAllStorages());
     }
 
+    @GetMapping("/find-all-available")
+    public List<StorageDto> findAllAvailableStorages() {
+        System.out.println("StorageController.findAllAvailableStorages called");
+        return StorageMapperApi.INSTANCE.storageListToStorageDtoList(storageUseCase.findAllAvailableStorages());
+    }
+
     @GetMapping("/find-by-max-price-and-motherboard-id")
     public List<StorageDto> findAllStoragesByMaxPriceAndMotherboardId(@RequestParam Map<String, String> paramMap) {
         System.out.println("StorageController.findAllStoragesByMaxPriceAndMotherboardId called");
@@ -90,6 +93,20 @@ public class StorageController {
         UUID storageId = UUID.fromString(paramMap.get("storageId"));
         UUID computerId = UUID.fromString(paramMap.get("computerId"));
         return storageUseCase.findQuantityByStorageIdAndComputerId(storageId, computerId);
+    }
+
+    @GetMapping("/search-by-name")
+    public List<StorageDto> searchByName(@RequestParam Map<String, String> paramMap) {
+        System.out.println("StorageController.searchByName called");
+        String name = paramMap.get("name");
+        return StorageMapperApi.INSTANCE.storageListToStorageDtoList(storageUseCase.searchByName(name));
+    }
+
+    @GetMapping("/get-storage-average-rating")
+    public Double getStorageAverageRating(@RequestParam Map<String, String> paramMap) {
+        System.out.println("StorageController.getStorageAverageRating called");
+        UUID storageId = UUID.fromString(paramMap.get("storageId"));
+        return storageUseCase.getStorageAverageRating(storageId);
     }
 
 }

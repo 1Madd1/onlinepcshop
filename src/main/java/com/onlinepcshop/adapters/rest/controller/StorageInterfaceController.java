@@ -23,7 +23,7 @@ public class StorageInterfaceController {
     public StorageInterfaceDto getById(@PathVariable(name = "id") UUID storageInterfaceId) {
         System.out.println("StorageInterfaceController.geyById with id: " + storageInterfaceId + " called");
         Optional<StorageInterface> storageInterface = storageInterfaceUseCase.findStorageInterfaceById(storageInterfaceId);
-        if(storageInterface.isEmpty()) {
+        if (storageInterface.isEmpty()) {
             System.out.println("StorageInterface with id " + storageInterfaceId + " not found");
             return null;
         }

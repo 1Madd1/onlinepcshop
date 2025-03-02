@@ -1,10 +1,7 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.CoolerDto;
-import com.onlinepcshop.adapters.rest.dto.CoolerDto;
 import com.onlinepcshop.adapters.rest.mapper.CoolerMapperApi;
-import com.onlinepcshop.adapters.rest.mapper.CoolerMapperApi;
-import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.domain.entity.Cooler;
 import com.onlinepcshop.core.error.exception.CoolerAlreadyExistsException;
 import com.onlinepcshop.core.usecase.CoolerUseCase;
@@ -27,7 +24,7 @@ public class CoolerController {
     public CoolerDto getById(@PathVariable(name = "id") UUID coolerId) {
         System.out.println("CoolerController.geyById with id: " + coolerId + " called");
         Optional<Cooler> cooler = coolerUseCase.findCoolerById(coolerId);
-        if(cooler.isEmpty()) {
+        if (cooler.isEmpty()) {
             System.out.println("Cooler with id " + coolerId + " not found");
             return null;
         }
@@ -39,7 +36,7 @@ public class CoolerController {
         System.out.println("CoolerController.createCooler called - " + coolerDto);
 
         for (Cooler c : coolerUseCase.findAllCoolers()) {
-            if (coolerDto.getComponentName().equals(c.getComponentName())){
+            if (coolerDto.getComponentName().equals(c.getComponentName())) {
                 System.out.println("Cooler " + coolerDto.getComponentName() + " already exists");
                 throw new CoolerAlreadyExistsException("Cooler " + coolerDto.getComponentName() + " already exists");
             }
@@ -69,11 +66,31 @@ public class CoolerController {
         return CoolerMapperApi.INSTANCE.coolerListToCoolerDtoList(coolerUseCase.findAllCoolers());
     }
 
+    @GetMapping("/find-all-available")
+    public List<CoolerDto> findAllAvailableCoolers() {
+        System.out.println("CoolerController.findAllAvailableCoolers called");
+        return CoolerMapperApi.INSTANCE.coolerListToCoolerDtoList(coolerUseCase.findAllAvailableCoolers());
+    }
+
     @GetMapping("/find-by-max-price")
     public List<CoolerDto> findAllCoolersByMaxPrice(@RequestParam Map<String, String> paramMap) {
         System.out.println("CoolerController.findAllCoolersByMaxPrice called");
         Double maxPrice = Double.valueOf(paramMap.get("maxPrice"));
         return CoolerMapperApi.INSTANCE.coolerListToCoolerDtoList(coolerUseCase.findAllCoolersByMaxPrice(maxPrice));
+    }
+
+    @GetMapping("/search-by-name")
+    public List<CoolerDto> searchByName(@RequestParam Map<String, String> paramMap) {
+        System.out.println("CoolerController.searchByName called");
+        String name = paramMap.get("name");
+        return CoolerMapperApi.INSTANCE.coolerListToCoolerDtoList(coolerUseCase.searchByName(name));
+    }
+
+    @GetMapping("/get-cooler-average-rating")
+    public Double getCoolerAverageRating(@RequestParam Map<String, String> paramMap) {
+        System.out.println("CoolerController.getCoolerAverageRating called");
+        UUID coolerId = UUID.fromString(paramMap.get("coolerId"));
+        return coolerUseCase.getCoolerAverageRating(coolerId);
     }
 
 }

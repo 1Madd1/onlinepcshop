@@ -1,8 +1,6 @@
 package com.onlinepcshop.adapters.rest.controller;
 
 import com.onlinepcshop.adapters.rest.dto.PcieInterfaceDto;
-import com.onlinepcshop.adapters.rest.dto.PcieInterfaceDto;
-import com.onlinepcshop.adapters.rest.mapper.PcieInterfaceMapperApi;
 import com.onlinepcshop.adapters.rest.mapper.PcieInterfaceMapperApi;
 import com.onlinepcshop.core.domain.entity.PcieInterface;
 import com.onlinepcshop.core.usecase.PcieInterfaceUseCase;
@@ -25,7 +23,7 @@ public class PcieInterfaceController {
     public PcieInterfaceDto getById(@PathVariable(name = "id") UUID pcieInterfaceId) {
         System.out.println("PcieInterfaceController.geyById with id: " + pcieInterfaceId + " called");
         Optional<PcieInterface> pcieInterface = pcieInterfaceUseCase.findPcieInterfaceById(pcieInterfaceId);
-        if(pcieInterface.isEmpty()) {
+        if (pcieInterface.isEmpty()) {
             System.out.println("PcieInterface with id " + pcieInterfaceId + " not found");
             return null;
         }

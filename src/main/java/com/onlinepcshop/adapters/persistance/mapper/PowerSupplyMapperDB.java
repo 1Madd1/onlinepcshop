@@ -19,20 +19,29 @@ public interface PowerSupplyMapperDB {
 
     @Named("mapPriceToCurrency")
     default String mapPriceToCurrency(Money price) {
+        if (price == null || price.getCurrency() == null) {
+            return null;
+        }
         return price.getCurrency().getCurrencyCode();
     }
 
     @Named("mapPriceToValue")
     default BigDecimal mapPriceToValue(Money price) {
+        if (price == null) {
+            return null;
+        }
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     PowerSupplyDao powerSupplyToPowerSupplyDao(PowerSupply powerSupply);
 
     @Named("mapToMoney")
     default Money mapToMoney(PowerSupplyDao powerSupplyDao) {
+        if (powerSupplyDao == null || powerSupplyDao.getPrice() == null || powerSupplyDao.getCurrency() == null) {
+            return null;
+        }
         return new Money(powerSupplyDao.getPrice(), Currency.getInstance(powerSupplyDao.getCurrency()));
     }
 
@@ -42,6 +51,7 @@ public interface PowerSupplyMapperDB {
     PowerSupply powerSupplyDaoToPowerSupply(PowerSupplyDao powerSupplyDao);
 
     List<PowerSupplyDao> powerSupplyListToPowerSupplyDaoList(List<PowerSupply> powerSupplyList);
+
     List<PowerSupply> powerSupplyDaoListToPowerSupplyList(List<PowerSupplyDao> powerSupplyDaoList);
 
 }

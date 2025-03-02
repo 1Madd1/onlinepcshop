@@ -7,6 +7,7 @@ import com.onlinepcshop.core.domain.entity.Storage;
 import com.onlinepcshop.core.repository.StorageRepository;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,11 @@ public class StorageRepositoryImpl implements StorageRepository {
     @Override
     public List<Storage> findAllStorages() {
         return StorageMapperDB.INSTANCE.storageDaoListToStorageList(storageJpaRepository.findAll());
+    }
+
+    @Override
+    public List<Storage> findAllAvailableStorages() {
+        return StorageMapperDB.INSTANCE.storageDaoListToStorageList(storageJpaRepository.findAllByQuantityGreaterThan(0));
     }
 
     @Override
@@ -39,6 +45,22 @@ public class StorageRepositoryImpl implements StorageRepository {
 
     @Override
     public List<Storage> findAllStoragesByMaxPriceAndStorageInterface(Double maxPrice, String storageType) {
-        return StorageMapperDB.INSTANCE.storageDaoListToStorageList(storageJpaRepository.findByPriceLessThanEqualAndStorageType(maxPrice, storageType));
+        return StorageMapperDB.INSTANCE.storageDaoListToStorageList(storageJpaRepository.findByPriceLessThanEqualAndStorageTypeAndQuantityGreaterThan(maxPrice, storageType, 0));
+    }
+
+    @Override
+    public List<Storage> findAllByHavingSaleAndByComponentName(String componentName) {
+        return StorageMapperDB.INSTANCE.storageDaoListToStorageList(storageJpaRepository.findBySaleTypeNotNullAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<Storage> searchByComponentName(String componentName) {
+        return StorageMapperDB.INSTANCE.storageDaoListToStorageList(storageJpaRepository.findByComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<Storage> findAllNewStoragesByComponentName(String componentName) {
+        LocalDate localDate = LocalDate.now().minusMonths(1);
+        return StorageMapperDB.INSTANCE.storageDaoListToStorageList(storageJpaRepository.findByDateOfCreationAfterAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(localDate, componentName, 0));
     }
 }

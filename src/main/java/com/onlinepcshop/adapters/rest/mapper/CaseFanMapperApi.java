@@ -26,8 +26,8 @@ public interface CaseFanMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     CaseFanDto caseFanToCaseFanDto(CaseFan caseFan);
 
     @Named("mapToMoney")
@@ -41,5 +41,6 @@ public interface CaseFanMapperApi {
     CaseFan caseFanDtoToCaseFan(CaseFanDto caseFanDto);
 
     List<CaseFanDto> caseFanListToCaseFanDtoList(List<CaseFan> caseFanList);
+
     List<CaseFan> caseFanDtoListToCaseFanList(List<CaseFanDto> caseFanDtoList);
 }

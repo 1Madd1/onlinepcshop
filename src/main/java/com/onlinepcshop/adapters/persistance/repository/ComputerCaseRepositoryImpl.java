@@ -7,6 +7,7 @@ import com.onlinepcshop.core.domain.entity.ComputerCase;
 import com.onlinepcshop.core.repository.ComputerCaseRepository;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,11 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
     @Override
     public List<ComputerCase> findAllComputerCases() {
         return ComputerCaseMapperDB.INSTANCE.computerCaseDaoListToComputerCaseList(computerCaseJpaRepository.findAll());
+    }
+
+    @Override
+    public List<ComputerCase> findAllAvailableComputerCases() {
+        return ComputerCaseMapperDB.INSTANCE.computerCaseDaoListToComputerCaseList(computerCaseJpaRepository.findAllByQuantityGreaterThan(0));
     }
 
     @Override
@@ -39,6 +45,22 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
 
     @Override
     public List<ComputerCase> findAllComputerCasesByMaxPrice(Double maxPrice) {
-        return ComputerCaseMapperDB.INSTANCE.computerCaseDaoListToComputerCaseList(computerCaseJpaRepository.findByPriceLessThanEqual(maxPrice));
+        return ComputerCaseMapperDB.INSTANCE.computerCaseDaoListToComputerCaseList(computerCaseJpaRepository.findByPriceLessThanEqualAndQuantityGreaterThan(maxPrice, 0));
+    }
+
+    @Override
+    public List<ComputerCase> findAllByHavingSaleAndByComponentName(String componentName) {
+        return ComputerCaseMapperDB.INSTANCE.computerCaseDaoListToComputerCaseList(computerCaseJpaRepository.findBySaleTypeNotNullAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<ComputerCase> searchByComponentName(String componentName) {
+        return ComputerCaseMapperDB.INSTANCE.computerCaseDaoListToComputerCaseList(computerCaseJpaRepository.findByComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<ComputerCase> findAllNewComputerCasesByComponentName(String componentName) {
+        LocalDate localDate = LocalDate.now().minusMonths(1);
+        return ComputerCaseMapperDB.INSTANCE.computerCaseDaoListToComputerCaseList(computerCaseJpaRepository.findByDateOfCreationAfterAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(localDate, componentName, 0));
     }
 }

@@ -7,6 +7,7 @@ import com.onlinepcshop.core.domain.entity.PowerSupply;
 import com.onlinepcshop.core.repository.PowerSupplyRepository;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +19,11 @@ public class PowerSupplyRepositoryImpl implements PowerSupplyRepository {
     @Override
     public List<PowerSupply> findAllPowerSupplys() {
         return PowerSupplyMapperDB.INSTANCE.powerSupplyDaoListToPowerSupplyList(powerSupplyJpaRepository.findAll());
+    }
+
+    @Override
+    public List<PowerSupply> findAllAvailablePowerSupplys() {
+        return PowerSupplyMapperDB.INSTANCE.powerSupplyDaoListToPowerSupplyList(powerSupplyJpaRepository.findAllByQuantityGreaterThan(0));
     }
 
     @Override
@@ -39,6 +45,22 @@ public class PowerSupplyRepositoryImpl implements PowerSupplyRepository {
 
     @Override
     public List<PowerSupply> findAllPowerSupplysByMaxPriceAndMinWattage(Double maxPrice, Integer minWattage) {
-        return PowerSupplyMapperDB.INSTANCE.powerSupplyDaoListToPowerSupplyList(powerSupplyJpaRepository.findByPriceLessThanEqualAndWattageGreaterThanEqual(maxPrice, minWattage));
+        return PowerSupplyMapperDB.INSTANCE.powerSupplyDaoListToPowerSupplyList(powerSupplyJpaRepository.findByPriceLessThanEqualAndWattageGreaterThanEqualAndQuantityGreaterThan(maxPrice, minWattage, 0));
+    }
+
+    @Override
+    public List<PowerSupply> findAllByHavingSaleAndByComponentName(String componentName) {
+        return PowerSupplyMapperDB.INSTANCE.powerSupplyDaoListToPowerSupplyList(powerSupplyJpaRepository.findBySaleTypeNotNullAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(componentName, 0));
+    }
+
+    @Override
+    public List<PowerSupply> searchByComponentName(String name) {
+        return PowerSupplyMapperDB.INSTANCE.powerSupplyDaoListToPowerSupplyList(powerSupplyJpaRepository.findByComponentNameContainingIgnoreCaseAndQuantityGreaterThan(name, 0));
+    }
+
+    @Override
+    public List<PowerSupply> findAllNewPowerSuppliesByComponentName(String componentName) {
+        LocalDate localDate = LocalDate.now().minusMonths(1);
+        return PowerSupplyMapperDB.INSTANCE.powerSupplyDaoListToPowerSupplyList(powerSupplyJpaRepository.findByDateOfCreationAfterAndComponentNameContainingIgnoreCaseAndQuantityGreaterThan(localDate, componentName, 0));
     }
 }

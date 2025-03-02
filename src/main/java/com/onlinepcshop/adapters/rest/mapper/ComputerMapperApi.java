@@ -18,32 +18,32 @@ public interface ComputerMapperApi {
     ComputerMapperApi INSTANCE = Mappers.getMapper(ComputerMapperApi.class);
 
     @Named("mapMotherboardToId")
-    default UUID mapMotherboardToId(Motherboard motherboard)  {
+    default UUID mapMotherboardToId(Motherboard motherboard) {
         return motherboard == null ? null : motherboard.getId();
     }
 
     @Named("mapComputerCaseToId")
-    default UUID mapComputerCaseToId(ComputerCase computerCase)  {
+    default UUID mapComputerCaseToId(ComputerCase computerCase) {
         return computerCase == null ? null : computerCase.getId();
     }
 
     @Named("mapGpuToId")
-    default UUID mapGpuToId(Gpu gpu)  {
+    default UUID mapGpuToId(Gpu gpu) {
         return gpu == null ? null : gpu.getId();
     }
 
     @Named("mapPowerSupplyToId")
-    default UUID mapPowerSupplyToId(PowerSupply powerSupply)  {
+    default UUID mapPowerSupplyToId(PowerSupply powerSupply) {
         return powerSupply == null ? null : powerSupply.getId();
     }
 
     @Named("mapCoolerToId")
-    default UUID mapCoolerToId(Cooler cooler)  {
+    default UUID mapCoolerToId(Cooler cooler) {
         return cooler == null ? null : cooler.getId();
     }
 
     @Named("mapCpuToId")
-    default UUID mapCpuToId(Cpu cpu)  {
+    default UUID mapCpuToId(Cpu cpu) {
         return cpu == null ? null : cpu.getId();
     }
 
@@ -57,8 +57,8 @@ public interface ComputerMapperApi {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapMoneyToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapMoneyToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapMoneyToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapMoneyToCurrency")
     @Mapping(source = "motherboard", target = "motherboardId", qualifiedByName = "mapMotherboardToId")
     @Mapping(source = "computerCase", target = "computerCaseId", qualifiedByName = "mapComputerCaseToId")
     @Mapping(source = "gpu", target = "gpuId", qualifiedByName = "mapGpuToId")
@@ -126,5 +126,6 @@ public interface ComputerMapperApi {
     Computer computerDtoToComputer(ComputerDto computerDto);
 
     List<ComputerDto> computerListToComputerDtoList(List<Computer> computerList);
+
     List<Computer> computerDtoListToComputerList(List<ComputerDto> computerDtoList);
 }

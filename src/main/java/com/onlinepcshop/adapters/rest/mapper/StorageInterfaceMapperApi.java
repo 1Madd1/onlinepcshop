@@ -16,5 +16,6 @@ public interface StorageInterfaceMapperApi {
     StorageInterface storageInterfaceDtoToStorageInterface(StorageInterfaceDto storageInterfaceDto);
 
     List<StorageInterfaceDto> storageInterfaceListToStorageInterfaceDtoList(List<StorageInterface> storageInterfaceList);
+
     List<StorageInterface> storageInterfaceDtoListToStorageInterfaceList(List<StorageInterfaceDto> storageInterfaceDtoList);
 }

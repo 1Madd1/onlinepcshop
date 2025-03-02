@@ -13,8 +13,8 @@ import java.util.Objects;
 @Setter
 @Builder
 @AllArgsConstructor
-public class Money{
-    BigDecimal amount; 
+public class Money {
+    BigDecimal amount;
     Currency currency;
 
     public Money add(Money money) {

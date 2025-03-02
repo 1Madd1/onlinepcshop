@@ -28,6 +28,12 @@ public interface PowerSupplyUseCase {
      */
     List<PowerSupply> findAllPowerSupplys();
 
+    /***
+     *
+     * @return List of all powerSupplys that have quantity greater than 0
+     */
+    List<PowerSupply> findAllAvailablePowerSupplys();
+
 
     /***
      * @param powerSupplyId valid power supply UUID
@@ -42,10 +48,21 @@ public interface PowerSupplyUseCase {
     void deletePowerSupply(UUID id);
 
     /**
-     *
-     * @param maxPrice - max. price of power supply
+     * @param maxPrice   - max. price of power supply
      * @param minWattage - min. needed wattage of power supply
      * @return - List of all power supplies that are equal or below max. price and are equal or above min. wattage
      */
     List<PowerSupply> findAllPowerSupplysByMaxPriceAndMinWattage(Double maxPrice, Integer minWattage);
+
+    /**
+     * @param name - valid component name of existing power supply
+     * @return - List of all computers that include given component name
+     */
+    List<PowerSupply> searchByName(String name);
+
+    /**
+     * @param powerSupplyId - valid UUID of existing power supply id
+     * @return - average power supply rating based on given power supply id
+     */
+    Double getPowerSupplyAverageRating(UUID powerSupplyId);
 }

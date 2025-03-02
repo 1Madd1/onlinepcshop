@@ -9,19 +9,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CaseFan{
+public class CaseFan {
     UUID id;
     String componentName;
     Integer quantity;
     Money price;
     String description;
     String image;
+    Double avgRating;
     Manufacturer manufacturer;
 
     Integer fanSize;
@@ -30,4 +32,5 @@ public class CaseFan{
     String noiseLevel;
     SaleType saleType;
     Integer tdp;
+    LocalDate dateOfCreation;
 }

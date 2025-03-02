@@ -33,8 +33,8 @@ public interface MotherboardMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     MotherboardDao motherboardToMotherboardDao(Motherboard motherboard);
 
     @Named("mapToMoney")
@@ -51,6 +51,7 @@ public interface MotherboardMapperDB {
     Motherboard motherboardDaoToMotherboard(MotherboardDao motherboardDao);
 
     List<MotherboardDao> motherboardListToMotherboardDaoList(List<Motherboard> motherboardList);
+
     List<Motherboard> motherboardDaoListToMotherboardList(List<MotherboardDao> motherboardDaoList);
 
 }

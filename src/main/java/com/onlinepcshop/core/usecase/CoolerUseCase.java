@@ -28,6 +28,12 @@ public interface CoolerUseCase {
      */
     List<Cooler> findAllCoolers();
 
+    /***
+     *
+     * @return List of all coolers that have quantity greater than 0
+     */
+    List<Cooler> findAllAvailableCoolers();
+
 
     /***
      * @param coolerId valid cooler UUID
@@ -42,9 +48,20 @@ public interface CoolerUseCase {
     void deleteCooler(UUID id);
 
     /**
-     *
      * @param maxPrice - max. price of cooler
      * @return - List of all coolers that are equal or below max. price
      */
     List<Cooler> findAllCoolersByMaxPrice(Double maxPrice);
+
+    /**
+     * @param name - valid component name of existing cooler
+     * @return - List of all computers that include given component name
+     */
+    List<Cooler> searchByName(String name);
+
+    /**
+     * @param coolerId - valid UUID of existing cooler
+     * @return - average cooler rating based on given cooler id
+     */
+    Double getCoolerAverageRating(UUID coolerId);
 }

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -29,6 +30,7 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
     private final ComputerRamRepository computerRamRepository;
     private final ComputerStorageRepository computerStorageRepository;
     private final ComputerCaseFanRepository computerCaseFanRepository;
+    private final ProductRatingRepository productRatingRepository;
 
     @Override
     public Computer createComputer(Computer computer) {
@@ -45,32 +47,32 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
         }
         Optional<Cpu> cpuOptional = cpuRepository.findById(computer.getCpu().getId());
 
-        if(computerCaseOptional.isEmpty()) {
+        if (computerCaseOptional.isEmpty()) {
             System.out.println("ComputerCase with id " + computer.getComputerCase().getId() + " not found");
             throw new ComputerCaseNotFoundException("Computer Case with id " + computer.getComputerCase().getId() + " not found.");
         }
 
-        if(motherboardOptional.isEmpty()) {
+        if (motherboardOptional.isEmpty()) {
             System.out.println("Motherboard with id " + computer.getMotherboard().getId() + " not found");
             throw new MotherboardNotFoundException("Motherboard with id " + computer.getMotherboard().getId() + " not found.");
         }
 
-        if(cpuOptional.isEmpty()) {
+        if (cpuOptional.isEmpty()) {
             System.out.println("Cpu with id " + computer.getCpu().getId() + " not found");
             throw new CpuNotFoundException("Cpu with id " + computer.getCpu().getId() + " not found.");
         }
 
-        if(gpuOptional.isEmpty() && !cpuOptional.get().getIncludesIntegratedGpu()) {
+        if (gpuOptional.isEmpty() && !cpuOptional.get().getIncludesIntegratedGpu()) {
             System.out.println("Gpu with id " + computer.getGpu().getId() + " not found");
             throw new GpuNotFoundException("Gpu with id " + computer.getGpu().getId() + " not found.");
         }
 
-        if(coolerOptional.isEmpty() && !cpuOptional.get().getIncludesCooler()) {
+        if (coolerOptional.isEmpty() && !cpuOptional.get().getIncludesCooler()) {
             System.out.println("Cooler with id " + computer.getCooler().getId() + " not found");
             throw new CoolerNotFoundException("Cooler with id " + computer.getCooler().getId() + " not found.");
         }
 
-        if(powerSupplyOptional.isEmpty()) {
+        if (powerSupplyOptional.isEmpty()) {
             System.out.println("PowerSupply with id " + computer.getPowerSupply().getId() + " not found");
             throw new PowerSupplyNotFoundException("Power Supply with id " + computer.getPowerSupply().getId() + " not found.");
         }
@@ -100,7 +102,16 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
 
     @Override
     public List<Computer> findAllComputers() {
-        return computerRepository.findAllComputers();
+        return computerRepository.findAllComputers().stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Computer> findAllAvailableComputersByType(String type) {
+        return computerRepository.findAllAvailableComputersByType(type).stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -116,18 +127,18 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
     @Override
     public ComputerRam assignRam(UUID ramId, UUID computerId, Integer quantity) {
         Optional<Ram> ramOptional = ramRepository.findById(ramId);
-        if(ramOptional.isEmpty()) {
+        if (ramOptional.isEmpty()) {
             System.out.println("Ram with id " + ramId + " not found");
             throw new RamNotFoundException("Ram with id " + ramId + " not found");
         }
         Optional<Computer> computerOptional = computerRepository.findById(computerId);
 
-        if(computerOptional.isEmpty()) {
+        if (computerOptional.isEmpty()) {
             System.out.println("Computer with id " + computerId + " not found");
             throw new ComputerNotFoundException("Computer with id " + computerId + "not found");
         }
 
-        for(ComputerRam computerRam : computerRamRepository.findAllByRamAndComputer(ramId, computerId)) {
+        for (ComputerRam computerRam : computerRamRepository.findAllByRamAndComputer(ramId, computerId)) {
             if (computerRam.getComputer().getId().equals(computerId)) {
                 if (computerRam.getRam().getId().equals(ramId)) {
                     return null;
@@ -146,9 +157,9 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
     @Override
     public void unassignRam(UUID ramId, UUID computerId) {
         List<ComputerRam> computerRamList = computerRamRepository.findAllByRamAndComputer(ramId, computerId);
-        if(computerRamList.isEmpty()) {
+        if (computerRamList.isEmpty()) {
             System.out.println("Computer with id " + computerId + ", has no Ram with id " + ramId + " assigned");
-            throw new RamNotAssignedException("Computer with id " + computerId + ", has no Ram with id " + ramId +" assigned.");
+            throw new RamNotAssignedException("Computer with id " + computerId + ", has no Ram with id " + ramId + " assigned.");
         }
 
         ComputerRam computerRam = computerRamList.get(0);
@@ -159,18 +170,18 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
     @Override
     public ComputerStorage assignStorage(UUID storageId, UUID computerId, Integer quantity) {
         Optional<Storage> storageOptional = storageRepository.findById(storageId);
-        if(storageOptional.isEmpty()) {
+        if (storageOptional.isEmpty()) {
             System.out.println("Storage with id " + storageId + " not found");
             throw new StorageNotFoundException("Storage with id " + storageId + " not found");
         }
         Optional<Computer> computerOptional = computerRepository.findById(computerId);
 
-        if(computerOptional.isEmpty()) {
+        if (computerOptional.isEmpty()) {
             System.out.println("Computer with id " + computerId + " not found");
             throw new ComputerNotFoundException("Computer with id " + computerId + "not found");
         }
 
-        for(ComputerStorage computerStorage : computerStorageRepository.findAllByStorageAndComputer(storageId, computerId)) {
+        for (ComputerStorage computerStorage : computerStorageRepository.findAllByStorageAndComputer(storageId, computerId)) {
             if (computerStorage.getComputer().getId().equals(computerId)) {
                 if (computerStorage.getStorage().getId().equals(storageId)) {
                     return null;
@@ -189,9 +200,9 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
     @Override
     public void unassignStorage(UUID storageId, UUID computerId) {
         List<ComputerStorage> computerStorageList = computerStorageRepository.findAllByStorageAndComputer(storageId, computerId);
-        if(computerStorageList.isEmpty()) {
+        if (computerStorageList.isEmpty()) {
             System.out.println("Computer with id " + computerId + ", has no Storage with id " + storageId + " assigned");
-            throw new StorageNotAssignedException("Computer with id " + computerId + ", has no Storage with id " + storageId +" assigned.");
+            throw new StorageNotAssignedException("Computer with id " + computerId + ", has no Storage with id " + storageId + " assigned.");
         }
 
         ComputerStorage computerStorage = computerStorageList.get(0);
@@ -202,18 +213,18 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
     @Override
     public ComputerCaseFan assignCaseFan(UUID caseFanId, UUID computerId, Integer quantity) {
         Optional<CaseFan> caseFanOptional = caseFanRepository.findById(caseFanId);
-        if(caseFanOptional.isEmpty()) {
+        if (caseFanOptional.isEmpty()) {
             System.out.println("Case Fan with id " + caseFanId + " not found");
             throw new StorageNotFoundException("Case fan with id " + caseFanId + " not found");
         }
         Optional<Computer> computerOptional = computerRepository.findById(computerId);
 
-        if(computerOptional.isEmpty()) {
+        if (computerOptional.isEmpty()) {
             System.out.println("Computer with id " + computerId + " not found");
             throw new ComputerNotFoundException("Computer with id " + computerId + "not found");
         }
 
-        for(ComputerCaseFan computerCaseFan : computerCaseFanRepository.findAllByCaseFanAndComputer(caseFanId, computerId)) {
+        for (ComputerCaseFan computerCaseFan : computerCaseFanRepository.findAllByCaseFanAndComputer(caseFanId, computerId)) {
             if (computerCaseFan.getComputer().getId().equals(computerId)) {
                 if (computerCaseFan.getCaseFan().getId().equals(caseFanId)) {
                     return null;
@@ -232,9 +243,9 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
     @Override
     public void unassignCaseFan(UUID caseFanId, UUID computerId) {
         List<ComputerCaseFan> computerCaseFanList = computerCaseFanRepository.findAllByCaseFanAndComputer(caseFanId, computerId);
-        if(computerCaseFanList.isEmpty()) {
+        if (computerCaseFanList.isEmpty()) {
             System.out.println("Computer with id " + computerId + ", has no Case Fan with id " + caseFanId + " assigned");
-            throw new CaseFanNotAssignedException("Computer with id " + computerId + ", has no Case Fan with id " + caseFanId +" assigned.");
+            throw new CaseFanNotAssignedException("Computer with id " + computerId + ", has no Case Fan with id " + caseFanId + " assigned.");
         }
 
         ComputerCaseFan computerCaseFan = computerCaseFanList.get(0);
@@ -242,5 +253,15 @@ public class ComputerUseCaseImpl implements ComputerUseCase {
         computerCaseFanRepository.deleteComputerCaseFan(computerCaseFan.getId());
     }
 
-//    Dodati da komponente budu assignovani
+    @Override
+    public List<Computer> searchByNameAndType(String name, String type) {
+        return computerRepository.searchByComputerNameAndType(name, type).stream()
+                .peek(pd -> pd.setAvgRating(productRatingRepository.findAverageRatingByProductId(pd.getId())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Double getComputerAverageRating(UUID computerId) {
+        return productRatingRepository.findAverageRatingByProductId(computerId);
+    }
 }

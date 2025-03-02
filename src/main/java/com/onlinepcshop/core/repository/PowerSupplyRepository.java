@@ -9,6 +9,8 @@ import java.util.UUID;
 public interface PowerSupplyRepository {
     List<PowerSupply> findAllPowerSupplys();
 
+    List<PowerSupply> findAllAvailablePowerSupplys();
+
     Optional<PowerSupply> findById(UUID powerSupplyId);
 
     PowerSupply savePowerSupply(PowerSupply powerSupply);
@@ -16,4 +18,10 @@ public interface PowerSupplyRepository {
     void deletePowerSupply(UUID id);
 
     List<PowerSupply> findAllPowerSupplysByMaxPriceAndMinWattage(Double maxPrice, Integer minWattage);
+
+    List<PowerSupply> findAllByHavingSaleAndByComponentName(String componentName);
+
+    List<PowerSupply> searchByComponentName(String componentName);
+
+    List<PowerSupply> findAllNewPowerSuppliesByComponentName(String componentName);
 }

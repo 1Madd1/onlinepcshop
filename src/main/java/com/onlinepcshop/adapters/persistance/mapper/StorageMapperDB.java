@@ -1,6 +1,5 @@
 package com.onlinepcshop.adapters.persistance.mapper;
 
-import com.onlinepcshop.adapters.persistance.dao.RamDao;
 import com.onlinepcshop.adapters.persistance.dao.StorageDao;
 import com.onlinepcshop.core.domain.entity.Storage;
 import com.onlinepcshop.core.domain.value.Money;
@@ -34,8 +33,8 @@ public interface StorageMapperDB {
         return price.getAmount();
     }
 
-    @Mapping(target = "price", source = "price", qualifiedByName="mapPriceToValue")
-    @Mapping(target = "currency", source = "price", qualifiedByName="mapPriceToCurrency")
+    @Mapping(target = "price", source = "price", qualifiedByName = "mapPriceToValue")
+    @Mapping(target = "currency", source = "price", qualifiedByName = "mapPriceToCurrency")
     StorageDao storageToStorageDao(Storage storage);
 
     @Named("mapToMoney")
@@ -52,6 +51,7 @@ public interface StorageMapperDB {
     Storage storageDaoToStorage(StorageDao storageDao);
 
     List<StorageDao> storageListToStorageDaoList(List<Storage> storageList);
+
     List<Storage> storageDaoListToStorageList(List<StorageDao> storageDaoList);
 
 }

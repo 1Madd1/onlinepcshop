@@ -17,6 +17,7 @@ public interface PcieInterfaceMapperDB {
     PcieInterface pcieInterfaceDaoToPcieInterface(PcieInterfaceDao pcieInterfaceDao);
 
     List<PcieInterfaceDao> pcieInterfaceListToPcieInterfaceDaoList(List<PcieInterface> pcieInterfaceList);
+
     List<PcieInterface> pcieInterfaceDaoListToPcieInterfaceList(List<PcieInterfaceDao> pcieInterfaceDaoList);
 
 }
